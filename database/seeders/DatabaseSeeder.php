@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
             VillageProfileSeeder::class,
             ContactSeeder::class,
             PotentialSeeder::class,
+            RolesAndPermissionsSeeder::class,
         ]);
 
         Official::factory()->count(8)->create();

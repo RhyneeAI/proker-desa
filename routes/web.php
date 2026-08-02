@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\OfficialController as AdminOfficialController;
 use App\Http\Controllers\Admin\PotensiDesaController as AdminPotensiDesaController;
 use App\Http\Controllers\Admin\PotentialController as AdminPotentialController;
 use App\Http\Controllers\Admin\UmkmController as AdminUmkmController;
+use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Admin\VillageProfileController as AdminVillageProfileController;
 use App\Http\Controllers\Admin\WaterPointController as AdminWaterPointController;
 use App\Http\Controllers\Admin\WisataController as AdminWisataController;
@@ -60,13 +61,13 @@ Route::middleware('auth')->group(function () {
 
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-        Route::get('/profil-desa/edit', [AdminVillageProfileController::class, 'edit'])->name('profil-desa.edit');
-        Route::put('/profil-desa', [AdminVillageProfileController::class, 'update'])->name('profil-desa.update');
+        Route::get('/profil-desa/edit', [AdminVillageProfileController::class, 'edit'])->middleware('can:manage profil desa')->name('profil-desa.edit');
+        Route::put('/profil-desa', [AdminVillageProfileController::class, 'update'])->middleware('can:manage profil desa')->name('profil-desa.update');
 
-        Route::get('/kontak/edit', [AdminContactController::class, 'edit'])->name('kontak.edit');
-        Route::put('/kontak', [AdminContactController::class, 'update'])->name('kontak.update');
+        Route::get('/kontak/edit', [AdminContactController::class, 'edit'])->middleware('can:manage kontak')->name('kontak.edit');
+        Route::put('/kontak', [AdminContactController::class, 'update'])->middleware('can:manage kontak')->name('kontak.update');
 
-        Route::prefix('aparatur')->name('aparatur.')->group(function () {
+        Route::prefix('aparatur')->name('aparatur.')->middleware('can:manage aparatur')->group(function () {
             Route::get('/', [AdminOfficialController::class, 'index'])->name('index');
             Route::get('/tambah', [AdminOfficialController::class, 'create'])->name('create');
             Route::post('/', [AdminOfficialController::class, 'store'])->name('store');
@@ -75,7 +76,7 @@ Route::middleware('auth')->group(function () {
             Route::delete('/{aparatur}', [AdminOfficialController::class, 'destroy'])->name('destroy');
         });
 
-        Route::prefix('berita')->name('berita.')->group(function () {
+        Route::prefix('berita')->name('berita.')->middleware('can:manage berita')->group(function () {
             Route::get('/', [AdminNewsController::class, 'index'])->name('index');
             Route::get('/tambah', [AdminNewsController::class, 'create'])->name('create');
             Route::post('/', [AdminNewsController::class, 'store'])->name('store');
@@ -84,7 +85,7 @@ Route::middleware('auth')->group(function () {
             Route::delete('/{berita}', [AdminNewsController::class, 'destroy'])->name('destroy');
         });
 
-        Route::prefix('pengumuman')->name('pengumuman.')->group(function () {
+        Route::prefix('pengumuman')->name('pengumuman.')->middleware('can:manage pengumuman')->group(function () {
             Route::get('/', [AdminAnnouncementController::class, 'index'])->name('index');
             Route::get('/tambah', [AdminAnnouncementController::class, 'create'])->name('create');
             Route::post('/', [AdminAnnouncementController::class, 'store'])->name('store');
@@ -93,7 +94,7 @@ Route::middleware('auth')->group(function () {
             Route::delete('/{pengumuman}', [AdminAnnouncementController::class, 'destroy'])->name('destroy');
         });
 
-        Route::prefix('umkm')->name('umkm.')->group(function () {
+        Route::prefix('umkm')->name('umkm.')->middleware('can:manage umkm')->group(function () {
             Route::get('/', [AdminUmkmController::class, 'index'])->name('index');
             Route::get('/tambah', [AdminUmkmController::class, 'create'])->name('create');
             Route::post('/', [AdminUmkmController::class, 'store'])->name('store');
@@ -102,7 +103,7 @@ Route::middleware('auth')->group(function () {
             Route::delete('/{umkm}', [AdminUmkmController::class, 'destroy'])->name('destroy');
         });
 
-        Route::prefix('fasilitas')->name('fasilitas.')->group(function () {
+        Route::prefix('fasilitas')->name('fasilitas.')->middleware('can:manage fasilitas')->group(function () {
             Route::get('/', [AdminFacilityController::class, 'index'])->name('index');
             Route::get('/tambah', [AdminFacilityController::class, 'create'])->name('create');
             Route::post('/', [AdminFacilityController::class, 'store'])->name('store');
@@ -111,7 +112,7 @@ Route::middleware('auth')->group(function () {
             Route::delete('/{fasilita}', [AdminFacilityController::class, 'destroy'])->name('destroy');
         });
 
-        Route::prefix('galeri')->name('galeri.')->group(function () {
+        Route::prefix('galeri')->name('galeri.')->middleware('can:manage galeri')->group(function () {
             Route::get('/', [AdminGalleryController::class, 'index'])->name('index');
             Route::get('/tambah', [AdminGalleryController::class, 'create'])->name('create');
             Route::post('/', [AdminGalleryController::class, 'store'])->name('store');
@@ -120,7 +121,7 @@ Route::middleware('auth')->group(function () {
             Route::delete('/{galeri}', [AdminGalleryController::class, 'destroy'])->name('destroy');
         });
 
-        Route::prefix('potensi-desa')->name('potensi-desa.')->group(function () {
+        Route::prefix('potensi-desa')->name('potensi-desa.')->middleware('can:manage potensi-desa')->group(function () {
             Route::get('/', [AdminPotensiDesaController::class, 'index'])->name('index');
             Route::get('/tambah', [AdminPotensiDesaController::class, 'create'])->name('create');
             Route::post('/', [AdminPotensiDesaController::class, 'store'])->name('store');
@@ -129,7 +130,7 @@ Route::middleware('auth')->group(function () {
             Route::delete('/{potensiDesa}', [AdminPotensiDesaController::class, 'destroy'])->name('destroy');
         });
 
-        Route::prefix('potensi')->name('potensi.')->group(function () {
+        Route::prefix('potensi')->name('potensi.')->middleware('can:manage potensi')->group(function () {
             Route::get('/', [AdminPotentialController::class, 'index'])->name('index');
             Route::get('/tambah', [AdminPotentialController::class, 'create'])->name('create');
             Route::post('/', [AdminPotentialController::class, 'store'])->name('store');
@@ -138,7 +139,7 @@ Route::middleware('auth')->group(function () {
             Route::delete('/{potential}', [AdminPotentialController::class, 'destroy'])->name('destroy');
         });
 
-        Route::prefix('titik-air')->name('titik-air.')->group(function () {
+        Route::prefix('titik-air')->name('titik-air.')->middleware('can:manage titik air')->group(function () {
             Route::get('/', [AdminWaterPointController::class, 'index'])->name('index');
             Route::get('/tambah', [AdminWaterPointController::class, 'create'])->name('create');
             Route::post('/', [AdminWaterPointController::class, 'store'])->name('store');
@@ -147,13 +148,18 @@ Route::middleware('auth')->group(function () {
             Route::delete('/{titikAir}', [AdminWaterPointController::class, 'destroy'])->name('destroy');
         });
 
-        Route::prefix('wisata')->name('wisata.')->group(function () {
+        Route::prefix('wisata')->name('wisata.')->middleware('can:manage wisata')->group(function () {
             Route::get('/', [AdminWisataController::class, 'index'])->name('index');
             Route::get('/tambah', [AdminWisataController::class, 'create'])->name('create');
             Route::post('/', [AdminWisataController::class, 'store'])->name('store');
             Route::get('/{wisata}/edit', [AdminWisataController::class, 'edit'])->name('edit');
             Route::put('/{wisata}', [AdminWisataController::class, 'update'])->name('update');
             Route::delete('/{wisata}', [AdminWisataController::class, 'destroy'])->name('destroy');
+        });
+
+        Route::prefix('pengguna')->name('pengguna.')->middleware('can:manage pengguna')->group(function () {
+            Route::get('/', [AdminUserController::class, 'index'])->name('index');
+            Route::post('/{user}/role', [AdminUserController::class, 'updateRole'])->name('update-role');
         });
     });
 });

@@ -1,0 +1,77 @@
+<x-layouts.admin title="Kelola Pengguna">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <div>
+            <h2 class="page-title mb-1">Pengguna</h2>
+            <p class="text-secondary mb-0">Kelola akun dan peran pengguna dashboard</p>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="table-responsive">
+            <table class="table table-vcenter card-table">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Nama</th>
+                        <th>Email</th>
+                        <th>Username</th>
+                        <th>Peran</th>
+                        <th class="text-end">Ubah Peran</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse ($users as $user)
+                        <tr>
+                            <td class="text-secondary">{{ $users->firstItem() + $loop->index }}</td>
+                            <td class="fw-medium text-body">
+                                <div class="d-flex align-items-center gap-2">
+                                    <span class="avatar avatar-sm">{{ strtoupper(substr($user->name, 0, 1)) }}</span>
+                                    <div>
+                                        <div>{{ $user->name }}</div>
+                                        @if ($user->is(auth()->user()))
+                                            <span class="badge bg-secondary">Anda</span>
+                                        @endif
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="text-secondary">{{ $user->email }}</td>
+                            <td class="text-secondary">{{ $user->username ?? '-' }}</td>
+                            <td>
+                                @forelse ($user->roles as $role)
+                                    <span class="badge bg-primary">{{ $role->name }}</span>
+                                @empty
+                                    <span class="badge bg-secondary-lt text-secondary">Tanpa peran</span>
+                                @endforelse
+                            </td>
+                            <td class="text-end">
+                                <form method="POST" action="{{ route('admin.pengguna.update-role', $user) }}"
+                                    class="d-inline-flex align-items-center gap-2">
+                                    @csrf
+                                    <select name="role" class="form-select form-select-sm" {{ $user->is(auth()->user()) ? 'disabled' : '' }}>
+                                        <option value="">Tanpa peran</option>
+                                        @foreach ($roles as $role)
+                                            <option value="{{ $role }}" {{ $user->hasRole($role) ? 'selected' : '' }}>
+                                                {{ $role }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    <button type="submit" class="btn btn-sm btn-outline-primary" {{ $user->is(auth()->user()) ? 'disabled' : '' }}>
+                                        Simpan
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="6" class="text-center text-secondary py-5">Belum ada pengguna.</td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="mt-3">
+        {{ $users->links() }}
+    </div>
+</x-layouts.admin>

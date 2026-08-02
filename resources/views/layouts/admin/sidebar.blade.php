@@ -106,6 +106,13 @@
                         <span class="nav-link-title">Kontak</span>
                     </a>
                 </li>
+
+                <li class="nav-item {{ request()->routeIs('admin.pengguna.*') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('admin.pengguna.index') }}">
+                        <span class="nav-link-icon"><i class="ti ti-users"></i></span>
+                        <span class="nav-link-title">Pengguna</span>
+                    </a>
+                </li>
             </ul>
 
             <div class="mt-auto py-3">

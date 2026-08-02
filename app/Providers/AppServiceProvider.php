@@ -10,6 +10,7 @@ use App\Models\Official;
 use App\Models\PotensiDesa;
 use App\Models\WaterPoint;
 use App\Models\Wisata;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 
@@ -30,5 +31,7 @@ class AppServiceProvider extends ServiceProvider
         Route::model('potensiDesa', PotensiDesa::class);
         Route::model('titikAir', WaterPoint::class);
         Route::model('wisata', Wisata::class);
+
+        Gate::before(fn ($user, $ability) => $user->hasRole('super-admin') ? true : null);
     }
 }
