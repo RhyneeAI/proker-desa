@@ -28,89 +28,85 @@
                 <li class="nav-item {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
                     <a class="nav-link" href="{{ route('admin.dashboard') }}">
                         <span class="nav-link-icon"><i class="ti ti-layout-dashboard"></i></span>
-                        <span class="nav-link-title">Dashboard</span>
+                        <span>Dashboard</span>
                     </a>
                 </li>
 
                 {{-- Kelompok: Konten --}}
-                <li x-data="{ open: {{ $activeGroup === 'konten' ? 'true' : 'false' }} }" class="nav-item">
-                    <button type="button" @click="open = !open"
-                        class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-300 hover:bg-slate-800 hover:text-white transition">
+                <li class="nav-item" x-data="{ open: {{ $activeGroup === 'konten' ? 'true' : 'false' }} }">
+                    <button type="button" @click="open = !open" class="nav-link w-100" aria-expanded="false">
                         <span class="nav-link-icon"><i class="ti ti-file-text"></i></span>
-                        <span class="nav-link-title flex-1 text-left">Konten</span>
-                        <i class="ti ti-chevron-down text-slate-500 transition-transform" :class="open ? 'rotate-180' : ''"></i>
+                        <span>Konten</span>
+                        <span class="nav-link-toggle">
+                            <i class="ti ti-chevron-down" x-show="!open"></i>
+                            <i class="ti ti-chevron-up" x-show="open" x-cloak></i>
+                        </span>
                     </button>
-                    <div x-show="open" x-cloak class="mt-1 space-y-0.5">
-                        <a href="{{ route('admin.berita.index') }}"
-                            class="flex items-center gap-2 pl-11 pr-3 py-2 text-[13px] font-medium rounded-lg transition {{ request()->routeIs('admin.berita.*') ? 'text-white bg-white/10' : 'text-slate-400 hover:text-white hover:bg-white/5' }}">Berita</a>
-                        <a href="{{ route('admin.pengumuman.index') }}"
-                            class="flex items-center gap-2 pl-11 pr-3 py-2 text-[13px] font-medium rounded-lg transition {{ request()->routeIs('admin.pengumuman.*') ? 'text-white bg-white/10' : 'text-slate-400 hover:text-white hover:bg-white/5' }}">Pengumuman</a>
-                        <a href="{{ route('admin.galeri.index') }}"
-                            class="flex items-center gap-2 pl-11 pr-3 py-2 text-[13px] font-medium rounded-lg transition {{ request()->routeIs('admin.galeri.*') ? 'text-white bg-white/10' : 'text-slate-400 hover:text-white hover:bg-white/5' }}">Galeri</a>
+                    <div x-show="open" x-cloak class="nav-submenu">
+                        <a href="{{ route('admin.berita.index') }}" class="d-flex align-items-center gap-2 py-2 ps-5 pe-3 small rounded {{ request()->routeIs('admin.berita.*') ? 'text-white bg-white bg-opacity-10' : 'text-secondary' }}">Berita</a>
+                        <a href="{{ route('admin.pengumuman.index') }}" class="d-flex align-items-center gap-2 py-2 ps-5 pe-3 small rounded {{ request()->routeIs('admin.pengumuman.*') ? 'text-white bg-white bg-opacity-10' : 'text-secondary' }}">Pengumuman</a>
+                        <a href="{{ route('admin.galeri.index') }}" class="d-flex align-items-center gap-2 py-2 ps-5 pe-3 small rounded {{ request()->routeIs('admin.galeri.*') ? 'text-white bg-white bg-opacity-10' : 'text-secondary' }}">Galeri</a>
                     </div>
                 </li>
 
-                {{-- Kelompok: Ekonomi & Pariwisata --}}
-                <li x-data="{ open: {{ $activeGroup === 'ekonomi' ? 'true' : 'false' }} }" class="nav-item">
-                    <button type="button" @click="open = !open"
-                        class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-300 hover:bg-slate-800 hover:text-white transition">
+                {{-- Kelompok: Ekonomi & Wisata --}}
+                <li class="nav-item" x-data="{ open: {{ $activeGroup === 'ekonomi' ? 'true' : 'false' }} }">
+                    <button type="button" @click="open = !open" class="nav-link w-100" aria-expanded="false">
                         <span class="nav-link-icon"><i class="ti ti-shopping-bag"></i></span>
-                        <span class="nav-link-title flex-1 text-left">Ekonomi & Wisata</span>
-                        <i class="ti ti-chevron-down text-slate-500 transition-transform" :class="open ? 'rotate-180' : ''"></i>
+                        <span>Ekonomi & Wisata</span>
+                        <span class="nav-link-toggle">
+                            <i class="ti ti-chevron-down" x-show="!open"></i>
+                            <i class="ti ti-chevron-up" x-show="open" x-cloak></i>
+                        </span>
                     </button>
-                    <div x-show="open" x-cloak class="mt-1 space-y-0.5">
-                        <a href="{{ route('admin.umkm.index') }}"
-                            class="flex items-center gap-2 pl-11 pr-3 py-2 text-[13px] font-medium rounded-lg transition {{ request()->routeIs('admin.umkm.*') ? 'text-white bg-white/10' : 'text-slate-400 hover:text-white hover:bg-white/5' }}">UMKM</a>
-                        <a href="{{ route('admin.wisata.index') }}"
-                            class="flex items-center gap-2 pl-11 pr-3 py-2 text-[13px] font-medium rounded-lg transition {{ request()->routeIs('admin.wisata.*') ? 'text-white bg-white/10' : 'text-slate-400 hover:text-white hover:bg-white/5' }}">Wisata</a>
-                        <a href="{{ route('admin.potensi.index') }}"
-                            class="flex items-center gap-2 pl-11 pr-3 py-2 text-[13px] font-medium rounded-lg transition {{ request()->routeIs('admin.potensi.*') ? 'text-white bg-white/10' : 'text-slate-400 hover:text-white hover:bg-white/5' }}">Potensi & Produk</a>
+                    <div x-show="open" x-cloak class="nav-submenu">
+                        <a href="{{ route('admin.umkm.index') }}" class="d-flex align-items-center gap-2 py-2 ps-5 pe-3 small rounded {{ request()->routeIs('admin.umkm.*') ? 'text-white bg-white bg-opacity-10' : 'text-secondary' }}">UMKM</a>
+                        <a href="{{ route('admin.wisata.index') }}" class="d-flex align-items-center gap-2 py-2 ps-5 pe-3 small rounded {{ request()->routeIs('admin.wisata.*') ? 'text-white bg-white bg-opacity-10' : 'text-secondary' }}">Wisata</a>
+                        <a href="{{ route('admin.potensi.index') }}" class="d-flex align-items-center gap-2 py-2 ps-5 pe-3 small rounded {{ request()->routeIs('admin.potensi.*') ? 'text-white bg-white bg-opacity-10' : 'text-secondary' }}">Potensi & Produk</a>
                     </div>
                 </li>
 
                 {{-- Kelompok: Wilayah & Infrastruktur --}}
-                <li x-data="{ open: {{ $activeGroup === 'wilayah' ? 'true' : 'false' }} }" class="nav-item">
-                    <button type="button" @click="open = !open"
-                        class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-300 hover:bg-slate-800 hover:text-white transition">
+                <li class="nav-item" x-data="{ open: {{ $activeGroup === 'wilayah' ? 'true' : 'false' }} }">
+                    <button type="button" @click="open = !open" class="nav-link w-100" aria-expanded="false">
                         <span class="nav-link-icon"><i class="ti ti-map-pin"></i></span>
-                        <span class="nav-link-title flex-1 text-left">Wilayah & Infrastruktur</span>
-                        <i class="ti ti-chevron-down text-slate-500 transition-transform" :class="open ? 'rotate-180' : ''"></i>
+                        <span>Wilayah & Infrastruktur</span>
+                        <span class="nav-link-toggle">
+                            <i class="ti ti-chevron-down" x-show="!open"></i>
+                            <i class="ti ti-chevron-up" x-show="open" x-cloak></i>
+                        </span>
                     </button>
-                    <div x-show="open" x-cloak class="mt-1 space-y-0.5">
-                        <a href="{{ route('admin.fasilitas.index') }}"
-                            class="flex items-center gap-2 pl-11 pr-3 py-2 text-[13px] font-medium rounded-lg transition {{ request()->routeIs('admin.fasilitas.*') ? 'text-white bg-white/10' : 'text-slate-400 hover:text-white hover:bg-white/5' }}">Fasilitas Umum</a>
-                        <a href="{{ route('admin.titik-air.index') }}"
-                            class="flex items-center gap-2 pl-11 pr-3 py-2 text-[13px] font-medium rounded-lg transition {{ request()->routeIs('admin.titik-air.*') ? 'text-white bg-white/10' : 'text-slate-400 hover:text-white hover:bg-white/5' }}">Titik Air</a>
-                        <a href="{{ route('admin.potensi-desa.index') }}"
-                            class="flex items-center gap-2 pl-11 pr-3 py-2 text-[13px] font-medium rounded-lg transition {{ request()->routeIs('admin.potensi-desa.*') ? 'text-white bg-white/10' : 'text-slate-400 hover:text-white hover:bg-white/5' }}">Potensi Desa</a>
+                    <div x-show="open" x-cloak class="nav-submenu">
+                        <a href="{{ route('admin.fasilitas.index') }}" class="d-flex align-items-center gap-2 py-2 ps-5 pe-3 small rounded {{ request()->routeIs('admin.fasilitas.*') ? 'text-white bg-white bg-opacity-10' : 'text-secondary' }}">Fasilitas Umum</a>
+                        <a href="{{ route('admin.titik-air.index') }}" class="d-flex align-items-center gap-2 py-2 ps-5 pe-3 small rounded {{ request()->routeIs('admin.titik-air.*') ? 'text-white bg-white bg-opacity-10' : 'text-secondary' }}">Titik Air</a>
+                        <a href="{{ route('admin.potensi-desa.index') }}" class="d-flex align-items-center gap-2 py-2 ps-5 pe-3 small rounded {{ request()->routeIs('admin.potensi-desa.*') ? 'text-white bg-white bg-opacity-10' : 'text-secondary' }}">Potensi Desa</a>
                     </div>
                 </li>
 
                 {{-- Kelompok: Pengaturan --}}
-                <li x-data="{ open: {{ $activeGroup === 'pengaturan' ? 'true' : 'false' }} }" class="nav-item">
-                    <button type="button" @click="open = !open"
-                        class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-300 hover:bg-slate-800 hover:text-white transition">
+                <li class="nav-item" x-data="{ open: {{ $activeGroup === 'pengaturan' ? 'true' : 'false' }} }">
+                    <button type="button" @click="open = !open" class="nav-link w-100" aria-expanded="false">
                         <span class="nav-link-icon"><i class="ti ti-settings"></i></span>
-                        <span class="nav-link-title flex-1 text-left">Pengaturan</span>
-                        <i class="ti ti-chevron-down text-slate-500 transition-transform" :class="open ? 'rotate-180' : ''"></i>
+                        <span>Pengaturan</span>
+                        <span class="nav-link-toggle">
+                            <i class="ti ti-chevron-down" x-show="!open"></i>
+                            <i class="ti ti-chevron-up" x-show="open" x-cloak></i>
+                        </span>
                     </button>
-                    <div x-show="open" x-cloak class="mt-1 space-y-0.5">
-                        <a href="{{ route('admin.profil-desa.edit') }}"
-                            class="flex items-center gap-2 pl-11 pr-3 py-2 text-[13px] font-medium rounded-lg transition {{ request()->routeIs('admin.profil-desa.*') ? 'text-white bg-white/10' : 'text-slate-400 hover:text-white hover:bg-white/5' }}">Profil Desa</a>
-                        <a href="{{ route('admin.kontak.edit') }}"
-                            class="flex items-center gap-2 pl-11 pr-3 py-2 text-[13px] font-medium rounded-lg transition {{ request()->routeIs('admin.kontak.*') ? 'text-white bg-white/10' : 'text-slate-400 hover:text-white hover:bg-white/5' }}">Kontak</a>
-                        <a href="{{ route('admin.pengguna.index') }}"
-                            class="flex items-center gap-2 pl-11 pr-3 py-2 text-[13px] font-medium rounded-lg transition {{ request()->routeIs('admin.pengguna.*') ? 'text-white bg-white/10' : 'text-slate-400 hover:text-white hover:bg-white/5' }}">Pengguna</a>
+                    <div x-show="open" x-cloak class="nav-submenu">
+                        <a href="{{ route('admin.profil-desa.edit') }}" class="d-flex align-items-center gap-2 py-2 ps-5 pe-3 small rounded {{ request()->routeIs('admin.profil-desa.*') ? 'text-white bg-white bg-opacity-10' : 'text-secondary' }}">Profil Desa</a>
+                        <a href="{{ route('admin.kontak.edit') }}" class="d-flex align-items-center gap-2 py-2 ps-5 pe-3 small rounded {{ request()->routeIs('admin.kontak.*') ? 'text-white bg-white bg-opacity-10' : 'text-secondary' }}">Kontak</a>
+                        <a href="{{ route('admin.pengguna.index') }}" class="d-flex align-items-center gap-2 py-2 ps-5 pe-3 small rounded {{ request()->routeIs('admin.pengguna.*') ? 'text-white bg-white bg-opacity-10' : 'text-secondary' }}">Pengguna</a>
                     </div>
                 </li>
             </ul>
 
             {{-- Keluar --}}
-            <div class="mt-auto px-3 py-3 border-t border-slate-800">
+            <div class="mt-auto px-3 py-3 border-top border-white border-opacity-10">
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
                     <button type="submit"
-                        class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-300 hover:bg-red-500/10 hover:text-red-400 transition">
+                        class="d-flex align-items-center gap-3 w-100 px-3 py-2 rounded text-secondary hover:text-danger text-decoration-none">
                         <i class="ti ti-logout text-lg"></i>
                         <span>Keluar</span>
                     </button>

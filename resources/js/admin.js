@@ -1,10 +1,14 @@
 import $ from 'jquery';
+import Alpine from 'alpinejs';
 import Chart from 'chart.js/auto';
 import DataTable from 'datatables.net-bs5';
 import '@tabler/core/dist/js/tabler.min.js';
 
 window.jQuery = window.$ = $;
+window.Alpine = Alpine;
 window.Chart = Chart;
+
+Alpine.start();
 
 $(function () {
     $('.datatable').DataTable({
