@@ -83,17 +83,17 @@
         {{-- Peta --}}
         <div class="card mb-3">
             <div class="card-header">
-                <h3 class="card-title">Peta Lokasi</h3>
+                <h3 class="card-title">Peta Lokasi Kantor</h3>
             </div>
             <div class="card-body">
                 <x-form-textarea
-                    label="Embed Google Maps"
+                    label="Embed Google Maps — Lokasi Kantor"
                     name="map_embed"
                     :value="$contact->map_embed"
                     :rows="3"
                     placeholder='<iframe src="https://www.google.com/maps/embed?..." ...></iframe>'
                 />
-                <small class="text-secondary d-block">Ambil dari Google Maps → Bagikan → Sematkan peta → Salin kode iframe.</small>
+                <small class="text-secondary d-block">Peta ini akan tampil di halaman <strong>Kontak</strong>. Ambil dari Google Maps → Bagikan → Sematkan peta → Salin kode iframe.</small>
             </div>
         </div>
 
