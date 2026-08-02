@@ -42,7 +42,7 @@
                             <td class="text-secondary">{{ $umkm->owner_name }}</td>
                             <td>
                                 @if ($umkm->category)
-                                    <span class="badge bg-secondary">{{ $umkm->category }}</span>
+                                    <x-category-badge :category="$umkm->category" />
                                 @else
                                     <span class="text-secondary small">-</span>
                                 @endif

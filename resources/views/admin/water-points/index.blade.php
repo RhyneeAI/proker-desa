@@ -43,7 +43,7 @@
                             </td>
                             <td>
                                 @if ($waterPoint->category)
-                                    <span class="badge bg-secondary">{{ $waterPoint->category }}</span>
+                                    <x-category-badge :category="$waterPoint->category" />
                                 @else
                                     <span class="text-secondary small">-</span>
                                 @endif
@@ -52,9 +52,9 @@
                                 @if ($waterPoint->status)
                                     @php
                                         $badgeColor = match ($waterPoint->status) {
-                                            'Rusak' => 'bg-danger',
-                                            'Pemeliharaan' => 'bg-warning',
-                                            default => 'bg-success',
+                                            'Rusak' => 'bg-danger-lt text-danger',
+                                            'Pemeliharaan' => 'bg-warning-lt text-warning',
+                                            default => 'bg-success-lt text-success',
                                         };
                                     @endphp
                                     <span class="badge {{ $badgeColor }}">{{ $waterPoint->status }}</span>

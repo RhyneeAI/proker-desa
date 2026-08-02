@@ -42,7 +42,7 @@
                             </td>
                             <td>
                                 @if ($wisata->category)
-                                    <span class="badge bg-secondary">{{ $wisata->category }}</span>
+                                    <x-category-badge :category="$wisata->category" />
                                 @else
                                     <span class="text-secondary small">-</span>
                                 @endif

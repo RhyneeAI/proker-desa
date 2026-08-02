@@ -42,9 +42,7 @@
                                 </div>
                             </td>
                             <td>
-                                <span class="badge bg-primary text-capitalize">
-                                    {{ $item->category }}
-                                </span>
+                                <x-category-badge :category="$item->category" />
                             </td>
                             <td class="text-end">
                                 <div class="d-flex justify-content-end align-items-center gap-1">

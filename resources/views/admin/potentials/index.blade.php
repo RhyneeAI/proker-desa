@@ -42,9 +42,7 @@
                             </td>
                             <td>
                                 @if ($potential->category)
-                                    <span class="badge bg-primary text-capitalize">
-                                        {{ $potential->category }}
-                                    </span>
+                                    <x-category-badge :category="$potential->category" />
                                 @else
                                     <span class="text-secondary">—</span>
                                 @endif
