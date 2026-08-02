@@ -23,6 +23,17 @@
     transform: rotate(180deg);
 }
 
+.navbar-vertical .nav-link,
+.navbar-vertical .nav-submenu a {
+    text-decoration: none;
+}
+
+.navbar-vertical .nav-link:hover,
+.navbar-vertical .nav-link:focus,
+.navbar-vertical .nav-submenu a:hover {
+    text-decoration: none;
+}
+
 [data-bs-theme="dark"] .navbar:not(.navbar-vertical) {
     background-color: #1e293b;
     border-color: #334155;
