@@ -14,6 +14,7 @@ class AdminUserSeeder extends Seeder
             ['email' => 'admin@desa.test'],
             [
                 'name' => 'Admin Desa',
+                'username' => 'admin',
                 'password' => Hash::make('password'),
                 'email_verified_at' => now(),
             ]

@@ -20,10 +20,10 @@
                 @csrf
 
                 <div>
-                    <label class="block text-sm font-medium text-slate-700 mb-1">Email</label>
-                    <input type="email" name="email" value="{{ old('email') }}" required autofocus
+                    <label class="block text-sm font-medium text-slate-700 mb-1">Email atau Username</label>
+                    <input type="text" name="identifier" value="{{ old('identifier') }}" required autofocus autocomplete="username"
                         class="w-full rounded-lg border-slate-300 focus:border-[#192E03] focus:ring-[#192E03] text-sm">
-                    @error('email')
+                    @error('identifier')
                         <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
                     @enderror
                 </div>
