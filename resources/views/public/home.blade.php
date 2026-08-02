@@ -101,7 +101,7 @@
 
     {{-- ================= STATS BAR ================= --}}
     @if ($profile && ($profile->population || $profile->area_size))
-        <section class="bg-[#192E03] text-white">
+        <section class="bg-[#192E03] text-white" data-aos="fade-up">
             <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-8 text-center">
                     @if ($profile->population)
@@ -122,7 +122,7 @@
     @endif
 
     {{-- ================= PENGUMUMAN TERBARU ================= --}}
-    <section class="bg-white">
+    <section class="bg-white" data-aos="fade-up">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 sm:pt-14 pb-16 sm:pb-20">
 
             <div class="text-center mb-10">
@@ -196,7 +196,7 @@
     </section>
 
     {{-- ================= BERITA TERBARU ================= --}}
-    <section class="bg-slate-50">
+    <section class="bg-slate-50" data-aos="fade-up">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 sm:pt-14 pb-16 sm:pb-20">
 
             <div class="text-center mb-12">
@@ -265,7 +265,7 @@
     </section>
 
     {{-- ================= PETA DESA ================= --}}
-    <section class="bg-white">
+    <section class="bg-white" data-aos="fade-up">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 sm:pt-14 pb-16 sm:pb-20">
 
             <div class="text-center mb-12">
@@ -323,7 +323,7 @@
     </section>
 
     {{-- ================= LAYANAN DESA ================= --}}
-    <section class="bg-slate-50">
+    <section class="bg-slate-50" data-aos="fade-up">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 sm:pt-14 pb-16 sm:pb-20">
             <div class="text-center mb-12">
                 <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#192E03]/10 text-[#192E03] text-xs font-semibold uppercase tracking-widest">
@@ -344,6 +344,8 @@
                     ['label' => __('layanan.galeri'), 'desc' => __('layanan.galeri.desc'), 'route' => 'galeri.index', 'icon' => 'M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z'],
                 ] as $item)
                     <a href="{{ route($item['route']) }}"
+                        data-aos="fade-up"
+                        data-aos-delay="{{ $loop->index * 100 }}"
                         class="group flex flex-col items-center text-center gap-3 bg-white border border-slate-200 rounded-2xl p-7 hover:border-[#192E03]/50 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
                         <div class="w-14 h-14 bg-[#192E03]/10 rounded-2xl flex items-center justify-center group-hover:bg-[#192E03] transition-colors">
                             <svg class="w-7 h-7 text-[#192E03] group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -361,7 +363,7 @@
     </section>
 
     {{-- ================= CTA PENUTUP ================= --}}
-    <section class="relative overflow-hidden bg-[#192E03]">
+    <section class="relative overflow-hidden bg-[#192E03]" data-aos="zoom-in">
         <div class="absolute -top-24 -right-24 w-96 h-96 rounded-full bg-[#2D4D08]/40 blur-3xl" aria-hidden="true"></div>
         <div class="absolute -bottom-32 -left-24 w-96 h-96 rounded-full bg-[#3A5C0A]/30 blur-3xl" aria-hidden="true"></div>
 

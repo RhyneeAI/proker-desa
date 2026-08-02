@@ -3,7 +3,7 @@
 <head>
     @include('layouts.public.header', ['title' => $title ?? 'Desa Cibulakan'])
 </head>
-<body class="bg-white text-slate-600 antialiased font-sans">
+<body class="bg-white text-slate-600 antialiased font-sans overflow-x-hidden">
 
     {{-- Navbar --}}
     @include('layouts.public.navbar', ['profile' => $profile ?? null])
