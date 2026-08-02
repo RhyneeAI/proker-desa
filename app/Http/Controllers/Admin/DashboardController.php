@@ -9,6 +9,8 @@ use App\Models\Gallery;
 use App\Models\News;
 use App\Models\Official;
 use App\Models\Umkm;
+use App\Models\WaterPoint;
+use App\Models\Wisata;
 use Illuminate\View\View;
 
 class DashboardController extends Controller
@@ -22,6 +24,8 @@ class DashboardController extends Controller
             'umkms' => Umkm::count(),
             'facilities' => Facility::count(),
             'galleries' => Gallery::count(),
+            'waterPoints' => WaterPoint::count(),
+            'wisatas' => Wisata::count(),
         ];
 
         $latestNews = News::where('is_published', true)
@@ -34,6 +38,24 @@ class DashboardController extends Controller
             ->take(5)
             ->get();
 
-        return view('admin.dashboard', compact('stats', 'latestNews', 'latestAnnouncements'));
+        $umkmByCategory = Umkm::query()
+            ->selectRaw('COALESCE(NULLIF(category, ""), "Tanpa Kategori") as label, COUNT(*) as total')
+            ->groupBy('label')
+            ->orderByDesc('total')
+            ->pluck('total', 'label');
+
+        $waterPointByStatus = WaterPoint::query()
+            ->selectRaw('COALESCE(NULLIF(status, ""), "Belum Diisi") as label, COUNT(*) as total')
+            ->groupBy('label')
+            ->orderByDesc('total')
+            ->pluck('total', 'label');
+
+        return view('admin.dashboard', compact(
+            'stats',
+            'latestNews',
+            'latestAnnouncements',
+            'umkmByCategory',
+            'waterPointByStatus',
+        ));
     }
 }

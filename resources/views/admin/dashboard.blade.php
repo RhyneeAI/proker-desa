@@ -9,8 +9,10 @@
             'UMKM'          => $stats['umkms'],
             'Fasilitas'     => $stats['facilities'],
             'Foto Galeri'   => $stats['galleries'],
+            'Titik Air'     => $stats['waterPoints'],
+            'Wisata'        => $stats['wisatas'],
         ] as $label => $value)
-            <div class="col-6 col-md-4 col-xl-2">
+            <div class="col-6 col-md-4 col-xl-3">
                 <div class="card">
                     <div class="card-body text-center">
                         <div class="fs-2 fw-bold text-primary">{{ $value }}</div>
@@ -19,6 +21,31 @@
                 </div>
             </div>
         @endforeach
+    </div>
+
+    {{-- Grafik --}}
+    <div class="row g-3 mb-3">
+        <div class="col-12 col-lg-6">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">UMKM per Kategori</h3>
+                </div>
+                <div class="card-body">
+                    <canvas id="chartUmkm" height="220"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-lg-6">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Titik Air per Status</h3>
+                </div>
+                <div class="card-body">
+                    <canvas id="chartWater" height="220"></canvas>
+                </div>
+            </div>
+        </div>
     </div>
 
     {{-- Berita & Pengumuman Terbaru --}}
@@ -97,4 +124,53 @@
             </a>
         </div>
     </div>
+
+    @push('scripts')
+        <script>
+            window.Chart && (function () {
+                const palette = ['#192E03', '#2D4D08', '#3A5C0A', '#4d7c0f', '#65a30d', '#84cc16', '#a3e635'];
+
+                const umkmCanvas = document.getElementById('chartUmkm');
+                if (umkmCanvas) {
+                    new Chart(umkmCanvas, {
+                        type: 'bar',
+                        data: {
+                            labels: @json($umkmByCategory->keys()),
+                            datasets: [{
+                                label: 'Jumlah',
+                                data: @json($umkmByCategory->values()),
+                                backgroundColor: '#192E03',
+                                borderRadius: 6,
+                                maxBarThickness: 48,
+                            }],
+                        },
+                        options: {
+                            responsive: true,
+                            plugins: { legend: { display: false } },
+                            scales: { y: { beginAtZero: true, ticks: { precision: 0 } } },
+                        },
+                    });
+                }
+
+                const waterCanvas = document.getElementById('chartWater');
+                if (waterCanvas) {
+                    new Chart(waterCanvas, {
+                        type: 'doughnut',
+                        data: {
+                            labels: @json($waterPointByStatus->keys()),
+                            datasets: [{
+                                data: @json($waterPointByStatus->values()),
+                                backgroundColor: palette,
+                                borderWidth: 2,
+                            }],
+                        },
+                        options: {
+                            responsive: true,
+                            plugins: { legend: { position: 'bottom' } },
+                        },
+                    });
+                }
+            })();
+        </script>
+    @endpush
 </x-layouts.admin>
