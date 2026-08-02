@@ -13,7 +13,7 @@ Laravel 12 (PHP ^8.2) + Blade + Tailwind CSS + Alpine.js, built with Vite. This 
 ## Setup & environment gotchas
 
 - Fresh checkout: run `composer run setup` **once**. Tests otherwise fail on every run with `MissingAppKeyException` (empty `APP_KEY`) or `ViteManifestNotFoundException` (no `public/build/manifest.json`) — these mask the real baseline failures below.
-- `.env` is gitignored. `.env.example` is **stale** (`DB_CONNECTION=mariadb`, `DB_DATABASE=template_lrv`); the real local DB settings (currently MariaDB/MySQL, DB `proker_desa`) live only in the gitignored `.env`. Tests use in-memory sqlite (`phpunit.xml`), so they need no real DB.
+- `.env` is gitignored. `.env.example` is **stale** (`DB_CONNECTION=mariadb`); the real local DB settings (currently MariaDB/MySQL, DB `website_desa`) live only in the gitignored `.env`. Tests use in-memory sqlite (`phpunit.xml`), so they need no real DB. The old `proker_desa` DB is polluted with tables from another project (`abs_*`, `ops_*`, `pos_*`) — don't use it.
 - Seed with `php artisan migrate --seed` (or `db:seed`). `AdminUserSeeder` creates `admin@desa.test` / `password`; `DatabaseSeeder` also creates sample content through factories.
 - Uploads are stored via `->store('<dir>', 'public')` into `storage/app/public` and rendered with `Storage::url()` in views — run `php artisan storage:link` or images 404. Controllers must manually `Storage::disk('public')->delete(...)` the old file on update/destroy.
 
