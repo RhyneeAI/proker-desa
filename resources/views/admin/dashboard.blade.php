@@ -8,7 +8,7 @@
             ['label' => 'Titik Air', 'value' => $stats['waterPoints'], 'icon' => 'ti-droplet', 'route' => 'admin.titik-air.index'],
             ['label' => 'Berita', 'value' => $stats['news'], 'icon' => 'ti-news', 'route' => 'admin.berita.index'],
         ] as $card)
-            <div class="col-6 col-md-3">
+            <div class="col-6 col-md-3" data-aos="fade-up" data-aos-delay="{{ $loop->index * 60 }}">
                 <a href="{{ route($card['route']) }}" class="card text-decoration-none h-100">
                     <div class="card-body d-flex align-items-center gap-3">
                         <span class="avatar avatar-lg bg-primary-lt text-primary">
@@ -26,7 +26,7 @@
 
     {{-- Kunjungan --}}
     <div class="row g-3 mb-3">
-        <div class="col-12 col-xl-4">
+        <div class="col-12 col-xl-4" data-aos="fade-up" data-aos-delay="100">
             <div class="card h-100">
                 <div class="card-header">
                     <h3 class="card-title">Kunjungan</h3>
@@ -48,7 +48,7 @@
             </div>
         </div>
 
-        <div class="col-12 col-xl-8 mx-auto">
+        <div class="col-12 col-xl-8 mx-auto" data-aos="fade-up" data-aos-delay="150">
             <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">Kunjungan 30 Hari Terakhir</h3>
@@ -62,7 +62,7 @@
 
     {{-- Pengumuman Terbaru --}}
     <div class="row g-3 mb-3">
-        <div class="col-12">
+        <div class="col-12" data-aos="fade-up" data-aos-delay="200">
             <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">Pengumuman Terbaru (Terbit)</h3>
