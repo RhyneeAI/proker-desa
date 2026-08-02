@@ -8,9 +8,11 @@
 
         <a class="navbar-brand me-0" href="{{ route('admin.dashboard') }}">
             <span class="navbar-brand-image">
-                <span class="avatar avatar-sm bg-white fw-bold rounded" style="color:#192E03">DS</span>
+                <img src="{{ asset('images/logo/logo sugih mukti.png') }}"
+                    alt="Logo Desa Cibulakan"
+                    class="rounded" style="height:2.5rem;width:auto;object-fit:contain">
             </span>
-            <span class="navbar-brand-title">Admin Desa</span>
+            <span class="navbar-brand-title">Desa Cibulakan</span>
         </a>
 
         <div class="collapse navbar-collapse" id="sidebar-menu">
@@ -100,18 +102,6 @@
                     </div>
                 </li>
             </ul>
-
-            {{-- Keluar --}}
-            <div class="mt-auto px-3 py-3 border-top border-white border-opacity-10">
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-                    <button type="submit"
-                        class="d-flex align-items-center gap-3 w-100 px-3 py-2 rounded text-secondary hover:text-danger text-decoration-none">
-                        <i class="ti ti-logout text-lg"></i>
-                        <span>Keluar</span>
-                    </button>
-                </form>
-            </div>
         </div>
     </div>
 </aside>

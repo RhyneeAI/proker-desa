@@ -6,6 +6,7 @@ use App\Models\Announcement;
 use App\Models\Facility;
 use App\Models\Gallery;
 use App\Models\News;
+use App\Models\PageVisit;
 use App\Models\Umkm;
 use App\Models\VillageProfile;
 use App\Models\WaterPoint;
@@ -50,6 +51,9 @@ class HomeController extends Controller
 
         $galleries = Gallery::latest()->take(8)->get();
 
+        $todayVisitors = PageVisit::whereDate('created_at', today())->count();
+        $totalVisitors = PageVisit::count();
+
         return view('public.home', compact(
             'profile',
             'latestNews',
@@ -59,6 +63,8 @@ class HomeController extends Controller
             'waterPoints',
             'wisatas',
             'galleries',
+            'todayVisitors',
+            'totalVisitors',
         ));
     }
 }

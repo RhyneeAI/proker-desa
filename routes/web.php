@@ -100,6 +100,7 @@ Route::middleware('auth')->group(function () {
             Route::post('/', [AdminAnnouncementController::class, 'store'])->name('store');
             Route::get('/{pengumuman}/edit', [AdminAnnouncementController::class, 'edit'])->name('edit');
             Route::put('/{pengumuman}', [AdminAnnouncementController::class, 'update'])->name('update');
+            Route::post('/{pengumuman}/toggle', [AdminAnnouncementController::class, 'togglePublish'])->name('toggle');
             Route::delete('/{pengumuman}', [AdminAnnouncementController::class, 'destroy'])->name('destroy');
         });
 

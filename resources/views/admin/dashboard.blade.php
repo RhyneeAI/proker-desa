@@ -1,92 +1,71 @@
 <x-layouts.admin title="Dashboard">
 
-    {{-- Stat Cards --}}
+    {{-- Kartu Statistik --}}
     <div class="row g-3 mb-3">
         @foreach ([
-            'Berita'        => $stats['news'],
-            'Pengumuman'    => $stats['announcements'],
-            'Aparatur'      => $stats['officials'],
-            'UMKM'          => $stats['umkms'],
-            'Fasilitas'     => $stats['facilities'],
-            'Foto Galeri'   => $stats['galleries'],
-            'Titik Air'     => $stats['waterPoints'],
-            'Wisata'        => $stats['wisatas'],
-        ] as $label => $value)
-            <div class="col-6 col-md-4 col-xl-3">
-                <div class="card">
-                    <div class="card-body text-center">
-                        <div class="fs-2 fw-bold text-primary">{{ $value }}</div>
-                        <div class="text-secondary text-uppercase small fw-medium">{{ $label }}</div>
+            ['label' => 'Fasilitas', 'value' => $stats['facilities'], 'icon' => 'ti-building-community', 'route' => 'admin.fasilitas.index'],
+            ['label' => 'UMKM', 'value' => $stats['umkms'], 'icon' => 'ti-shopping-bag', 'route' => 'admin.umkm.index'],
+            ['label' => 'Titik Air', 'value' => $stats['waterPoints'], 'icon' => 'ti-droplet', 'route' => 'admin.titik-air.index'],
+            ['label' => 'Berita', 'value' => $stats['news'], 'icon' => 'ti-news', 'route' => 'admin.berita.index'],
+        ] as $card)
+            <div class="col-6 col-md-3">
+                <a href="{{ route($card['route']) }}" class="card text-decoration-none h-100">
+                    <div class="card-body d-flex align-items-center gap-3">
+                        <span class="avatar avatar-lg bg-primary-lt text-primary">
+                            <i class="ti {{ $card['icon'] }}"></i>
+                        </span>
+                        <div>
+                            <div class="fs-2 fw-bold text-primary">{{ $card['value'] }}</div>
+                            <div class="text-secondary small fw-medium">{{ $card['label'] }}</div>
+                        </div>
                     </div>
-                </div>
+                </a>
             </div>
         @endforeach
     </div>
 
-    {{-- Grafik --}}
+    {{-- Kunjungan --}}
     <div class="row g-3 mb-3">
-        <div class="col-12 col-lg-6">
-            <div class="card">
+        <div class="col-12 col-xl-4">
+            <div class="card h-100">
                 <div class="card-header">
-                    <h3 class="card-title">UMKM per Kategori</h3>
+                    <h3 class="card-title">Kunjungan</h3>
                 </div>
-                <div class="card-body">
-                    <canvas id="chartUmkm" height="220"></canvas>
+                <div class="card-body d-flex flex-column justify-content-center gap-3">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="text-secondary">Hari Ini</span>
+                        <span class="fs-3 fw-bold">{{ number_format($todayVisits, 0, ',', '.') }}</span>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="text-secondary">Pengunjung Unik Hari Ini</span>
+                        <span class="fs-3 fw-bold">{{ number_format($todayUnique, 0, ',', '.') }}</span>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="text-secondary">Total Pengunjung</span>
+                        <span class="fs-3 fw-bold">{{ number_format($totalVisits, 0, ',', '.') }}</span>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="col-12 col-lg-6">
+        <div class="col-12 col-xl-8">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Titik Air per Status</h3>
+                    <h3 class="card-title">Kunjungan 30 Hari Terakhir</h3>
                 </div>
                 <div class="card-body">
-                    <canvas id="chartWater" height="220"></canvas>
+                    <canvas id="chartVisits" height="220"></canvas>
                 </div>
             </div>
         </div>
     </div>
 
-    {{-- Berita & Pengumuman Terbaru --}}
-    <div class="row g-3">
-        <div class="col-12 col-lg-6">
+    {{-- Pengumuman Terbaru --}}
+    <div class="row g-3 mb-3">
+        <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Berita Terbaru</h3>
-                    <a href="{{ route('admin.berita.index') }}" class="btn btn-link btn-sm ms-auto">Lihat Semua</a>
-                </div>
-                <div class="list-group list-group-flush">
-                    @forelse ($latestNews as $news)
-                        @php
-                            $newsImg = $news->thumbnail && Storage::disk('public')->exists($news->thumbnail)
-                                ? Storage::url($news->thumbnail)
-                                : 'https://picsum.photos/seed/news-' . $news->id . '/120/120';
-                        @endphp
-                        <div class="list-group-item d-flex justify-content-between align-items-start gap-3">
-                            <div class="d-flex align-items-start gap-3 min-w-0">
-                                <img src="{{ $newsImg }}" alt="{{ $news->thumbnail_alt ?? $news->title }}"
-                                    class="rounded flex-shrink-0" style="width:56px;height:40px;object-fit:cover">
-                                <div class="min-w-0">
-                                    <p class="text-body fw-medium text-truncate mb-1">{{ $news->title }}</p>
-                                    <p class="text-secondary small mb-0">{{ $news->published_at?->translatedFormat('d F Y') }}</p>
-                                </div>
-                            </div>
-                            <span class="badge {{ $news->is_published ? 'bg-success' : 'bg-secondary' }} text-nowrap">
-                                {{ $news->is_published ? 'Terbit' : 'Draf' }}
-                            </span>
-                        </div>
-                    @empty
-                        <div class="list-group-item text-center text-secondary py-4">Belum ada berita.</div>
-                    @endforelse
-                </div>
-            </div>
-        </div>
-
-        <div class="col-12 col-lg-6">
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">Pengumuman Terbaru</h3>
+                    <h3 class="card-title">Pengumuman Terbaru (Terbit)</h3>
                     <a href="{{ route('admin.pengumuman.index') }}" class="btn btn-link btn-sm ms-auto">Lihat Semua</a>
                 </div>
                 <div class="list-group list-group-flush">
@@ -103,7 +82,7 @@
                             </div>
                         </div>
                     @empty
-                        <div class="list-group-item text-center text-secondary py-4">Belum ada pengumuman.</div>
+                        <div class="list-group-item text-center text-secondary py-4">Belum ada pengumuman yang diterbitkan.</div>
                     @endforelse
                 </div>
             </div>
@@ -123,8 +102,8 @@
             </a>
         </div>
         <div class="col-6 col-md-3">
-            <a href="{{ route('admin.galeri.create') }}" class="btn btn-outline-primary w-100 py-3">
-                <i class="ti ti-plus me-1"></i> Upload Foto
+            <a href="{{ route('admin.titik-air.create') }}" class="btn btn-outline-primary w-100 py-3">
+                <i class="ti ti-plus me-1"></i> Tambah Titik Air
             </a>
         </div>
         <div class="col-6 col-md-3">
@@ -137,48 +116,32 @@
     @push('scripts')
         <script>
             window.Chart && (function () {
-                const palette = ['#192E03', '#2D4D08', '#3A5C0A', '#4d7c0f', '#65a30d', '#84cc16', '#a3e635'];
-
-                const umkmCanvas = document.getElementById('chartUmkm');
-                if (umkmCanvas) {
-                    new Chart(umkmCanvas, {
-                        type: 'bar',
-                        data: {
-                            labels: @json($umkmByCategory->keys()),
-                            datasets: [{
-                                label: 'Jumlah',
-                                data: @json($umkmByCategory->values()),
-                                backgroundColor: '#192E03',
-                                borderRadius: 6,
-                                maxBarThickness: 48,
-                            }],
+                const canvas = document.getElementById('chartVisits');
+                if (!canvas) return;
+                new Chart(canvas, {
+                    type: 'line',
+                    data: {
+                        labels: @json($chartLabels),
+                        datasets: [{
+                            label: 'Kunjungan',
+                            data: @json($chartData),
+                            borderColor: '#192E03',
+                            backgroundColor: 'rgba(25, 46, 3, 0.12)',
+                            fill: true,
+                            tension: 0.35,
+                            pointRadius: 3,
+                            borderWidth: 2,
+                        }],
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: { legend: { display: false } },
+                        scales: {
+                            y: { beginAtZero: true, ticks: { precision: 0 } },
+                            x: { ticks: { maxTicksLimit: 10 } },
                         },
-                        options: {
-                            responsive: true,
-                            plugins: { legend: { display: false } },
-                            scales: { y: { beginAtZero: true, ticks: { precision: 0 } } },
-                        },
-                    });
-                }
-
-                const waterCanvas = document.getElementById('chartWater');
-                if (waterCanvas) {
-                    new Chart(waterCanvas, {
-                        type: 'doughnut',
-                        data: {
-                            labels: @json($waterPointByStatus->keys()),
-                            datasets: [{
-                                data: @json($waterPointByStatus->values()),
-                                backgroundColor: palette,
-                                borderWidth: 2,
-                            }],
-                        },
-                        options: {
-                            responsive: true,
-                            plugins: { legend: { position: 'bottom' } },
-                        },
-                    });
-                }
+                    },
+                });
             })();
         </script>
     @endpush

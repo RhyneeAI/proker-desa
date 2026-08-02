@@ -72,6 +72,18 @@ class AnnouncementController extends Controller
             ->with('success', 'Pengumuman berhasil diperbarui.');
     }
 
+    public function togglePublish(Announcement $pengumuman): RedirectResponse
+    {
+        $pengumuman->update([
+            'is_published' => ! $pengumuman->is_published,
+            'published_at' => $pengumuman->is_published ? null : now(),
+        ]);
+
+        $status = $pengumuman->is_published ? 'diterbitkan' : 'diturunkan';
+
+        return back()->with('success', "Pengumuman berhasil {$status}.");
+    }
+
     public function destroy(Announcement $pengumuman): RedirectResponse
     {
         $pengumuman->delete();

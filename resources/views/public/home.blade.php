@@ -100,26 +100,28 @@
     </section>
 
     {{-- ================= STATS BAR ================= --}}
-    @if ($profile && ($profile->population || $profile->area_size))
-        <section class="bg-[#192E03] text-white" data-aos="fade-up">
-            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-8 text-center">
-                    @if ($profile->population)
-                        <div>
-                            <p class="text-3xl sm:text-4xl font-extrabold">{{ number_format($profile->population, 0, ',', '.') }}</p>
-                            <p class="text-white/80 text-sm mt-1">Jumlah Penduduk</p>
-                        </div>
-                    @endif
-                    @if ($profile->area_size)
-                        <div>
-                            <p class="text-3xl sm:text-4xl font-extrabold">{{ number_format($profile->area_size, 2, ',', '.') }}</p>
-                            <p class="text-white/80 text-sm mt-1">Luas Wilayah (km²)</p>
-                        </div>
-                    @endif
+    <section class="bg-[#192E03] text-white" data-aos="fade-up">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+                <div>
+                    <p class="text-3xl sm:text-4xl font-extrabold">{{ $profile?->population ? number_format($profile->population, 0, ',', '.') : '-' }}</p>
+                    <p class="text-white/80 text-sm mt-1">Jumlah Penduduk</p>
+                </div>
+                <div>
+                    <p class="text-3xl sm:text-4xl font-extrabold">{{ $profile?->area_size ? number_format($profile->area_size, 2, ',', '.') : '-' }}</p>
+                    <p class="text-white/80 text-sm mt-1">Luas Wilayah (km²)</p>
+                </div>
+                <div>
+                    <p class="text-3xl sm:text-4xl font-extrabold">{{ number_format($todayVisitors, 0, ',', '.') }}</p>
+                    <p class="text-white/80 text-sm mt-1">Pengunjung Hari Ini</p>
+                </div>
+                <div>
+                    <p class="text-3xl sm:text-4xl font-extrabold">{{ number_format($totalVisitors, 0, ',', '.') }}</p>
+                    <p class="text-white/80 text-sm mt-1">Total Pengunjung</p>
                 </div>
             </div>
-        </section>
-    @endif
+        </div>
+    </section>
 
     {{-- ================= PENGUMUMAN TERBARU ================= --}}
     <section class="bg-white" data-aos="fade-up">
