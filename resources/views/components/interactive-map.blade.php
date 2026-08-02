@@ -6,7 +6,7 @@
     'height' => 'h-96 lg:h-[500px]',
     'showToggle' => true,
     'centerLabel' => null,
-    'center' => [-6.8228, 107.1003],
+    'center' => [-6.825112, 107.094836],
     'zoom' => 15,
     'filterSpan' => 0.15,
     'lockMargin' => 0.25,

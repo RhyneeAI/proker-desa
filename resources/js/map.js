@@ -42,26 +42,36 @@ const popupHtml = (marker) => {
 const inVillageArea = (lat, lng, center, filterSpan) =>
     Math.abs(lat - center[0]) <= filterSpan && Math.abs(lng - center[1]) <= filterSpan;
 
-// Style vector modern ala Google Maps (OpenFreeMap, gratis tanpa API key),
-// dengan fallback ke tile raster OpenStreetMap bila gagal dimuat.
-const VECTOR_STYLE = 'https://tiles.openfreemap.org/styles/liberty';
-
-const rasterStyle = () => ({
+// Basemap raster andal (Carto Voyager, gaya ala Google Maps, gratis) dengan
+// fallback ke tile OpenStreetMap bila tile Carto gagal dimuat.
+const rasterStyle = (tiles, attribution) => ({
     version: 8,
     sources: {
-        osm: {
-            type: 'raster',
-            tiles: [
-                'https://a.tile.openstreetmap.org/{z}/{x}/{y}.png',
-                'https://b.tile.openstreetmap.org/{z}/{x}/{y}.png',
-                'https://c.tile.openstreetmap.org/{z}/{x}/{y}.png',
-            ],
-            tileSize: 256,
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-        },
+        base: { type: 'raster', tiles, tileSize: 256, attribution },
     },
-    layers: [{ id: 'osm', type: 'raster', source: 'osm' }],
+    layers: [{ id: 'base', type: 'raster', source: 'base' }],
 });
+
+const CARTO_STYLE = rasterStyle(
+    [
+        'https://a.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png',
+        'https://b.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png',
+        'https://c.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png',
+        'https://d.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png',
+    ],
+    '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'
+);
+
+const OSM_STYLE = rasterStyle(
+    [
+        'https://a.tile.openstreetmap.org/{z}/{x}/{y}.png',
+        'https://b.tile.openstreetmap.org/{z}/{x}/{y}.png',
+        'https://c.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    ],
+    '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+);
+
+const VILLAGE_BOUNDARY_URL = '/js/village-boundary.geojson';
 
 export function initInteractiveMap(mapId, config) {
     const el = document.getElementById(mapId);
@@ -70,7 +80,7 @@ export function initInteractiveMap(mapId, config) {
 
     const {
         markers = { umkm: [], fasilitas: [], wisata: [], titikAir: [] },
-        center = [-6.8228, 107.1003],
+        center = [-6.825112, 107.094836],
         zoom = 15,
         centerLabel = null,
         filterSpan = 0.15,
@@ -86,7 +96,7 @@ export function initInteractiveMap(mapId, config) {
 
     const map = new Map({
         container: mapId,
-        style: VECTOR_STYLE,
+        style: CARTO_STYLE,
         center: [centerLng, centerLat],
         zoom,
         minZoom,
@@ -96,13 +106,43 @@ export function initInteractiveMap(mapId, config) {
 
     map.addControl(new NavigationControl({ showCompass: false }), 'top-right');
 
+    let tileErrors = 0;
     let fellBack = false;
     map.on('error', (e) => {
-        const msg = String(e.error?.message ?? '');
-        if (!fellBack && /(style|fetch|network|failed to load)/i.test(msg)) {
+        if (fellBack) return;
+        if (e.error?.message?.startsWith('Style')) {
             fellBack = true;
-            map.setStyle(rasterStyle());
+            map.setStyle(OSM_STYLE);
+            return;
         }
+        tileErrors += 1;
+        if (tileErrors > 8) {
+            fellBack = true;
+            map.setStyle(OSM_STYLE);
+        }
+    });
+
+    map.on('load', () => {
+        fetch(VILLAGE_BOUNDARY_URL)
+            .then((r) => r.json())
+            .then((data) => {
+                if (!map.getSource('village-boundary')) {
+                    map.addSource('village-boundary', { type: 'geojson', data });
+                    map.addLayer({
+                        id: 'village-boundary-fill',
+                        type: 'fill',
+                        source: 'village-boundary',
+                        paint: { 'fill-color': '#192E03', 'fill-opacity': 0.12 },
+                    });
+                    map.addLayer({
+                        id: 'village-boundary-line',
+                        type: 'line',
+                        source: 'village-boundary',
+                        paint: { 'line-color': '#192E03', 'line-width': 2.5, 'line-dasharray': [2, 1.5] },
+                    });
+                }
+            })
+            .catch(() => {});
     });
 
     const colors = { umkm: '#059669', fasilitas: '#d97706', wisata: '#7c3aed', titikAir: '#2563eb' };
