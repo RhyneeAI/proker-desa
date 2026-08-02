@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Announcement;
 use App\Models\Facility;
+use App\Models\Gallery;
 use App\Models\News;
 use App\Models\Umkm;
 use App\Models\VillageProfile;
@@ -47,6 +48,8 @@ class HomeController extends Controller
             ->latest()
             ->get();
 
+        $galleries = Gallery::latest()->take(8)->get();
+
         return view('public.home', compact(
             'profile',
             'latestNews',
@@ -55,6 +58,7 @@ class HomeController extends Controller
             'facilities',
             'waterPoints',
             'wisatas',
+            'galleries',
         ));
     }
 }

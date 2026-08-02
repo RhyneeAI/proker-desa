@@ -264,6 +264,101 @@
         </div>
     </section>
 
+    {{-- ================= GALERI FOTO (WALLPAPER CAROUSEL) ================= --}}
+    <section class="bg-slate-900 text-white" data-aos="fade-up"
+        x-data="{
+            aktif: 0,
+            total: {{ $galleries->count() }},
+            interval: null,
+            reduced() { return window.matchMedia('(prefers-reduced-motion: reduce)').matches },
+            prev() { this.aktif = this.aktif === 0 ? this.total - 1 : this.aktif - 1; this.reset() },
+            next() { this.aktif = this.aktif === this.total - 1 ? 0 : this.aktif + 1; this.reset() },
+            reset() { clearInterval(this.interval); if (this.reduced()) return; this.interval = setInterval(() => this.next(), 5000) },
+            init() { if (this.reduced()) return; this.interval = setInterval(() => this.next(), 5000) }
+        }"
+        @mouseenter="reset()"
+        @mouseleave="reset()">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
+
+            <div class="text-center mb-10">
+                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 text-[#3A5C0A] text-xs font-semibold uppercase tracking-widest">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                    </svg>
+                    {{ __('layanan.galeri') }}
+                </span>
+                <h2 class="mt-3 text-3xl sm:text-4xl font-extrabold text-white">Galeri Foto Desa</h2>
+                <p class="mt-3 text-white/70 max-w-xl mx-auto">Dokumentasi kegiatan dan suasana desa.</p>
+            </div>
+
+            @if ($galleries->isNotEmpty())
+                <div class="relative rounded-3xl overflow-hidden shadow-2xl">
+                    @foreach ($galleries as $i => $gallery)
+                        @php
+                            $galleryImg = Storage::disk('public')->exists($gallery->image)
+                                ? Storage::url($gallery->image)
+                                : 'https://picsum.photos/seed/gallery-' . $gallery->id . '/1600/900';
+                        @endphp
+                        <div x-show="aktif === {{ $i }}" class="relative h-[420px] lg:h-[520px]"
+                            x-transition:enter="transition-opacity duration-700"
+                            x-transition:enter-start="opacity-0"
+                            x-transition:enter-end="opacity-100">
+                            <img src="{{ $galleryImg }}"
+                                alt="{{ $gallery->image_alt ?? $gallery->title }}"
+                                loading="lazy"
+                                class="w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
+                            <div class="absolute bottom-0 inset-x-0 p-6 sm:p-8">
+                                @if ($gallery->category)
+                                    <span class="inline-block px-2.5 py-1 rounded-full bg-[#192E03] text-white text-xs font-semibold">
+                                        {{ $gallery->category }}
+                                    </span>
+                                @endif
+                                <h3 class="mt-3 text-xl sm:text-2xl font-bold text-white">{{ $gallery->title }}</h3>
+                                @if ($gallery->description)
+                                    <p class="mt-1 text-sm text-white/80 line-clamp-2 max-w-2xl">{{ $gallery->description }}</p>
+                                @endif
+                            </div>
+                        </div>
+                    @endforeach
+
+                    <button @click="prev()" aria-label="Slide sebelumnya"
+                        class="absolute left-4 top-1/2 -translate-y-1/2 z-20 bg-white/20 hover:bg-white/40 text-white rounded-full p-3 backdrop-blur-sm transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-white">
+                        <svg class="w-5 h-5 sm:w-7 sm:h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                        </svg>
+                    </button>
+                    <button @click="next()" aria-label="Slide berikutnya"
+                        class="absolute right-4 top-1/2 -translate-y-1/2 z-20 bg-white/20 hover:bg-white/40 text-white rounded-full p-3 backdrop-blur-sm transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-white">
+                        <svg class="w-5 h-5 sm:w-7 sm:h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                        </svg>
+                    </button>
+
+                    <div class="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 flex gap-2">
+                        @foreach ($galleries as $i => $gallery)
+                            <button @click="aktif = {{ $i }}" :aria-label="'Ke slide ' + ({{ $i }} + 1)"
+                                class="rounded-full transition-all duration-300"
+                                :class="aktif === {{ $i }} ? 'bg-white w-3 h-3' : 'bg-white/50 w-2 h-2 hover:bg-white/70'"></button>
+                        @endforeach
+                    </div>
+                </div>
+
+                <div class="mt-8 text-center">
+                    <a href="{{ route('galeri.index') }}"
+                        class="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-white bg-[#192E03] hover:bg-[#1F3B04] rounded-full transition">
+                        {{ __('common.lihat_semua') }} {{ __('layanan.galeri') }}
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+                        </svg>
+                    </a>
+                </div>
+            @else
+                <p class="text-white/70 text-sm text-center">Belum ada foto galeri.</p>
+            @endif
+        </div>
+    </section>
+
     {{-- ================= PETA DESA ================= --}}
     <section class="bg-white" data-aos="fade-up">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 sm:pt-14 pb-16 sm:pb-20">
