@@ -1,64 +1,56 @@
 <x-layouts.admin title="Upload Foto Galeri">
-    <div class="max-w-xl">
-        <div class="mb-6">
-            <a href="{{ route('admin.galeri.index') }}" class="text-sm text-slate-500 hover:text-slate-700 flex items-center gap-1">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
-                </svg>
-                Kembali
+    <div class="col-12 col-lg-8 col-xl-6">
+        <div class="mb-3">
+            <a href="{{ route('admin.galeri.index') }}" class="link-secondary text-decoration-none">
+                <i class="ti ti-arrow-left me-1"></i> Kembali
             </a>
         </div>
 
-        <form method="POST" action="{{ route('admin.galeri.store') }}" enctype="multipart/form-data" class="space-y-6">
+        <form method="POST" action="{{ route('admin.galeri.store') }}" enctype="multipart/form-data">
             @csrf
 
-            <div class="bg-white rounded-xl border border-slate-200 p-6 space-y-4">
-                <h2 class="font-semibold text-[#192E03] text-sm border-b border-slate-100 pb-3">Detail Foto</h2>
-
-                <x-form-input label="Judul Foto (opsional)" name="title" placeholder="Contoh: Kerja Bakti Desa" />
-
-                <x-form-select
-                    label="Kategori"
-                    name="category"
-                    :options="['kegiatan' => 'Kegiatan', 'fasilitas' => 'Fasilitas', 'umkm' => 'UMKM', 'lainnya' => 'Lainnya']"
-                    required
-                />
-
-                <div>
-                    <label class="block text-sm font-medium text-slate-700 mb-1">
-                        Foto <span class="text-red-500">*</span>
-                    </label>
-                    <div class="border-2 border-dashed border-slate-300 rounded-lg p-6 text-center hover:border-[#192E03]/50 transition">
-                        <svg class="w-8 h-8 text-slate-400 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-                        </svg>
-                        <p class="text-sm text-slate-500 mb-2">Klik untuk pilih foto</p>
-                        <input type="file" name="image" accept="image/*" class="w-full text-sm text-slate-600">
-                        <p class="text-xs text-slate-400 mt-2">Format: JPG, PNG. Maks. 2MB.</p>
-                    </div>
-                    @error('image')
-                        <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
-                    @enderror
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Detail Foto</h3>
                 </div>
+                <div class="card-body">
+                    <x-form-input label="Judul Foto (opsional)" name="title" placeholder="Contoh: Kerja Bakti Desa" />
 
-                <x-form-input
-                    label="Teks Alternatif"
-                    name="image_alt"
-                    placeholder="Deskripsi singkat foto untuk aksesibilitas"
-                />
+                    <x-form-select
+                        label="Kategori"
+                        name="category"
+                        :options="['kegiatan' => 'Kegiatan', 'fasilitas' => 'Fasilitas', 'umkm' => 'UMKM', 'lainnya' => 'Lainnya']"
+                        required
+                    />
 
-                <x-form-textarea label="Deskripsi (opsional)" name="description" :rows="2" />
+                    <div class="mb-3">
+                        <label class="form-label">
+                            Foto <span class="text-danger">*</span>
+                        </label>
+                        <div class="border rounded p-4 text-center bg-body-tertiary mb-2">
+                            <i class="ti ti-photo d-block mx-auto mb-2 text-secondary" style="font-size: 2rem;"></i>
+                            <p class="text-secondary mb-2">Klik untuk pilih foto</p>
+                            <input type="file" name="image" accept="image/*" class="form-control @error('image') is-invalid @enderror">
+                            <small class="text-secondary mt-2">Format: JPG, PNG. Maks. 2MB.</small>
+                        </div>
+                        @error('image')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <x-form-input
+                        label="Teks Alternatif"
+                        name="image_alt"
+                        placeholder="Deskripsi singkat foto untuk aksesibilitas"
+                    />
+
+                    <x-form-textarea label="Deskripsi (opsional)" name="description" :rows="2" />
+                </div>
             </div>
 
-            <div class="flex gap-3">
-                <button type="submit"
-                    class="px-5 py-2.5 bg-[#192E03] text-white text-sm font-medium rounded-lg hover:bg-[#1F3B04] transition">
-                    Upload Foto
-                </button>
-                <a href="{{ route('admin.galeri.index') }}"
-                    class="px-5 py-2.5 bg-white border border-slate-300 text-slate-700 text-sm font-medium rounded-lg hover:bg-slate-50 transition">
-                    Batal
-                </a>
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-primary">Upload Foto</button>
+                <a href="{{ route('admin.galeri.index') }}" class="btn btn-outline-secondary">Batal</a>
             </div>
         </form>
     </div>

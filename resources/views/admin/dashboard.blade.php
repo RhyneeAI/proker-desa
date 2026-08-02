@@ -1,7 +1,7 @@
 <x-layouts.admin title="Dashboard">
 
     {{-- Stat Cards --}}
-    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 mb-8">
+    <div class="row g-3 mb-3">
         @foreach ([
             'Berita'        => $stats['news'],
             'Pengumuman'    => $stats['announcements'],
@@ -10,80 +10,91 @@
             'Fasilitas'     => $stats['facilities'],
             'Foto Galeri'   => $stats['galleries'],
         ] as $label => $value)
-            <div class="bg-white rounded-xl border border-slate-200 p-4 text-center">
-                <p class="text-2xl font-bold text-[#192E03]">{{ $value }}</p>
-                <p class="text-xs text-slate-500 mt-1">{{ $label }}</p>
+            <div class="col-6 col-md-4 col-xl-2">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <div class="fs-2 fw-bold text-primary">{{ $value }}</div>
+                        <div class="text-secondary text-uppercase small fw-medium">{{ $label }}</div>
+                    </div>
+                </div>
             </div>
         @endforeach
     </div>
 
-    {{-- Tabel --}}
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-
-        {{-- Berita Terbaru --}}
-        <div class="bg-white rounded-xl border border-slate-200 p-5">
-            <div class="flex justify-between items-center mb-4">
-                <h2 class="font-semibold text-[#192E03] text-sm">Berita Terbaru</h2>
-                <a href="{{ route('admin.berita.index') }}" class="text-xs text-[#192E03] hover:underline">Lihat Semua</a>
-            </div>
-
-            @forelse ($latestNews as $news)
-                <div class="py-2.5 border-b border-slate-100 last:border-0 flex justify-between items-start gap-3">
-                    <div class="min-w-0">
-                        <p class="text-sm text-slate-800 truncate">{{ $news->title }}</p>
-                        <p class="text-xs text-slate-500 mt-0.5">{{ $news->published_at?->translatedFormat('d F Y') }}</p>
-                    </div>
-                    <span class="flex-shrink-0 px-2 py-0.5 text-xs rounded-full {{ $news->is_published ? 'bg-[#192E03]/20 text-[#192E03]' : 'bg-slate-100 text-slate-500' }}">
-                        {{ $news->is_published ? 'Terbit' : 'Draf' }}
-                    </span>
+    {{-- Berita & Pengumuman Terbaru --}}
+    <div class="row g-3">
+        <div class="col-12 col-lg-6">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Berita Terbaru</h3>
+                    <a href="{{ route('admin.berita.index') }}" class="btn btn-link btn-sm ms-auto">Lihat Semua</a>
                 </div>
-            @empty
-                <p class="text-sm text-slate-500 text-center py-4">Belum ada berita.</p>
-            @endforelse
+                <div class="list-group list-group-flush">
+                    @forelse ($latestNews as $news)
+                        <div class="list-group-item d-flex justify-content-between align-items-start gap-3">
+                            <div class="min-w-0">
+                                <p class="text-body fw-medium text-truncate mb-1">{{ $news->title }}</p>
+                                <p class="text-secondary small mb-0">{{ $news->published_at?->translatedFormat('d F Y') }}</p>
+                            </div>
+                            <span class="badge {{ $news->is_published ? 'bg-success' : 'bg-secondary' }} text-nowrap">
+                                {{ $news->is_published ? 'Terbit' : 'Draf' }}
+                            </span>
+                        </div>
+                    @empty
+                        <div class="list-group-item text-center text-secondary py-4">Belum ada berita.</div>
+                    @endforelse
+                </div>
+            </div>
         </div>
 
-        {{-- Pengumuman Terbaru --}}
-        <div class="bg-white rounded-xl border border-slate-200 p-5">
-            <div class="flex justify-between items-center mb-4">
-                <h2 class="font-semibold text-[#192E03] text-sm">Pengumuman Terbaru</h2>
-                <a href="{{ route('admin.pengumuman.index') }}" class="text-xs text-[#192E03] hover:underline">Lihat Semua</a>
-            </div>
-
-            @forelse ($latestAnnouncements as $announcement)
-                <div class="py-2.5 border-b border-slate-100 last:border-0">
-                    <p class="text-sm text-slate-800 truncate">{{ $announcement->title }}</p>
-                    <div class="flex items-center gap-3 mt-0.5">
-                        <p class="text-xs text-slate-500">{{ $announcement->published_at?->translatedFormat('d F Y') }}</p>
-                        @if ($announcement->deadline)
-                            <span class="text-xs {{ $announcement->deadline->isPast() ? 'text-red-500' : 'text-amber-600' }}">
-                                Tenggat {{ $announcement->deadline->translatedFormat('d F Y') }}
-                            </span>
-                        @endif
-                    </div>
+        <div class="col-12 col-lg-6">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Pengumuman Terbaru</h3>
+                    <a href="{{ route('admin.pengumuman.index') }}" class="btn btn-link btn-sm ms-auto">Lihat Semua</a>
                 </div>
-            @empty
-                <p class="text-sm text-slate-500 text-center py-4">Belum ada pengumuman.</p>
-            @endforelse
+                <div class="list-group list-group-flush">
+                    @forelse ($latestAnnouncements as $announcement)
+                        <div class="list-group-item">
+                            <p class="text-body fw-medium text-truncate mb-1">{{ $announcement->title }}</p>
+                            <div class="d-flex align-items-center gap-3">
+                                <span class="text-secondary small">{{ $announcement->published_at?->translatedFormat('d F Y') }}</span>
+                                @if ($announcement->deadline)
+                                    <span class="badge {{ $announcement->deadline->isPast() ? 'bg-danger' : 'bg-warning' }}">
+                                        Tenggat {{ $announcement->deadline->translatedFormat('d F Y') }}
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+                    @empty
+                        <div class="list-group-item text-center text-secondary py-4">Belum ada pengumuman.</div>
+                    @endforelse
+                </div>
+            </div>
         </div>
     </div>
 
     {{-- Shortcut --}}
-    <div class="mt-6 grid grid-cols-2 sm:grid-cols-4 gap-3">
-        <a href="{{ route('admin.berita.create') }}" class="flex items-center gap-2 bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-700 hover:border-[#192E03]/50 hover:text-[#192E03] transition">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
-            Tambah Berita
-        </a>
-        <a href="{{ route('admin.pengumuman.create') }}" class="flex items-center gap-2 bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-700 hover:border-[#192E03]/50 hover:text-[#192E03] transition">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
-            Tambah Pengumuman
-        </a>
-        <a href="{{ route('admin.galeri.create') }}" class="flex items-center gap-2 bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-700 hover:border-[#192E03]/50 hover:text-[#192E03] transition">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
-            Upload Foto
-        </a>
-        <a href="{{ route('admin.umkm.create') }}" class="flex items-center gap-2 bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-700 hover:border-[#192E03]/50 hover:text-[#192E03] transition">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
-            Tambah UMKM
-        </a>
+    <div class="row g-3 mt-1">
+        <div class="col-6 col-md-3">
+            <a href="{{ route('admin.berita.create') }}" class="btn btn-outline-primary w-100 py-3">
+                <i class="ti ti-plus me-1"></i> Tambah Berita
+            </a>
+        </div>
+        <div class="col-6 col-md-3">
+            <a href="{{ route('admin.pengumuman.create') }}" class="btn btn-outline-primary w-100 py-3">
+                <i class="ti ti-plus me-1"></i> Tambah Pengumuman
+            </a>
+        </div>
+        <div class="col-6 col-md-3">
+            <a href="{{ route('admin.galeri.create') }}" class="btn btn-outline-primary w-100 py-3">
+                <i class="ti ti-plus me-1"></i> Upload Foto
+            </a>
+        </div>
+        <div class="col-6 col-md-3">
+            <a href="{{ route('admin.umkm.create') }}" class="btn btn-outline-primary w-100 py-3">
+                <i class="ti ti-plus me-1"></i> Tambah UMKM
+            </a>
+        </div>
     </div>
 </x-layouts.admin>

@@ -1,81 +1,77 @@
 <x-layouts.admin title="Kelola Potensi Desa">
-    <div class="flex justify-between items-center mb-6">
+    <div class="d-flex justify-content-between align-items-center mb-3">
         <div>
-            <h2 class="text-lg font-semibold text-[#192E03]">Potensi Desa</h2>
-            <p class="text-sm text-slate-500 mt-0.5">Kelola potensi dan kekayaan desa</p>
+            <h2 class="page-title mb-1">Potensi Desa</h2>
+            <p class="text-secondary mb-0">Kelola potensi dan kekayaan desa</p>
         </div>
-        <a href="{{ route('admin.potensi-desa.create') }}"
-            class="px-4 py-2 bg-[#192E03] text-white text-sm font-medium rounded-lg hover:bg-[#1F3B04] transition flex items-center gap-2">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
-            </svg>
-            Tambah Potensi
+        <a href="{{ route('admin.potensi-desa.create') }}" class="btn btn-primary">
+            <i class="ti ti-plus me-1"></i> Tambah Potensi
         </a>
     </div>
 
-    <div class="bg-white rounded-xl border border-slate-200 overflow-hidden">
-        <table class="min-w-full divide-y divide-slate-200">
-            <thead class="bg-slate-50">
-                <tr>
-                    <th class="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Potensi</th>
-                    <th class="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Kategori</th>
-                    <th class="px-6 py-3 text-right text-xs font-semibold text-slate-500 uppercase tracking-wider">Aksi</th>
-                </tr>
-            </thead>
-            <tbody class="divide-y divide-slate-100">
-                @forelse ($potensiDesa as $item)
+    <div class="card">
+        <div class="table-responsive">
+            <table class="table table-vcenter card-table">
+                <thead>
                     <tr>
-                        <td class="px-6 py-4">
-                            <div class="flex items-center gap-3">
-                                @if ($item->image)
-                                    <img src="{{ Storage::url($item->image) }}"
-                                        alt="{{ $item->image_alt ?? $item->name }}"
-                                        class="w-10 h-10 rounded-lg object-cover border border-slate-200">
-                                @else
-                                    <div class="w-10 h-10 rounded-lg bg-[#192E03]/10 flex items-center justify-center flex-shrink-0">
-                                        <svg class="w-5 h-5 text-[#192E03]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15l4-8 4 8m-7 3h14"/>
-                                        </svg>
-                                    </div>
-                                @endif
-                                <div>
-                                    <p class="text-sm font-medium text-slate-800">{{ $item->name }}</p>
-                                    @if ($item->description)
-                                        <p class="text-xs text-slate-500 truncate max-w-xs">{{ $item->description }}</p>
+                        <th>Potensi</th>
+                        <th>Kategori</th>
+                        <th class="text-end">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse ($potensiDesa as $item)
+                        <tr>
+                            <td>
+                                <div class="d-flex align-items-center gap-3">
+                                    @if ($item->image)
+                                        <img src="{{ Storage::url($item->image) }}"
+                                            alt="{{ $item->image_alt ?? $item->name }}"
+                                            class="avatar avatar-sm rounded">
+                                    @else
+                                        <span class="avatar avatar-sm bg-secondary-lt rounded">
+                                            <i class="ti ti-mountain text-secondary"></i>
+                                        </span>
                                     @endif
+                                    <div>
+                                        <p class="fw-medium text-body mb-0">{{ $item->name }}</p>
+                                        @if ($item->description)
+                                            <p class="text-secondary small text-truncate mb-0" style="max-width:16rem">{{ $item->description }}</p>
+                                        @endif
+                                    </div>
                                 </div>
-                            </div>
-                        </td>
-                        <td class="px-6 py-4">
-                            <span class="px-2 py-1 text-xs font-medium rounded-full bg-[#192E03]/10 text-[#192E03] capitalize">
-                                {{ $item->category }}
-                            </span>
-                        </td>
-                        <td class="px-6 py-4">
-                            <div class="flex justify-end items-center gap-3">
-                                <a href="{{ route('admin.potensi-desa.edit', $item) }}"
-                                    class="text-xs text-[#192E03] hover:underline font-medium">Edit</a>
-                                <form method="POST" action="{{ route('admin.potensi-desa.destroy', $item) }}"
-                                    onsubmit="return confirm('Hapus potensi ini?');">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="text-xs text-red-600 hover:underline font-medium">Hapus</button>
-                                </form>
-                            </div>
-                        </td>
-                    </tr>
-                @empty
-                    <tr>
-                        <td colspan="3" class="px-6 py-16 text-center text-slate-500">
-                            Belum ada potensi desa.
-                        </td>
-                    </tr>
-                @endforelse
-            </tbody>
-        </table>
+                            </td>
+                            <td>
+                                <span class="badge bg-primary text-capitalize">
+                                    {{ $item->category }}
+                                </span>
+                            </td>
+                            <td class="text-end">
+                                <div class="d-flex justify-content-end align-items-center gap-1">
+                                    <a href="{{ route('admin.potensi-desa.edit', $item) }}" class="btn btn-sm btn-outline-primary">Edit</a>
+                                    <form method="POST" action="{{ route('admin.potensi-desa.destroy', $item) }}"
+                                        onsubmit="return confirm('Hapus potensi ini?');">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-sm btn-outline-danger">Hapus</button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="3" class="text-center text-secondary py-5">
+                                <i class="ti ti-inbox text-secondary mb-2" style="font-size:2rem"></i>
+                                <div>Belum ada potensi desa.</div>
+                            </td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
     </div>
 
-    <div class="mt-6">
+    <div class="mt-3">
         {{ $potensiDesa->links() }}
     </div>
 </x-layouts.admin>

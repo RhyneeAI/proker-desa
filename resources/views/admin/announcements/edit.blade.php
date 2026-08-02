@@ -1,74 +1,70 @@
 <x-layouts.admin title="Edit Pengumuman">
-    <div class="max-w-3xl">
-        <div class="mb-6">
-            <a href="{{ route('admin.pengumuman.index') }}" class="text-sm text-slate-500 hover:text-slate-700 flex items-center gap-1">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
-                </svg>
-                Kembali
+    <div class="col-12 col-xl-8">
+        <div class="mb-3">
+            <a href="{{ route('admin.pengumuman.index') }}" class="link-secondary text-decoration-none">
+                <i class="ti ti-arrow-left me-1"></i> Kembali
             </a>
         </div>
 
-        <form method="POST" action="{{ route('admin.pengumuman.update', $announcement) }}" class="space-y-6">
+        <form method="POST" action="{{ route('admin.pengumuman.update', $announcement) }}">
             @csrf
             @method('PUT')
 
-            <div class="bg-white rounded-xl border border-slate-200 p-6 space-y-4">
-                <h2 class="font-semibold text-[#192E03] text-sm border-b border-slate-100 pb-3">Konten Pengumuman</h2>
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Konten Pengumuman</h3>
+                </div>
+                <div class="card-body">
+                    <x-form-input
+                        label="Judul Pengumuman"
+                        name="title"
+                        :value="$announcement->title"
+                        required
+                    />
 
-                <x-form-input
-                    label="Judul Pengumuman"
-                    name="title"
-                    :value="$announcement->title"
-                    required
-                />
+                    <x-form-textarea
+                        label="Isi Pengumuman"
+                        name="content"
+                        :value="$announcement->content"
+                        :rows="8"
+                        required
+                    />
 
-                <x-form-textarea
-                    label="Isi Pengumuman"
-                    name="content"
-                    :value="$announcement->content"
-                    :rows="8"
-                    required
-                />
-
-                <x-form-input
-                    label="Tenggat Waktu (opsional)"
-                    name="deadline"
-                    type="date"
-                    :value="$announcement->deadline?->format('Y-m-d')"
-                    hint="Kosongkan jika pengumuman tidak memiliki batas waktu berlaku."
-                />
+                    <x-form-input
+                        label="Tenggat Waktu (opsional)"
+                        name="deadline"
+                        type="date"
+                        :value="$announcement->deadline?->format('Y-m-d')"
+                        hint="Kosongkan jika pengumuman tidak memiliki batas waktu berlaku."
+                    />
+                </div>
             </div>
 
-            <div class="bg-white rounded-xl border border-slate-200 p-6">
-                <h2 class="font-semibold text-[#192E03] text-sm border-b border-slate-100 pb-3 mb-4">Status Publikasi</h2>
-
-                <label class="flex items-center gap-3 cursor-pointer">
-                    <input type="checkbox" name="is_published" value="1"
-                        {{ old('is_published', $announcement->is_published) ? 'checked' : '' }}
-                        class="w-4 h-4 rounded border-slate-300 text-[#192E03] focus:ring-[#192E03]">
-                    <div>
-                        <p class="text-sm font-medium text-slate-700">Diterbitkan</p>
-                        <p class="text-xs text-slate-500">
-                            @if ($announcement->published_at)
-                                Terbit sejak {{ $announcement->published_at->translatedFormat('d F Y, H:i') }}
-                            @else
-                                Belum pernah diterbitkan
-                            @endif
-                        </p>
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Status Publikasi</h3>
+                </div>
+                <div class="card-body">
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" name="is_published" value="1"
+                            {{ old('is_published', $announcement->is_published) ? 'checked' : '' }}>
+                        <label class="form-check-label">
+                            <span class="d-block fw-medium">Diterbitkan</span>
+                            <small class="text-secondary d-block">
+                                @if ($announcement->published_at)
+                                    Terbit sejak {{ $announcement->published_at->translatedFormat('d F Y, H:i') }}
+                                @else
+                                    Belum pernah diterbitkan
+                                @endif
+                            </small>
+                        </label>
                     </div>
-                </label>
+                </div>
             </div>
 
-            <div class="flex gap-3">
-                <button type="submit"
-                    class="px-5 py-2.5 bg-[#192E03] text-white text-sm font-medium rounded-lg hover:bg-[#1F3B04] transition">
-                    Simpan Perubahan
-                </button>
-                <a href="{{ route('admin.pengumuman.index') }}"
-                    class="px-5 py-2.5 bg-white border border-slate-300 text-slate-700 text-sm font-medium rounded-lg hover:bg-slate-50 transition">
-                    Batal
-                </a>
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+                <a href="{{ route('admin.pengumuman.index') }}" class="btn btn-outline-secondary">Batal</a>
             </div>
         </form>
     </div>

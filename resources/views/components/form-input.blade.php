@@ -1,10 +1,10 @@
 @props(['label', 'name', 'type' => 'text', 'value' => '', 'placeholder' => '', 'required' => false, 'hint' => ''])
 
-<div>
-    <label for="{{ $name }}" class="block text-sm font-medium text-slate-700 mb-1">
+<div class="mb-3">
+    <label for="{{ $name }}" class="form-label">
         {{ $label }}
         @if ($required)
-            <span class="text-red-500">*</span>
+            <span class="text-danger">*</span>
         @endif
     </label>
     <input
@@ -14,13 +14,12 @@
         value="{{ old($name, $value) }}"
         placeholder="{{ $placeholder }}"
         {{ $required ? 'required' : '' }}
-        class="w-full rounded-lg border-slate-300 focus:border-[#192E03] focus:ring-[#192E03] text-sm
-               @error($name) border-red-400 @enderror"
+        class="form-control @error($name) is-invalid @enderror"
     >
     @if ($hint)
-        <p class="text-xs text-slate-500 mt-1">{{ $hint }}</p>
+        <small class="form-hint">{{ $hint }}</small>
     @endif
     @error($name)
-        <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
+        <div class="invalid-feedback">{{ $message }}</div>
     @enderror
 </div>
