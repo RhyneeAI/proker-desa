@@ -4,7 +4,7 @@
         @method('PUT')
 
         {{-- Informasi Utama --}}
-        <div class="card">
+        <div class="card mb-3">
             <div class="card-header">
                 <h3 class="card-title">Informasi Utama</h3>
             </div>
@@ -72,7 +72,7 @@
         </div>
 
         {{-- Gambar --}}
-        <div class="card">
+        <div class="card mb-3">
             <div class="card-header">
                 <h3 class="card-title">Gambar</h3>
             </div>
@@ -102,7 +102,7 @@
         </div>
 
         {{-- Batas Wilayah --}}
-        <div class="card">
+        <div class="card mb-3">
             <div class="card-header">
                 <h3 class="card-title">Batas Wilayah Desa</h3>
             </div>
@@ -145,7 +145,7 @@
         </div>
 
         {{-- Bagan Struktur Organisasi --}}
-        <div class="card">
+        <div class="card mb-3">
             <div class="card-header">
                 <h3 class="card-title">Bagan Struktur Organisasi</h3>
             </div>
@@ -175,7 +175,7 @@
         </div>
 
         {{-- Peta --}}
-        <div class="card">
+        <div class="card mb-3">
             <div class="card-header">
                 <h3 class="card-title">Peta Lokasi</h3>
             </div>
@@ -191,7 +191,7 @@
             </div>
         </div>
 
-        <div class="d-flex gap-3">
+        <div class="d-flex gap-3 mt-3">
             <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
             <a href="{{ route('admin.dashboard') }}" class="btn btn-outline-secondary">Batal</a>
         </div>

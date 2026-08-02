@@ -10,7 +10,7 @@
             @csrf
             @method('PUT')
 
-            <div class="card">
+            <div class="card mb-3">
                 <div class="card-header">
                     <h3 class="card-title">Informasi Wisata</h3>
                 </div>
@@ -30,7 +30,7 @@
                 </div>
             </div>
 
-            <div class="card">
+            <div class="card mb-3">
                 <div class="card-header">
                     <h3 class="card-title">Koordinat Lokasi</h3>
                 </div>
@@ -54,7 +54,7 @@
                 </div>
             </div>
 
-            <div class="card">
+            <div class="card mb-3">
                 <div class="card-header">
                     <h3 class="card-title">Deskripsi &amp; Foto</h3>
                 </div>
@@ -83,7 +83,7 @@
                 </div>
             </div>
 
-            <div class="d-flex gap-3">
+            <div class="d-flex gap-3 mt-3">
                 <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
                 <a href="{{ route('admin.wisata.index') }}" class="btn btn-outline-secondary">Batal</a>
             </div>

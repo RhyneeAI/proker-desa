@@ -9,7 +9,7 @@
         <form method="POST" action="{{ route('admin.galeri.store') }}" enctype="multipart/form-data">
             @csrf
 
-            <div class="card">
+            <div class="card mb-3">
                 <div class="card-header">
                     <h3 class="card-title">Detail Foto</h3>
                 </div>
@@ -48,7 +48,7 @@
                 </div>
             </div>
 
-            <div class="d-flex gap-3">
+            <div class="d-flex gap-3 mt-3">
                 <button type="submit" class="btn btn-primary">Upload Foto</button>
                 <a href="{{ route('admin.galeri.index') }}" class="btn btn-outline-secondary">Batal</a>
             </div>

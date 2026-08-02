@@ -9,7 +9,7 @@
         <form method="POST" action="{{ route('admin.berita.store') }}" enctype="multipart/form-data">
             @csrf
 
-            <div class="card">
+            <div class="card mb-3">
                 <div class="card-header">
                     <h3 class="card-title">Konten Berita</h3>
                 </div>
@@ -25,7 +25,7 @@
                 </div>
             </div>
 
-            <div class="card">
+            <div class="card mb-3">
                 <div class="card-header">
                     <h3 class="card-title">Thumbnail</h3>
                 </div>
@@ -49,7 +49,7 @@
                 </div>
             </div>
 
-            <div class="card">
+            <div class="card mb-3">
                 <div class="card-header">
                     <h3 class="card-title">Status Publikasi</h3>
                 </div>
@@ -65,7 +65,7 @@
                 </div>
             </div>
 
-            <div class="d-flex gap-3">
+            <div class="d-flex gap-3 mt-3">
                 <button type="submit" class="btn btn-primary">Simpan</button>
                 <a href="{{ route('admin.berita.index') }}" class="btn btn-outline-secondary">Batal</a>
             </div>
