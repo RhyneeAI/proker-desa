@@ -48,7 +48,7 @@
             </div>
         </div>
 
-        <div class="col-12 col-xl-8">
+        <div class="col-12 col-xl-8 mx-auto">
             <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">Kunjungan 30 Hari Terakhir</h3>

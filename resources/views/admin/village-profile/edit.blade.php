@@ -1,5 +1,5 @@
 <x-layouts.admin title="Kelola Profil Desa">
-    <form method="POST" action="{{ route('admin.profil-desa.update') }}" enctype="multipart/form-data" class="col-12 col-xl-8">
+    <form method="POST" action="{{ route('admin.profil-desa.update') }}" enctype="multipart/form-data" class="col-12 col-xl-8 mx-auto">
         @csrf
         @method('PUT')
 
@@ -191,7 +191,7 @@
             </div>
         </div>
 
-        <div class="d-flex gap-2">
+        <div class="d-flex gap-3">
             <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
             <a href="{{ route('admin.dashboard') }}" class="btn btn-outline-secondary">Batal</a>
         </div>

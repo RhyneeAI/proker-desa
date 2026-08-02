@@ -1,5 +1,5 @@
 <x-layouts.admin title="Edit Potensi Desa">
-    <div class="col-12 col-lg-8 col-xl-6">
+    <div class="col-12 col-xl-8 mx-auto">
         <div class="mb-3">
             <a href="{{ route('admin.potensi-desa.index') }}" class="link-secondary text-decoration-none">
                 <i class="ti ti-arrow-left me-1"></i> Kembali
@@ -54,7 +54,7 @@
                 </div>
             </div>
 
-            <div class="d-flex gap-2">
+            <div class="d-flex gap-3">
                 <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
                 <a href="{{ route('admin.potensi-desa.index') }}" class="btn btn-outline-secondary">Batal</a>
             </div>
