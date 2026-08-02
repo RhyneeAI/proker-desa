@@ -22,6 +22,6 @@
         "@tabler/core": "^1.4.0",
         "@tabler/icons-webfont": "^3.46.0",
         "jquery": "^4.0.0",
-        "leaflet": "^1.9.4"
+        "maplibre-gl": "^6.1.0"
     }
 }

@@ -1,3 +1,6 @@
+import { Map, Marker, Popup, NavigationControl, LngLatBounds } from 'maplibre-gl';
+import 'maplibre-gl/dist/maplibre-gl.css';
+
 const escapeHtml = (value) =>
     String(value ?? '').replace(/[&<>"']/g, (char) => ({
         '&': '&amp;',
@@ -8,15 +11,15 @@ const escapeHtml = (value) =>
     }[char]));
 
 const pinHtml = (color) =>
-    '<div><svg width="30" height="38" viewBox="0 0 30 38" xmlns="http://www.w3.org/2000/svg">' +
+    '<svg width="30" height="38" viewBox="0 0 30 38" xmlns="http://www.w3.org/2000/svg">' +
     '<path d="M15 1C7.82 1 2 6.82 2 14c0 9.75 13 23 13 23s13-13.25 13-23C28 6.82 22.18 1 15 1z" fill="' + color + '" stroke="#ffffff" stroke-width="1.5"/>' +
-    '<circle cx="15" cy="14" r="5.5" fill="#ffffff"/></svg></div>';
+    '<circle cx="15" cy="14" r="5.5" fill="#ffffff"/></svg>';
 
 const centerPinHtml = () =>
-    '<div><svg width="38" height="46" viewBox="0 0 30 38" xmlns="http://www.w3.org/2000/svg">' +
+    '<svg width="38" height="46" viewBox="0 0 30 38" xmlns="http://www.w3.org/2000/svg">' +
     '<path d="M15 1C7.82 1 2 6.82 2 14c0 9.75 13 23 13 23s13-13.25 13-23C28 6.82 22.18 1 15 1z" fill="#192E03" stroke="#ffffff" stroke-width="2"/>' +
     '<path d="M6 14h18M15 5v18M9 11h12M9 17h12" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" transform="translate(0 -2)"/>' +
-    '</svg></div>';
+    '</svg>';
 
 const popupHtml = (marker) => {
     let html = '<div class="text-center" style="min-width:140px">';
@@ -39,11 +42,31 @@ const popupHtml = (marker) => {
 const inVillageArea = (lat, lng, center, filterSpan) =>
     Math.abs(lat - center[0]) <= filterSpan && Math.abs(lng - center[1]) <= filterSpan;
 
+// Style vector modern ala Google Maps (OpenFreeMap, gratis tanpa API key),
+// dengan fallback ke tile raster OpenStreetMap bila gagal dimuat.
+const VECTOR_STYLE = 'https://tiles.openfreemap.org/styles/liberty';
+
+const rasterStyle = () => ({
+    version: 8,
+    sources: {
+        osm: {
+            type: 'raster',
+            tiles: [
+                'https://a.tile.openstreetmap.org/{z}/{x}/{y}.png',
+                'https://b.tile.openstreetmap.org/{z}/{x}/{y}.png',
+                'https://c.tile.openstreetmap.org/{z}/{x}/{y}.png',
+            ],
+            tileSize: 256,
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        },
+    },
+    layers: [{ id: 'osm', type: 'raster', source: 'osm' }],
+});
+
 export function initInteractiveMap(mapId, config) {
-    const L = window.L;
     const el = document.getElementById(mapId);
 
-    if (!L || !el || el._leaflet_id) return;
+    if (!el || el.dataset.mapInitialized) return;
 
     const {
         markers = { umkm: [], fasilitas: [] },
@@ -55,84 +78,96 @@ export function initInteractiveMap(mapId, config) {
         minZoom = 11,
     } = config;
 
-    const map = L.map(mapId, { scrollWheelZoom: false });
+    const [centerLat, centerLng] = center;
+    const mapBounds = [
+        [centerLng - lockMargin, centerLat - lockMargin],
+        [centerLng + lockMargin, centerLat + lockMargin],
+    ];
 
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 19,
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-    }).addTo(map);
+    const map = new Map({
+        container: mapId,
+        style: VECTOR_STYLE,
+        center: [centerLng, centerLat],
+        zoom,
+        minZoom,
+        maxBounds: mapBounds,
+        scrollZoom: false,
+    });
+
+    map.addControl(new NavigationControl({ showCompass: false }), 'top-right');
+
+    let fellBack = false;
+    map.on('error', (e) => {
+        const msg = String(e.error?.message ?? '');
+        if (!fellBack && /(style|fetch|network|failed to load)/i.test(msg)) {
+            fellBack = true;
+            map.setStyle(rasterStyle());
+        }
+    });
 
     const colors = { umkm: '#059669', fasilitas: '#d97706' };
-    const groups = { umkm: L.layerGroup(), fasilitas: L.layerGroup() };
-    const bounds = L.latLngBounds();
+    const groups = { umkm: [], fasilitas: [] };
+    const coords = [];
 
     Object.keys(groups).forEach((layer) => {
         (markers[layer] || []).forEach((marker) => {
             if (!inVillageArea(marker.lat, marker.lng, center, filterSpan)) return;
 
-            const mk = L.marker([marker.lat, marker.lng], {
-                icon: L.divIcon({
-                    className: '',
-                    html: pinHtml(colors[layer]),
-                    iconSize: [30, 38],
-                    iconAnchor: [15, 37],
-                    popupAnchor: [0, -34],
-                }),
-            }).bindPopup(popupHtml(marker));
+            const pinEl = document.createElement('div');
+            pinEl.innerHTML = pinHtml(colors[layer]);
 
-            mk.addTo(groups[layer]);
-            bounds.extend([marker.lat, marker.lng]);
+            const mk = new Marker({ element: pinEl.firstChild, anchor: 'bottom' })
+                .setLngLat([marker.lng, marker.lat])
+                .setPopup(new Popup({ offset: 30 }).setHTML(popupHtml(marker)))
+                .addTo(map);
+
+            groups[layer].push(mk);
+            coords.push([marker.lng, marker.lat]);
         });
-
-        groups[layer].addTo(map);
     });
 
     if (centerLabel) {
-        L.marker(center, {
-            icon: L.divIcon({
-                className: '',
-                html: centerPinHtml(),
-                iconSize: [38, 46],
-                iconAnchor: [19, 45],
-                popupAnchor: [0, -42],
-            }),
-            zIndexOffset: 1000,
-        }).bindPopup(
-            '<div style="text-align:center;min-width:150px"><p style="font-weight:700;color:#0f172a;font-size:13px;margin:0">' +
-                escapeHtml(centerLabel) +
-                '</p><p style="color:#64748b;font-size:11px;margin:4px 0 0">Pusat Desa</p></div>'
-        ).addTo(map);
+        const centerEl = document.createElement('div');
+        centerEl.innerHTML = centerPinHtml();
+
+        new Marker({ element: centerEl.firstChild, anchor: 'bottom' })
+            .setLngLat([centerLng, centerLat])
+            .setPopup(
+                new Popup({ offset: 35 }).setHTML(
+                    '<div style="text-align:center;min-width:150px"><p style="font-weight:700;color:#0f172a;font-size:13px;margin:0">' +
+                        escapeHtml(centerLabel) +
+                        '</p><p style="color:#64748b;font-size:11px;margin:4px 0 0">Pusat Desa</p></div>'
+                )
+            )
+            .addTo(map);
     }
 
-    if (bounds.isValid()) {
-        const spanLat = bounds.getNorthEast().lat - bounds.getSouthWest().lat;
-        const spanLng = bounds.getNorthEast().lng - bounds.getSouthWest().lng;
+    if (coords.length) {
+        const bounds = coords.reduce(
+            (b, [lng, lat]) => b.extend([lng, lat]),
+            new LngLatBounds(coords[0], coords[0])
+        );
+        const { lat: south, lng: west } = bounds.getSouthWest();
+        const { lat: north, lng: east } = bounds.getNorthEast();
 
-        if (spanLat < 0.05 && spanLng < 0.05) {
-            map.fitBounds(bounds, { padding: [40, 40], maxZoom: 16 });
-        } else {
-            map.setView(center, zoom);
+        if (north - south < 0.05 && east - west < 0.05) {
+            map.fitBounds(bounds, { padding: 50, maxZoom: 16 });
         }
-    } else {
-        map.setView(center, zoom);
     }
-
-    map.setMinZoom(minZoom);
-    map.setMaxBounds(
-        L.latLngBounds([center[0] - lockMargin, center[1] - lockMargin], [center[0] + lockMargin, center[1] + lockMargin])
-    );
 
     el.parentElement.querySelectorAll('[data-map-layer]').forEach((btn) => {
         btn.addEventListener('click', () => {
             const layer = btn.getAttribute('data-map-layer');
+            const current = groups[layer] || [];
+            const visible = current.some((m) => m.getElement().style.display !== 'none');
+            const show = !visible;
 
-            if (map.hasLayer(groups[layer])) {
-                map.removeLayer(groups[layer]);
-                btn.classList.add('opacity-50');
-            } else {
-                groups[layer].addTo(map);
-                btn.classList.remove('opacity-50');
-            }
+            current.forEach((m) => {
+                m.getElement().style.display = show ? '' : 'none';
+            });
+            btn.classList.toggle('opacity-50', !show);
         });
     });
+
+    el.dataset.mapInitialized = '1';
 }
