@@ -51,17 +51,17 @@
                                     <form method="POST" action="{{ route('admin.pengumuman.toggle', $announcement) }}">
                                         @csrf
                                         <button type="submit"
-                                            class="btn btn-sm btn-icon {{ $announcement->is_published ? 'btn-outline-warning' : 'btn-outline-success' }}"
+                                            class="btn btn-icon {{ $announcement->is_published ? 'btn-outline-warning' : 'btn-outline-success' }}"
                                             title="{{ $announcement->is_published ? 'Turunkan (unpublish)' : 'Terbitkan' }}">
                                             <i class="ti {{ $announcement->is_published ? 'ti-eye-off' : 'ti-eye' }}"></i>
                                         </button>
                                     </form>
-                                    <a href="{{ route('admin.pengumuman.edit', $announcement) }}" class="btn btn-sm btn-icon btn-outline-primary" title="Edit"><i class="ti ti-pencil"></i></a>
+                                    <a href="{{ route('admin.pengumuman.edit', $announcement) }}" class="btn btn-icon btn-outline-primary" title="Edit"><i class="ti ti-pencil"></i></a>
                                     <form method="POST" action="{{ route('admin.pengumuman.destroy', $announcement) }}"
                                         onsubmit="return confirm('Hapus pengumuman ini?');">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-sm btn-icon btn-outline-danger" title="Hapus"><i class="ti ti-trash"></i></button>
+                                        <button type="submit" class="btn btn-icon btn-outline-danger" title="Hapus"><i class="ti ti-trash"></i></button>
                                     </form>
                                 </div>
                             </td>

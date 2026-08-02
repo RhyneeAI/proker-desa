@@ -56,12 +56,12 @@
                             </td>
                             <td class="text-end">
                                 <div class="d-flex justify-content-end gap-1">
-                                    <a href="{{ route('admin.wisata.edit', $wisata) }}" class="btn btn-sm btn-icon btn-outline-primary" title="Edit"><i class="ti ti-pencil"></i></a>
+                                    <a href="{{ route('admin.wisata.edit', $wisata) }}" class="btn btn-icon btn-outline-primary" title="Edit"><i class="ti ti-pencil"></i></a>
                                     <form method="POST" action="{{ route('admin.wisata.destroy', $wisata) }}"
                                         onsubmit="return confirm('Hapus data wisata ini?');">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-sm btn-icon btn-outline-danger" title="Hapus"><i class="ti ti-trash"></i></button>
+                                        <button type="submit" class="btn btn-icon btn-outline-danger" title="Hapus"><i class="ti ti-trash"></i></button>
                                     </form>
                                 </div>
                             </td>

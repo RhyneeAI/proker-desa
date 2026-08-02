@@ -38,12 +38,12 @@
                             <td class="text-secondary">{{ Str::limit($gallery->description, 60) }}</td>
                             <td class="text-end">
                                 <div class="d-flex justify-content-end gap-1">
-                                    <a href="{{ route('admin.galeri.edit', $gallery) }}" class="btn btn-sm btn-icon btn-outline-primary" title="Edit"><i class="ti ti-pencil"></i></a>
+                                    <a href="{{ route('admin.galeri.edit', $gallery) }}" class="btn btn-icon btn-outline-primary" title="Edit"><i class="ti ti-pencil"></i></a>
                                     <form method="POST" action="{{ route('admin.galeri.destroy', $gallery) }}"
                                         onsubmit="return confirm('Hapus foto ini?');">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-sm btn-icon btn-outline-danger" title="Hapus"><i class="ti ti-trash"></i></button>
+                                        <button type="submit" class="btn btn-icon btn-outline-danger" title="Hapus"><i class="ti ti-trash"></i></button>
                                     </form>
                                 </div>
                             </td>

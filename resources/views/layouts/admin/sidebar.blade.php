@@ -42,9 +42,9 @@
                         <span class="nav-link-toggle"></span>
                     </button>
                     <div x-show="open" x-cloak class="nav-submenu">
-                        <a href="{{ route('admin.berita.index') }}" class="d-flex align-items-center gap-2 py-2 ps-4 pe-3 small rounded {{ request()->routeIs('admin.berita.*') ? 'text-white bg-white bg-opacity-10' : 'text-secondary' }}"><i class="ti ti-news" style="width:1.25rem"></i> Berita</a>
-                        <a href="{{ route('admin.pengumuman.index') }}" class="d-flex align-items-center gap-2 py-2 ps-4 pe-3 small rounded {{ request()->routeIs('admin.pengumuman.*') ? 'text-white bg-white bg-opacity-10' : 'text-secondary' }}"><i class="ti ti-speakerphone" style="width:1.25rem"></i> Pengumuman</a>
-                        <a href="{{ route('admin.galeri.index') }}" class="d-flex align-items-center gap-2 py-2 ps-4 pe-3 small rounded {{ request()->routeIs('admin.galeri.*') ? 'text-white bg-white bg-opacity-10' : 'text-secondary' }}"><i class="ti ti-photo" style="width:1.25rem"></i> Galeri</a>
+                        <a href="{{ route('admin.berita.index') }}" class="d-flex align-items-center gap-2 py-2 ps-5 pe-3 small rounded {{ request()->routeIs('admin.berita.*') ? 'text-white bg-white bg-opacity-10' : 'text-secondary' }}"><i class="ti ti-news" style="width:1.25rem"></i> Berita</a>
+                        <a href="{{ route('admin.pengumuman.index') }}" class="d-flex align-items-center gap-2 py-2 ps-5 pe-3 small rounded {{ request()->routeIs('admin.pengumuman.*') ? 'text-white bg-white bg-opacity-10' : 'text-secondary' }}"><i class="ti ti-speakerphone" style="width:1.25rem"></i> Pengumuman</a>
+                        <a href="{{ route('admin.galeri.index') }}" class="d-flex align-items-center gap-2 py-2 ps-5 pe-3 small rounded {{ request()->routeIs('admin.galeri.*') ? 'text-white bg-white bg-opacity-10' : 'text-secondary' }}"><i class="ti ti-photo" style="width:1.25rem"></i> Galeri</a>
                     </div>
                 </li>
 
@@ -56,9 +56,9 @@
                         <span class="nav-link-toggle"></span>
                     </button>
                     <div x-show="open" x-cloak class="nav-submenu">
-                        <a href="{{ route('admin.umkm.index') }}" class="d-flex align-items-center gap-2 py-2 ps-4 pe-3 small rounded {{ request()->routeIs('admin.umkm.*') ? 'text-white bg-white bg-opacity-10' : 'text-secondary' }}"><i class="ti ti-shopping-bag" style="width:1.25rem"></i> UMKM</a>
-                        <a href="{{ route('admin.wisata.index') }}" class="d-flex align-items-center gap-2 py-2 ps-4 pe-3 small rounded {{ request()->routeIs('admin.wisata.*') ? 'text-white bg-white bg-opacity-10' : 'text-secondary' }}"><i class="ti ti-map-pin-cog" style="width:1.25rem"></i> Wisata</a>
-                        <a href="{{ route('admin.potensi.index') }}" class="d-flex align-items-center gap-2 py-2 ps-4 pe-3 small rounded {{ request()->routeIs('admin.potensi.*') ? 'text-white bg-white bg-opacity-10' : 'text-secondary' }}"><i class="ti ti-tools-kitchen-2" style="width:1.25rem"></i> Potensi & Produk</a>
+                        <a href="{{ route('admin.umkm.index') }}" class="d-flex align-items-center gap-2 py-2 ps-5 pe-3 small rounded {{ request()->routeIs('admin.umkm.*') ? 'text-white bg-white bg-opacity-10' : 'text-secondary' }}"><i class="ti ti-shopping-bag" style="width:1.25rem"></i> UMKM</a>
+                        <a href="{{ route('admin.wisata.index') }}" class="d-flex align-items-center gap-2 py-2 ps-5 pe-3 small rounded {{ request()->routeIs('admin.wisata.*') ? 'text-white bg-white bg-opacity-10' : 'text-secondary' }}"><i class="ti ti-map-pin-cog" style="width:1.25rem"></i> Wisata</a>
+                        <a href="{{ route('admin.potensi.index') }}" class="d-flex align-items-center gap-2 py-2 ps-5 pe-3 small rounded {{ request()->routeIs('admin.potensi.*') ? 'text-white bg-white bg-opacity-10' : 'text-secondary' }}"><i class="ti ti-tools-kitchen-2" style="width:1.25rem"></i> Potensi & Produk</a>
                     </div>
                 </li>
 
@@ -70,9 +70,9 @@
                         <span class="nav-link-toggle"></span>
                     </button>
                     <div x-show="open" x-cloak class="nav-submenu">
-                        <a href="{{ route('admin.fasilitas.index') }}" class="d-flex align-items-center gap-2 py-2 ps-4 pe-3 small rounded {{ request()->routeIs('admin.fasilitas.*') ? 'text-white bg-white bg-opacity-10' : 'text-secondary' }}"><i class="ti ti-building-community" style="width:1.25rem"></i> Fasilitas Umum</a>
-                        <a href="{{ route('admin.titik-air.index') }}" class="d-flex align-items-center gap-2 py-2 ps-4 pe-3 small rounded {{ request()->routeIs('admin.titik-air.*') ? 'text-white bg-white bg-opacity-10' : 'text-secondary' }}"><i class="ti ti-droplet" style="width:1.25rem"></i> Titik Air</a>
-                        <a href="{{ route('admin.potensi-desa.index') }}" class="d-flex align-items-center gap-2 py-2 ps-4 pe-3 small rounded {{ request()->routeIs('admin.potensi-desa.*') ? 'text-white bg-white bg-opacity-10' : 'text-secondary' }}"><i class="ti ti-mountain" style="width:1.25rem"></i> Potensi Desa</a>
+                        <a href="{{ route('admin.fasilitas.index') }}" class="d-flex align-items-center gap-2 py-2 ps-5 pe-3 small rounded {{ request()->routeIs('admin.fasilitas.*') ? 'text-white bg-white bg-opacity-10' : 'text-secondary' }}"><i class="ti ti-building-community" style="width:1.25rem"></i> Fasilitas Umum</a>
+                        <a href="{{ route('admin.titik-air.index') }}" class="d-flex align-items-center gap-2 py-2 ps-5 pe-3 small rounded {{ request()->routeIs('admin.titik-air.*') ? 'text-white bg-white bg-opacity-10' : 'text-secondary' }}"><i class="ti ti-droplet" style="width:1.25rem"></i> Titik Air</a>
+                        <a href="{{ route('admin.potensi-desa.index') }}" class="d-flex align-items-center gap-2 py-2 ps-5 pe-3 small rounded {{ request()->routeIs('admin.potensi-desa.*') ? 'text-white bg-white bg-opacity-10' : 'text-secondary' }}"><i class="ti ti-mountain" style="width:1.25rem"></i> Potensi Desa</a>
                     </div>
                 </li>
 
@@ -84,9 +84,9 @@
                         <span class="nav-link-toggle"></span>
                     </button>
                     <div x-show="open" x-cloak class="nav-submenu">
-                        <a href="{{ route('admin.profil-desa.edit') }}" class="d-flex align-items-center gap-2 py-2 ps-4 pe-3 small rounded {{ request()->routeIs('admin.profil-desa.*') ? 'text-white bg-white bg-opacity-10' : 'text-secondary' }}"><i class="ti ti-building" style="width:1.25rem"></i> Profil Desa</a>
-                        <a href="{{ route('admin.kontak.edit') }}" class="d-flex align-items-center gap-2 py-2 ps-4 pe-3 small rounded {{ request()->routeIs('admin.kontak.*') ? 'text-white bg-white bg-opacity-10' : 'text-secondary' }}"><i class="ti ti-phone" style="width:1.25rem"></i> Kontak</a>
-                        <a href="{{ route('admin.pengguna.index') }}" class="d-flex align-items-center gap-2 py-2 ps-4 pe-3 small rounded {{ request()->routeIs('admin.pengguna.*') ? 'text-white bg-white bg-opacity-10' : 'text-secondary' }}"><i class="ti ti-users" style="width:1.25rem"></i> Pengguna</a>
+                        <a href="{{ route('admin.profil-desa.edit') }}" class="d-flex align-items-center gap-2 py-2 ps-5 pe-3 small rounded {{ request()->routeIs('admin.profil-desa.*') ? 'text-white bg-white bg-opacity-10' : 'text-secondary' }}"><i class="ti ti-building" style="width:1.25rem"></i> Profil Desa</a>
+                        <a href="{{ route('admin.kontak.edit') }}" class="d-flex align-items-center gap-2 py-2 ps-5 pe-3 small rounded {{ request()->routeIs('admin.kontak.*') ? 'text-white bg-white bg-opacity-10' : 'text-secondary' }}"><i class="ti ti-phone" style="width:1.25rem"></i> Kontak</a>
+                        <a href="{{ route('admin.pengguna.index') }}" class="d-flex align-items-center gap-2 py-2 ps-5 pe-3 small rounded {{ request()->routeIs('admin.pengguna.*') ? 'text-white bg-white bg-opacity-10' : 'text-secondary' }}"><i class="ti ti-users" style="width:1.25rem"></i> Pengguna</a>
                     </div>
                 </li>
             </ul>
