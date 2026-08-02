@@ -50,6 +50,8 @@ Route::get('/potensi-desa/{potential}', [PotentialController::class, 'show'])->n
 Route::get('/wisata', [WisataController::class, 'index'])->name('wisata.index');
 Route::get('/wisata/{wisata}', [WisataController::class, 'show'])->name('wisata.show');
 
+Route::get('/admin/login', fn () => redirect()->route('login'))->name('admin.login');
+
 Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
 
 Route::get('/robots.txt', function () {

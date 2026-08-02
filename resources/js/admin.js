@@ -13,6 +13,15 @@ util.external($);
 Alpine.start();
 
 $(function () {
+    $('.toast').each(function () {
+        const $t = $(this);
+        setTimeout(() => $t.addClass('show'), 50);
+        setTimeout(() => {
+            $t.removeClass('show');
+            setTimeout(() => $t.remove(), 300);
+        }, 3500);
+    });
+});
     $('.datatable').DataTable({
         pageLength: 10,
         lengthMenu: [[5, 10, 25, 50, -1], [5, 10, 25, 50, 'Semua']],
