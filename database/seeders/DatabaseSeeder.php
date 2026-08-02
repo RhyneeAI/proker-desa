@@ -9,6 +9,8 @@ use App\Models\News;
 use App\Models\Official;
 use App\Models\PotensiDesa;
 use App\Models\Umkm;
+use App\Models\WaterPoint;
+use App\Models\Wisata;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -29,5 +31,7 @@ class DatabaseSeeder extends Seeder
         Facility::factory()->count(6)->create();
         Gallery::factory()->count(12)->create();
         PotensiDesa::factory()->count(6)->create();
+        WaterPoint::factory()->count(8)->create();
+        Wisata::factory()->count(6)->create();
     }
 }

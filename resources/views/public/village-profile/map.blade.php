@@ -24,10 +24,12 @@
                 @php
                     $mapUmkms = $umkms->filter(fn ($u) => $u->latitude && $u->longitude);
                     $mapFacilities = $facilities->filter(fn ($f) => $f->latitude && $f->longitude);
+                    $mapWisatas = $wisatas->filter(fn ($w) => $w->latitude && $w->longitude);
+                    $mapWaterPoints = $waterPoints->filter(fn ($wp) => $wp->latitude && $wp->longitude);
                 @endphp
 
-                @if ($mapUmkms->isNotEmpty() || $mapFacilities->isNotEmpty())
-                    <x-interactive-map :umkms="$umkms" :facilities="$facilities" center-label="{{ $profile->village_name }}" height="h-96 lg:h-[500px]" />
+                @if ($mapUmkms->isNotEmpty() || $mapFacilities->isNotEmpty() || $mapWisatas->isNotEmpty() || $mapWaterPoints->isNotEmpty())
+                    <x-interactive-map :umkms="$umkms" :facilities="$facilities" :wisatas="$wisatas" :water-points="$waterPoints" center-label="{{ $profile->village_name }}" height="h-96 lg:h-[500px]" />
                 @else
                     <div class="rounded-2xl border border-slate-200 shadow-sm h-96 lg:h-[500px] bg-slate-50 flex flex-col items-center justify-center text-center px-6">
                         <svg class="w-16 h-16 text-slate-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

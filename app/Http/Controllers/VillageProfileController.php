@@ -7,6 +7,8 @@ use App\Models\Official;
 use App\Models\Potential;
 use App\Models\Umkm;
 use App\Models\VillageProfile;
+use App\Models\WaterPoint;
+use App\Models\Wisata;
 use Illuminate\View\View;
 
 class VillageProfileController extends Controller
@@ -39,6 +41,16 @@ class VillageProfileController extends Controller
             ->latest()
             ->get();
 
-        return view('public.village-profile.map', compact('profile', 'umkms', 'facilities'));
+        $waterPoints = WaterPoint::whereNotNull('latitude')
+            ->whereNotNull('longitude')
+            ->latest()
+            ->get();
+
+        $wisatas = Wisata::whereNotNull('latitude')
+            ->whereNotNull('longitude')
+            ->latest()
+            ->get();
+
+        return view('public.village-profile.map', compact('profile', 'umkms', 'facilities', 'waterPoints', 'wisatas'));
     }
 }

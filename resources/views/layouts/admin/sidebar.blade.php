@@ -72,6 +72,20 @@
                     </a>
                 </li>
 
+                <li class="nav-item {{ request()->routeIs('admin.titik-air.*') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('admin.titik-air.index') }}">
+                        <span class="nav-link-icon"><i class="ti ti-droplet"></i></span>
+                        <span class="nav-link-title">Titik Air</span>
+                    </a>
+                </li>
+
+                <li class="nav-item {{ request()->routeIs('admin.wisata.*') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('admin.wisata.index') }}">
+                        <span class="nav-link-icon"><i class="ti ti-map-pin-cog"></i></span>
+                        <span class="nav-link-title">Wisata</span>
+                    </a>
+                </li>
+
                 <li class="nav-item {{ request()->routeIs('admin.potensi.*') ? 'active' : '' }}">
                     <a class="nav-link" href="{{ route('admin.potensi.index') }}">
                         <span class="nav-link-icon"><i class="ti ti-tools-kitchen-2"></i></span>

@@ -11,6 +11,8 @@ use App\Http\Controllers\Admin\PotensiDesaController as AdminPotensiDesaControll
 use App\Http\Controllers\Admin\PotentialController as AdminPotentialController;
 use App\Http\Controllers\Admin\UmkmController as AdminUmkmController;
 use App\Http\Controllers\Admin\VillageProfileController as AdminVillageProfileController;
+use App\Http\Controllers\Admin\WaterPointController as AdminWaterPointController;
+use App\Http\Controllers\Admin\WisataController as AdminWisataController;
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\FacilityController;
@@ -22,6 +24,7 @@ use App\Http\Controllers\PotentialController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UmkmController;
 use App\Http\Controllers\VillageProfileController;
+use App\Http\Controllers\WisataController;
 use Illuminate\Support\Facades\Route;
 
 // ========================
@@ -42,6 +45,8 @@ Route::get('/galeri', [GalleryController::class, 'index'])->name('galeri.index')
 Route::get('/kontak', [ContactController::class, 'show'])->name('kontak.show');
 Route::get('/potensi-desa', [PotentialController::class, 'index'])->name('potensi.index');
 Route::get('/potensi-desa/{potential}', [PotentialController::class, 'show'])->name('potensi.show');
+Route::get('/wisata', [WisataController::class, 'index'])->name('wisata.index');
+Route::get('/wisata/{wisata}', [WisataController::class, 'show'])->name('wisata.show');
 
 // ========================
 // AREA ADMIN
@@ -131,6 +136,24 @@ Route::middleware('auth')->group(function () {
             Route::get('/{potential}/edit', [AdminPotentialController::class, 'edit'])->name('edit');
             Route::put('/{potential}', [AdminPotentialController::class, 'update'])->name('update');
             Route::delete('/{potential}', [AdminPotentialController::class, 'destroy'])->name('destroy');
+        });
+
+        Route::prefix('titik-air')->name('titik-air.')->group(function () {
+            Route::get('/', [AdminWaterPointController::class, 'index'])->name('index');
+            Route::get('/tambah', [AdminWaterPointController::class, 'create'])->name('create');
+            Route::post('/', [AdminWaterPointController::class, 'store'])->name('store');
+            Route::get('/{titikAir}/edit', [AdminWaterPointController::class, 'edit'])->name('edit');
+            Route::put('/{titikAir}', [AdminWaterPointController::class, 'update'])->name('update');
+            Route::delete('/{titikAir}', [AdminWaterPointController::class, 'destroy'])->name('destroy');
+        });
+
+        Route::prefix('wisata')->name('wisata.')->group(function () {
+            Route::get('/', [AdminWisataController::class, 'index'])->name('index');
+            Route::get('/tambah', [AdminWisataController::class, 'create'])->name('create');
+            Route::post('/', [AdminWisataController::class, 'store'])->name('store');
+            Route::get('/{wisata}/edit', [AdminWisataController::class, 'edit'])->name('edit');
+            Route::put('/{wisata}', [AdminWisataController::class, 'update'])->name('update');
+            Route::delete('/{wisata}', [AdminWisataController::class, 'destroy'])->name('destroy');
         });
     });
 });

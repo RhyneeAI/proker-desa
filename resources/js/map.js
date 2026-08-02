@@ -69,7 +69,7 @@ export function initInteractiveMap(mapId, config) {
     if (!el || el.dataset.mapInitialized) return;
 
     const {
-        markers = { umkm: [], fasilitas: [] },
+        markers = { umkm: [], fasilitas: [], wisata: [], titikAir: [] },
         center = [-6.8228, 107.1003],
         zoom = 15,
         centerLabel = null,
@@ -105,8 +105,8 @@ export function initInteractiveMap(mapId, config) {
         }
     });
 
-    const colors = { umkm: '#059669', fasilitas: '#d97706' };
-    const groups = { umkm: [], fasilitas: [] };
+    const colors = { umkm: '#059669', fasilitas: '#d97706', wisata: '#7c3aed', titikAir: '#2563eb' };
+    const groups = { umkm: [], fasilitas: [], wisata: [], titikAir: [] };
     const coords = [];
 
     Object.keys(groups).forEach((layer) => {
