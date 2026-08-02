@@ -8,7 +8,7 @@
 
         {{-- Filter Kategori --}}
         @if ($categories->isNotEmpty())
-            <div class="flex flex-wrap justify-center gap-2 mb-10">
+            <div class="flex flex-wrap justify-center gap-2 mb-10" data-aos="fade-up">
                 <a href="{{ route('umkm.index') }}"
                     class="px-4 py-2 text-sm font-medium rounded-full transition
                     {{ ! request('category') ? 'bg-[#192E03] text-white shadow-sm' : 'bg-white border border-slate-300 text-slate-600 hover:border-[#192E03]/50 hover:text-[#192E03]' }}">
@@ -30,6 +30,7 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 @foreach ($umkms as $umkm)
                     <a href="{{ route('umkm.show', $umkm) }}"
+                        data-aos="fade-up" data-aos-delay="{{ ($loop->index % 3) * 100 }}"
                         class="group bg-white rounded-2xl border border-slate-200 overflow-hidden hover:shadow-xl hover:-translate-y-1 transition duration-200 flex flex-col">
                         <div class="relative overflow-hidden aspect-[4/3]">
                             @if ($umkm->photo)

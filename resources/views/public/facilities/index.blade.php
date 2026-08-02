@@ -11,7 +11,8 @@
         @else
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 @foreach ($facilities as $facility)
-                    <div class="group bg-white rounded-2xl border border-slate-200 overflow-hidden hover:shadow-xl hover:-translate-y-1 transition duration-200 flex flex-col">
+                    <div data-aos="fade-up" data-aos-delay="{{ ($loop->index % 3) * 100 }}"
+                        class="group bg-white rounded-2xl border border-slate-200 overflow-hidden hover:shadow-xl hover:-translate-y-1 transition duration-200 flex flex-col">
                         <div class="relative overflow-hidden aspect-video">
                             @if ($facility->photo)
                                 <img src="{{ Storage::url($facility->photo) }}"
@@ -54,6 +55,10 @@
                         </div>
                     </div>
                 @endforeach
+            </div>
+
+            <div class="mt-12">
+                {{ $facilities->links() }}
             </div>
         @endif
     </div>

@@ -12,6 +12,7 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 @foreach ($newsList as $news)
                     <a href="{{ route('berita.show', $news->slug) }}"
+                        data-aos="fade-up" data-aos-delay="{{ ($loop->index % 3) * 100 }}"
                         class="group bg-white rounded-2xl border border-slate-200 overflow-hidden hover:shadow-xl hover:-translate-y-1 transition duration-200 flex flex-col">
                         <div class="relative overflow-hidden aspect-video">
                             @if ($news->thumbnail)

@@ -9,7 +9,7 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 space-y-16">
 
         {{-- ================= VISI MISI ================= --}}
-        <section>
+        <section data-aos="fade-up">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <div class="border border-slate-200 rounded-xl overflow-hidden shadow-sm">
                     <div class="bg-[#192E03] py-3 text-center">
@@ -40,7 +40,7 @@
         </section>
 
         {{-- ================= BAGAN DESA ================= --}}
-        <section>
+        <section data-aos="fade-up">
             <h2 class="text-2xl font-bold text-[#192E03]">Bagan Desa</h2>
             <p class="mt-1 text-sm text-[#192E03] opacity-80">Struktur Organisasi dan Tata Kerja {{ $profile->village_name }}</p>
 
@@ -83,7 +83,7 @@
 
         {{-- ================= SOTK ================= --}}
         @if ($officials->isNotEmpty())
-            <section>
+            <section data-aos="fade-up">
                 <h2 class="text-2xl font-bold text-[#192E03]">SOTK</h2>
                 <p class="mt-1 text-sm text-[#192E03] opacity-80">Struktur Organisasi dan Tata Kerja {{ $profile->village_name }}</p>
 
@@ -122,7 +122,7 @@
         @endif
 
         {{-- ================= SEJARAH DESA ================= --}}
-        <section>
+        <section data-aos="fade-up">
             <h2 class="text-2xl font-bold text-[#192E03]">Sejarah {{ $profile->village_name }}</h2>
 
             <div class="mt-6 grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -150,7 +150,7 @@
         </section>
 
         {{-- ================= POTENSI DESA ================= --}}
-        <section>
+        <section data-aos="fade-up">
             <h2 class="text-2xl font-bold text-[#192E03]">Potensi Desa</h2>
             <p class="mt-1 text-sm text-[#192E03] opacity-80">Kekayaan dan potensi unggulan {{ $profile->village_name }}</p>
 
@@ -202,7 +202,7 @@
         </section>
 
         {{-- ================= PETA LOKASI DESA ================= --}}
-        <section>
+        <section data-aos="fade-up">
             <h2 class="text-2xl font-bold text-[#192E03]">Peta Lokasi Desa</h2>
 
             <div class="mt-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
