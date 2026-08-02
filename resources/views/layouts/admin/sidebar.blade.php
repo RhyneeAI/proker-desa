@@ -40,8 +40,7 @@
                         <span class="nav-link-icon"><i class="ti ti-file-text"></i></span>
                         <span>Konten</span>
                         <span class="nav-link-toggle">
-                            <i class="ti ti-chevron-down" x-show="!open"></i>
-                            <i class="ti ti-chevron-up" x-show="open" x-cloak></i>
+                            <i class="ti ti-chevron-down" :class="open ? 'rotate-180' : ''"></i>
                         </span>
                     </button>
                     <div x-show="open" x-cloak class="nav-submenu">
@@ -57,8 +56,7 @@
                         <span class="nav-link-icon"><i class="ti ti-shopping-bag"></i></span>
                         <span>Ekonomi & Wisata</span>
                         <span class="nav-link-toggle">
-                            <i class="ti ti-chevron-down" x-show="!open"></i>
-                            <i class="ti ti-chevron-up" x-show="open" x-cloak></i>
+                            <i class="ti ti-chevron-down" :class="open ? 'rotate-180' : ''"></i>
                         </span>
                     </button>
                     <div x-show="open" x-cloak class="nav-submenu">
@@ -74,8 +72,7 @@
                         <span class="nav-link-icon"><i class="ti ti-map-pin"></i></span>
                         <span>Wilayah & Infrastruktur</span>
                         <span class="nav-link-toggle">
-                            <i class="ti ti-chevron-down" x-show="!open"></i>
-                            <i class="ti ti-chevron-up" x-show="open" x-cloak></i>
+                            <i class="ti ti-chevron-down" :class="open ? 'rotate-180' : ''"></i>
                         </span>
                     </button>
                     <div x-show="open" x-cloak class="nav-submenu">
@@ -91,8 +88,7 @@
                         <span class="nav-link-icon"><i class="ti ti-settings"></i></span>
                         <span>Pengaturan</span>
                         <span class="nav-link-toggle">
-                            <i class="ti ti-chevron-down" x-show="!open"></i>
-                            <i class="ti ti-chevron-up" x-show="open" x-cloak></i>
+                            <i class="ti ti-chevron-down" :class="open ? 'rotate-180' : ''"></i>
                         </span>
                     </button>
                     <div x-show="open" x-cloak class="nav-submenu">
