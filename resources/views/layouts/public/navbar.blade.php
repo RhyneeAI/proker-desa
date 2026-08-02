@@ -1,5 +1,3 @@
-@props(['profile' => null])
-
 <nav
     x-data="{
         isHome: {{ request()->routeIs('home') ? 'true' : 'false' }},
