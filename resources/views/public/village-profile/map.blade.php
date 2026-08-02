@@ -65,7 +65,7 @@
                             </svg>
                         </div>
                         <div>
-                            <p class="text-[11px] font-semibold uppercase tracking-widest text-slate-400">Nama Desa</p>
+                            <p class="text-[11px] font-semibold uppercase tracking-widest text-slate-500">Nama Desa</p>
                             <p class="text-sm font-semibold text-slate-800 mt-0.5">{{ $profile->village_name }}</p>
                         </div>
                     </div>
@@ -77,7 +77,7 @@
                             </svg>
                         </div>
                         <div>
-                            <p class="text-[11px] font-semibold uppercase tracking-widest text-slate-400">Alamat</p>
+                            <p class="text-[11px] font-semibold uppercase tracking-widest text-slate-500">Alamat</p>
                             <p class="text-sm font-semibold text-slate-800 mt-0.5">{{ $profile->address ?? '-' }}</p>
                         </div>
                     </div>
@@ -89,7 +89,7 @@
                             </svg>
                         </div>
                         <div>
-                            <p class="text-[11px] font-semibold uppercase tracking-widest text-slate-400">Luas Wilayah</p>
+                            <p class="text-[11px] font-semibold uppercase tracking-widest text-slate-500">Luas Wilayah</p>
                             <p class="text-sm font-semibold text-slate-800 mt-0.5">
                                 {{ $profile->area_size ? number_format($profile->area_size, 2, ',', '.') . ' km²' : '-' }}
                             </p>
@@ -103,7 +103,7 @@
                             </svg>
                         </div>
                         <div>
-                            <p class="text-[11px] font-semibold uppercase tracking-widest text-slate-400">Jumlah Penduduk</p>
+                            <p class="text-[11px] font-semibold uppercase tracking-widest text-slate-500">Jumlah Penduduk</p>
                             <p class="text-sm font-semibold text-slate-800 mt-0.5">
                                 {{ $profile->population ? number_format($profile->population, 0, ',', '.') . ' jiwa' : '-' }}
                             </p>

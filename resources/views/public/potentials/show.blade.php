@@ -1,13 +1,13 @@
 <x-layouts.public :title="$potential->name">
 
-    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+    <x-public-page-header :title="$potential->name"
+        eyebrow="Potensi Desa"
+        :crumbs="[
+            ['label' => 'Potensi Desa', 'url' => route('potensi.index')],
+            ['label' => Str::limit($potential->name, 30)],
+        ]" />
 
-        <a href="{{ route('potensi.index') }}" class="text-sm text-slate-500 hover:text-slate-700 flex items-center gap-1 mb-6 transition">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
-            </svg>
-            Kembali ke Potensi Desa
-        </a>
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
 
         @if ($potential->photo)
             <img src="{{ Storage::url($potential->photo) }}"

@@ -1,26 +1,10 @@
 <x-layouts.public title="Profil Desa">
 
     {{-- ================= PAGE HEADER ================= --}}
-    <section class="bg-[#192E03] pt-24 sm:pt-28 pb-10 sm:pb-12">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-5">
-
-            <div class="min-w-0">
-                <h1 class="text-3xl sm:text-4xl font-extrabold text-white">Profil Desa</h1>
-                <p class="mt-2 text-white/80">
-                    {{ $profile->village_name }}
-                    @if ($profile->address)
-                        — {{ $profile->address }}
-                    @endif
-                </p>
-            </div>
-
-            <nav aria-label="Breadcrumb" class="flex flex-wrap items-center gap-2 text-sm font-medium flex-shrink-0">
-                <a href="{{ route('home') }}" class="text-white/70 hover:text-white transition">Home</a>
-                <span class="text-white/40">/</span>
-                <span class="text-white font-semibold">Profil Desa</span>
-            </nav>
-        </div>
-    </section>
+    <x-public-page-header title="Profil Desa"
+        eyebrow="Profil"
+        description="{{ $profile->village_name }}{{ $profile->address ? ' — ' . $profile->address : '' }}"
+        :crumbs="[['label' => 'Profil Desa']]" />
 
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 space-y-16">
 
@@ -35,7 +19,7 @@
                         @if ($profile->vision)
                             <p class="italic text-slate-700 leading-relaxed whitespace-pre-line">{{ $profile->vision }}</p>
                         @else
-                            <p class="text-slate-400 italic">-</p>
+                            <p class="text-slate-500 italic">-</p>
                         @endif
                     </div>
                 </div>
@@ -48,7 +32,7 @@
                         @if ($profile->mission)
                             <p class="text-slate-700 leading-relaxed whitespace-pre-line">{{ $profile->mission }}</p>
                         @else
-                            <p class="text-slate-400 italic">-</p>
+                            <p class="text-slate-500 italic">-</p>
                         @endif
                     </div>
                 </div>
@@ -73,7 +57,7 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15l4-8 4 8m-7 3h14"/>
                             </svg>
                             <p class="text-sm font-medium text-slate-500">Bagan belum tersedia</p>
-                            <p class="text-xs text-slate-400 mt-1 max-w-xs">Upload melalui menu Kelola Profil Desa di dashboard admin</p>
+                            <p class="text-xs text-slate-500 mt-1 max-w-xs">Upload melalui menu Kelola Profil Desa di dashboard admin</p>
                         </div>
                     @endif
                 </div>
@@ -90,7 +74,7 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15l4-8 4 8m-7 3h14"/>
                             </svg>
                             <p class="text-sm font-medium text-slate-500">Bagan belum tersedia</p>
-                            <p class="text-xs text-slate-400 mt-1 max-w-xs">Upload melalui menu Kelola Profil Desa di dashboard admin</p>
+                            <p class="text-xs text-slate-500 mt-1 max-w-xs">Upload melalui menu Kelola Profil Desa di dashboard admin</p>
                         </div>
                     @endif
                 </div>
@@ -112,7 +96,7 @@
                                     class="w-full aspect-[3/4] object-cover object-top">
                             @else
                                 <div class="w-full aspect-[3/4] bg-slate-200 flex items-center justify-center">
-                                    <svg class="w-10 h-10 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg class="w-10 h-10 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
                                     </svg>
                                 </div>

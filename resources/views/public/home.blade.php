@@ -13,6 +13,9 @@
                 { src: 'https://picsum.photos/seed/village4/1920/1080', alt: 'Slide 4' },
                 { src: 'https://picsum.photos/seed/village5/1920/1080', alt: 'Slide 5' },
             ],
+            prefersReducedMotion() {
+                return window.matchMedia('(prefers-reduced-motion: reduce)').matches
+            },
             prev() {
                 this.aktif = this.aktif === 0 ? this.total - 1 : this.aktif - 1
                 this.reset()
@@ -23,12 +26,16 @@
             },
             reset() {
                 clearInterval(this.interval)
+                if (this.prefersReducedMotion()) return
                 this.interval = setInterval(() => this.next(), 5000)
             },
             init() {
+                if (this.prefersReducedMotion()) return
                 this.interval = setInterval(() => this.next(), 5000)
             }
-        }">
+        }"
+        @mouseenter="reset()"
+        @mouseleave="reset()">
 
         {{-- Slide --}}
         <template x-for="(slide, i) in slides" :key="i">
@@ -39,7 +46,7 @@
                 x-transition:leave="transition-opacity duration-700"
                 x-transition:leave-start="opacity-100"
                 x-transition:leave-end="opacity-0">
-                <img :src="slide.src" :alt="slide.alt" class="w-full h-full object-cover object-center">
+                <img :src="slide.src" :alt="slide.alt" loading="eager" fetchpriority="high" class="w-full h-full object-cover object-center">
             </div>
         </template>
 
@@ -70,13 +77,13 @@
 
         {{-- Tombol Panah --}}
         <button @click="prev()" aria-label="Slide sebelumnya"
-            class="absolute left-4 top-1/2 -translate-y-1/2 z-30 bg-white/20 hover:bg-white/40 text-white rounded-full p-3 backdrop-blur-sm transition">
+            class="absolute left-4 top-1/2 -translate-y-1/2 z-30 bg-white/20 hover:bg-white/40 text-white rounded-full p-3 backdrop-blur-sm transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white">
             <svg class="w-5 h-5 sm:w-7 sm:h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
             </svg>
         </button>
         <button @click="next()" aria-label="Slide berikutnya"
-            class="absolute right-4 top-1/2 -translate-y-1/2 z-30 bg-white/20 hover:bg-white/40 text-white rounded-full p-3 backdrop-blur-sm transition">
+            class="absolute right-4 top-1/2 -translate-y-1/2 z-30 bg-white/20 hover:bg-white/40 text-white rounded-full p-3 backdrop-blur-sm transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white">
             <svg class="w-5 h-5 sm:w-7 sm:h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
             </svg>
@@ -145,7 +152,7 @@
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-2.236 9.168-5.5"/>
                                         </svg>
                                     </div>
-                                    <span class="text-xs text-slate-400 inline-flex items-center gap-1.5">
+                                    <span class="text-xs text-slate-500 inline-flex items-center gap-1.5">
                                         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                                         </svg>
@@ -214,6 +221,7 @@
                                 @if ($news->thumbnail)
                                     <img src="{{ Storage::url($news->thumbnail) }}"
                                         alt="{{ $news->thumbnail_alt ?? $news->title }}"
+                                        loading="lazy"
                                         class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
                                 @else
                                     <div class="w-full h-full bg-gradient-to-br from-[#192E03]/5 to-slate-100 flex items-center justify-center">
@@ -269,12 +277,12 @@
                     Lokasi & Wilayah
                 </span>
                 <h2 class="mt-3 text-3xl sm:text-4xl font-extrabold text-[#192E03]">Peta Desa</h2>
-                <p class="mt-3 text-[#192E03] opacity-80 max-w-xl mx-auto">Lihat lokasi dan wilayah {{ $profile->village_name }} pada peta interaktif.</p>
+                <p class="mt-3 text-[#192E03] opacity-80 max-w-xl mx-auto">Lihat lokasi dan wilayah {{ $profile?->village_name ?? 'Desa' }} pada peta interaktif.</p>
             </div>
 
             <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
                 @if ($umkms->isNotEmpty() || $facilities->isNotEmpty())
-                    <x-interactive-map :umkms="$umkms" :facilities="$facilities" center-label="{{ $profile->village_name }}" height="h-96 lg:h-[450px]" />
+                    <x-interactive-map :umkms="$umkms" :facilities="$facilities" center-label="{{ $profile?->village_name ?? 'Desa' }}" height="h-96 lg:h-[450px]" />
                 @else
                     <div class="h-96 lg:h-[450px] bg-slate-50 flex flex-col items-center justify-center text-center px-6">
                         <svg class="w-16 h-16 text-slate-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -299,8 +307,8 @@
 
                 <div class="flex flex-col sm:flex-row items-center justify-between gap-4 px-6 py-5 border-t border-slate-200">
                     <p class="text-sm text-slate-600 text-center sm:text-left">
-                        <span class="font-bold text-[#192E03]">{{ $profile->village_name }}</span>
-                        — {{ $profile->address ?? 'Alamat belum diisi' }}
+                        <span class="font-bold text-[#192E03]">{{ $profile?->village_name ?? 'Desa Cibulakan' }}</span>
+                        — {{ $profile?->address ?? 'Alamat belum diisi' }}
                     </p>
                     <a href="{{ route('peta-desa.show') }}"
                         class="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-white bg-[#192E03] hover:bg-[#1F3B04] rounded-full shadow-md shadow-[#192E03]/20 transition flex-shrink-0">
@@ -348,6 +356,31 @@
                         </div>
                     </a>
                 @endforeach
+            </div>
+        </div>
+    </section>
+
+    {{-- ================= CTA PENUTUP ================= --}}
+    <section class="relative overflow-hidden bg-[#192E03]">
+        <div class="absolute -top-24 -right-24 w-96 h-96 rounded-full bg-[#2D4D08]/40 blur-3xl" aria-hidden="true"></div>
+        <div class="absolute -bottom-32 -left-24 w-96 h-96 rounded-full bg-[#3A5C0A]/30 blur-3xl" aria-hidden="true"></div>
+
+        <div class="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 text-center">
+            <h2 class="text-3xl sm:text-4xl font-extrabold text-white">
+                Butuh Informasi Lebih Lanjut?
+            </h2>
+            <p class="mt-4 text-white/80 max-w-2xl mx-auto">
+                Kunjungi kantor desa atau jelajahi profil, layanan, dan potensi {{ $profile?->village_name ?? 'Desa Cibulakan' }} untuk mengenal desa kami lebih dekat.
+            </p>
+            <div class="mt-8 flex flex-wrap items-center justify-center gap-4">
+                <a href="{{ route('kontak.show') }}"
+                    class="px-6 py-3 bg-white text-[#192E03] text-sm font-semibold rounded-full shadow-lg hover:bg-[#192E03]/5 transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white">
+                    Hubungi Kami
+                </a>
+                <a href="{{ route('profile-desa.show') }}"
+                    class="px-6 py-3 border border-white/70 text-white text-sm font-semibold rounded-full hover:bg-white/10 transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white">
+                    Profil Desa
+                </a>
             </div>
         </div>
     </section>

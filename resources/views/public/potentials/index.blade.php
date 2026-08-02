@@ -1,19 +1,12 @@
 <x-layouts.public title="Potensi Desa">
 
     {{-- ================= PAGE HEADER ================= --}}
-    <section class="bg-[#192E03] pt-24 sm:pt-28 pb-10 sm:pb-12">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <nav class="text-sm text-white/60 mb-4 flex items-center gap-2">
-                <a href="{{ route('home') }}" class="hover:text-white transition">Home</a>
-                <span>/</span>
-                <span class="text-white">Potensi Desa</span>
-            </nav>
-            <h1 class="text-3xl font-bold text-white">Potensi Desa</h1>
-            <p class="mt-2 text-white/80">Kekayaan dan potensi unggulan desa kami</p>
-        </div>
-    </section>
+    <x-public-page-header title="Potensi Desa"
+        eyebrow="Kekayaan & Potensi"
+        description="Kekayaan dan potensi unggulan desa kami."
+        :crumbs="[['label' => 'Potensi Desa']]" />
 
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
 
         @if ($potentials->isEmpty())
             <p class="text-center text-slate-500">Belum ada data potensi desa.</p>
