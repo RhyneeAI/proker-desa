@@ -1,18 +1,5 @@
-<header class="navbar navbar-expand-lg border-bottom d-print-none"
-    x-data="{
-        collapsed: document.documentElement.hasAttribute('data-sidebar-collapsed'),
-        toggleSidebar() {
-            this.collapsed = !this.collapsed;
-            document.documentElement.toggleAttribute('data-sidebar-collapsed', this.collapsed);
-            localStorage.setItem('sidebar_collapsed', this.collapsed ? '1' : '0');
-        }
-    }">
+<header class="navbar navbar-expand-lg border-bottom d-print-none">
     <div class="container-fluid">
-        <button type="button" class="btn btn-icon d-none d-lg-inline-flex me-2" @click="toggleSidebar()"
-            :aria-label="collapsed ? 'Perluas sidebar' : 'Ciutkan sidebar'">
-            <i class="ti ti-menu-2"></i>
-        </button>
-
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#sidebar-menu"
             aria-controls="sidebar-menu" aria-expanded="false" aria-label="Buka menu">
             <span class="navbar-toggler-icon"></span>

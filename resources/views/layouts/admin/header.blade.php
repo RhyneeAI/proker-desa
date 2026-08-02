@@ -9,10 +9,6 @@
         var dark = saved ? saved === 'dark'
             : window.matchMedia('(prefers-color-scheme: dark)').matches;
         document.documentElement.setAttribute('data-bs-theme', dark ? 'dark' : 'light');
-
-        if (localStorage.getItem('sidebar_collapsed') === '1') {
-            document.documentElement.setAttribute('data-sidebar-collapsed', '');
-        }
     })();
 </script>
 @vite(['resources/css/admin.css', 'resources/js/admin.js'])
