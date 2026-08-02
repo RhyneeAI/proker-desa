@@ -49,6 +49,14 @@ Route::get('/potensi-desa/{potential}', [PotentialController::class, 'show'])->n
 Route::get('/wisata', [WisataController::class, 'index'])->name('wisata.index');
 Route::get('/wisata/{wisata}', [WisataController::class, 'show'])->name('wisata.show');
 
+Route::get('/locale/{locale}', function (string $locale) {
+    abort_unless(in_array($locale, ['id', 'en'], true), 404);
+
+    session(['locale' => $locale]);
+
+    return redirect()->back();
+})->name('locale.switch');
+
 // ========================
 // AREA ADMIN
 // ========================

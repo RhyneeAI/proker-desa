@@ -20,7 +20,7 @@
 
         <nav aria-label="Breadcrumb" class="flex flex-wrap items-center gap-2 text-sm font-medium flex-shrink-0">
             <a href="{{ route('home') }}" class="text-white/70 hover:text-white transition">
-                Home
+                {{ __('common.beranda') }}
             </a>
             @foreach ($crumbs as $crumb)
                 <span class="text-white/40">/</span>

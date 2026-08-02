@@ -34,28 +34,41 @@
             <div class="hidden lg:flex items-center gap-1 text-sm font-semibold">
                 <a href="{{ route('home') }}"
                     class="px-3 py-2 text-white transition {{ request()->routeIs('home') ? 'border-b-2 border-white' : 'opacity-80 hover:opacity-100' }}">
-                    Home
+                    {{ __('nav.home') }}
                 </a>
                 <a href="{{ route('profile-desa.show') }}"
                     class="px-3 py-2 text-white transition {{ request()->routeIs('profile-desa.*') ? 'border-b-2 border-white' : 'opacity-80 hover:opacity-100' }}">
-                    Profil Desa
+                    {{ __('nav.profil') }}
                 </a>
                 <a href="{{ route('peta-desa.show') }}"
                     class="px-3 py-2 text-white transition {{ request()->routeIs('peta-desa.*') ? 'border-b-2 border-white' : 'opacity-80 hover:opacity-100' }}">
-                    Peta Desa
+                    {{ __('nav.peta') }}
                 </a>
                 <a href="{{ route('berita.index') }}"
                     class="px-3 py-2 text-white transition {{ request()->routeIs('berita.*') ? 'border-b-2 border-white' : 'opacity-80 hover:opacity-100' }}">
-                    Berita
+                    {{ __('nav.berita') }}
                 </a>
                 <a href="{{ route('umkm.index') }}"
                     class="px-3 py-2 text-white transition {{ request()->routeIs('umkm.*') ? 'border-b-2 border-white' : 'opacity-80 hover:opacity-100' }}">
-                    UMKM
+                    {{ __('nav.umkm') }}
                 </a>
                 <a href="{{ route('fasilitas.index') }}"
                     class="px-3 py-2 text-white transition {{ request()->routeIs('fasilitas.*') ? 'border-b-2 border-white' : 'opacity-80 hover:opacity-100' }}">
-                    Fasilitas
+                    {{ __('nav.fasilitas') }}
                 </a>
+            </div>
+
+            {{-- Aksi Kanan: Bahasa --}}
+            <div class="flex items-center gap-3">
+                @if (app()->getLocale() === 'id')
+                    <a href="{{ route('locale.switch', 'en') }}"
+                        class="px-2.5 py-1.5 rounded-full border border-white/30 text-white text-xs font-semibold hover:bg-white/10 transition"
+                        aria-label="Switch to English">EN</a>
+                @else
+                    <a href="{{ route('locale.switch', 'id') }}"
+                        class="px-2.5 py-1.5 rounded-full border border-white/30 text-white text-xs font-semibold hover:bg-white/10 transition"
+                        aria-label="Ganti ke Bahasa Indonesia">ID</a>
+                @endif
             </div>
 
             {{-- Hamburger Mobile --}}
@@ -73,39 +86,39 @@
         <div x-show="open" x-cloak class="lg:hidden pb-4 pt-2 border-t border-white/10 space-y-1">
             <a href="{{ route('home') }}"
                 class="block px-3 py-2 rounded-lg text-sm font-medium text-white transition hover:bg-white/10 {{ request()->routeIs('home') ? 'bg-white/10' : 'opacity-80' }}">
-                Home
+                {{ __('nav.home') }}
             </a>
             <a href="{{ route('profile-desa.show') }}"
                 class="block px-3 py-2 rounded-lg text-sm font-medium text-white transition hover:bg-white/10 {{ request()->routeIs('profile-desa.*') ? 'bg-white/10' : 'opacity-80' }}">
-                Profil Desa
+                {{ __('nav.profil') }}
             </a>
             <a href="{{ route('peta-desa.show') }}"
                 class="block px-3 py-2 rounded-lg text-sm font-medium text-white transition hover:bg-white/10 {{ request()->routeIs('peta-desa.*') ? 'bg-white/10' : 'opacity-80' }}">
-                Peta Desa
+                {{ __('nav.peta') }}
             </a>
             <a href="{{ route('berita.index') }}"
                 class="block px-3 py-2 rounded-lg text-sm font-medium text-white transition hover:bg-white/10 {{ request()->routeIs('berita.*') ? 'bg-white/10' : 'opacity-80' }}">
-                Berita
+                {{ __('nav.berita') }}
             </a>
             <a href="{{ route('umkm.index') }}"
                 class="block px-3 py-2 rounded-lg text-sm font-medium text-white transition hover:bg-white/10 {{ request()->routeIs('umkm.*') ? 'bg-white/10' : 'opacity-80' }}">
-                UMKM
+                {{ __('nav.umkm') }}
             </a>
             <a href="{{ route('fasilitas.index') }}"
                 class="block px-3 py-2 rounded-lg text-sm font-medium text-white transition hover:bg-white/10 {{ request()->routeIs('fasilitas.*') ? 'bg-white/10' : 'opacity-80' }}">
-                Fasilitas
+                {{ __('nav.fasilitas') }}
             </a>
 
             <div class="pt-3 mt-2 border-t border-white/10">
                 @auth
                     <a href="{{ route('admin.dashboard') }}"
                         class="flex items-center justify-center px-3 py-2 rounded-lg text-sm font-semibold text-[#192E03] bg-white hover:bg-white/90 transition">
-                        Dashboard Admin
+                        {{ __('nav.dashboard') }}
                     </a>
                 @else
                     <a href="{{ route('login') }}"
                         class="flex items-center justify-center px-3 py-2 rounded-lg text-sm font-semibold text-[#192E03] bg-white hover:bg-white/90 transition">
-                        Login Admin
+                        {{ __('nav.login') }}
                     </a>
                 @endauth
             </div>
