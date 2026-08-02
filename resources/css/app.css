@@ -1,11 +1,82 @@
-@import 'tailwindcss';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
-@source '../../storage/framework/views/*.php';
-@source '../**/*.blade.php';
-@source '../**/*.js';
+[x-cloak] {
+    display: none !important;
+}
 
-@theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+/* ================= BAGAN ORGANISASI ================= */
+.org-tree,
+.org-tree ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.org-tree {
+    display: inline-block;
+    text-align: center;
+}
+
+.org-tree ul {
+    position: relative;
+    padding-top: 24px;
+}
+
+.org-tree li {
+    float: left;
+    text-align: center;
+    position: relative;
+    padding: 24px 10px 0 10px;
+}
+
+.org-tree li::before,
+.org-tree li::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 50%;
+    border-top: 2px solid rgba(25, 46, 3, 0.35);
+    width: 50%;
+    height: 24px;
+}
+
+.org-tree li::after {
+    right: auto;
+    left: 50%;
+    border-left: 2px solid rgba(25, 46, 3, 0.35);
+}
+
+.org-tree li:only-child::after,
+.org-tree li:only-child::before {
+    display: none;
+}
+
+.org-tree li:only-child {
+    padding-top: 0;
+}
+
+.org-tree li:first-child::before,
+.org-tree li:last-child::after {
+    border: 0 none;
+}
+
+.org-tree li:last-child::before {
+    border-right: 2px solid rgba(25, 46, 3, 0.35);
+    border-radius: 0 6px 0 0;
+}
+
+.org-tree li:first-child::after {
+    border-radius: 6px 0 0 0;
+}
+
+.org-tree ul ul::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    border-left: 2px solid rgba(25, 46, 3, 0.35);
+    width: 0;
+    height: 24px;
 }

@@ -1,0 +1,85 @@
+@props([
+    'umkms' => null,
+    'facilities' => null,
+    'height' => 'h-96 lg:h-[500px]',
+    'showToggle' => true,
+    'centerLabel' => null,
+    'center' => [-6.8228, 107.1003],
+    'zoom' => 15,
+    'filterSpan' => 0.15,
+    'lockMargin' => 0.25,
+    'minZoom' => 11,
+])
+
+@php
+    $umkms = $umkms ?? collect();
+    $facilities = $facilities ?? collect();
+    $mapId = 'map-' . \Illuminate\Support\Str::random(10);
+
+    $markers = [
+        'umkm' => $umkms->filter(fn ($u) => $u->latitude && $u->longitude)->map(fn ($u) => [
+            'name' => $u->name,
+            'lat' => (float) $u->latitude,
+            'lng' => (float) $u->longitude,
+            'category' => $u->category,
+            'address' => $u->address,
+            'url' => route('umkm.show', $u->id),
+        ])->values(),
+        'fasilitas' => $facilities->filter(fn ($f) => $f->latitude && $f->longitude)->map(fn ($f) => [
+            'name' => $f->name,
+            'lat' => (float) $f->latitude,
+            'lng' => (float) $f->longitude,
+            'address' => $f->address,
+        ])->values(),
+    ];
+
+    $config = [
+        'markers' => $markers,
+        'center' => array_values(is_array($center) ? $center : $center),
+        'zoom' => $zoom,
+        'centerLabel' => $centerLabel,
+        'filterSpan' => $filterSpan,
+        'lockMargin' => $lockMargin,
+        'minZoom' => $minZoom,
+    ];
+@endphp
+
+<div class="relative z-0">
+    <div id="{{ $mapId }}"
+        class="{{ $height }} w-full rounded-2xl border border-slate-200 shadow-sm z-0"
+        data-map-config="{{ json_encode($config) }}"></div>
+
+    @if ($showToggle)
+        <div class="absolute top-3 right-3 flex flex-col gap-1.5" style="z-index:1100">
+            <button type="button" data-map-layer="umkm"
+                class="map-layer-btn inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/95 backdrop-blur-sm border border-slate-200 text-xs font-semibold text-slate-700 shadow-sm hover:shadow transition">
+                <span class="w-2.5 h-2.5 rounded-full flex-shrink-0" style="background-color:#059669"></span>
+                UMKM
+            </button>
+            <button type="button" data-map-layer="fasilitas"
+                class="map-layer-btn inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/95 backdrop-blur-sm border border-slate-200 text-xs font-semibold text-slate-700 shadow-sm hover:shadow transition">
+                <span class="w-2.5 h-2.5 rounded-full flex-shrink-0" style="background-color:#d97706"></span>
+                Fasilitas Umum
+            </button>
+        </div>
+    @endif
+</div>
+
+<script>
+(function () {
+    var el = document.getElementById('{{ $mapId }}');
+    if (!el) return;
+
+    var config = JSON.parse(el.getAttribute('data-map-config'));
+
+    function run() {
+        if (window.initInteractiveMap) {
+            window.initInteractiveMap(el.id, config);
+        } else {
+            window.addEventListener('load', run);
+        }
+    }
+
+    run();
+})();
+</script>
