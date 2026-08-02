@@ -3,8 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreFacilityRequest;
-use App\Http\Requests\UpdateFacilityRequest;
+use App\Http\Requests\FacilityRequest;
 use App\Models\Facility;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Storage;
@@ -24,7 +23,7 @@ class FacilityController extends Controller
         return view('admin.facilities.create');
     }
 
-    public function store(StoreFacilityRequest $request): RedirectResponse
+    public function store(FacilityRequest $request): RedirectResponse
     {
         $validated = $request->validated();
 
@@ -44,7 +43,7 @@ class FacilityController extends Controller
         return view('admin.facilities.edit', ['facility' => $fasilita]);
     }
 
-    public function update(UpdateFacilityRequest $request, Facility $fasilita): RedirectResponse
+    public function update(FacilityRequest $request, Facility $fasilita): RedirectResponse
     {
         $validated = $request->validated();
 

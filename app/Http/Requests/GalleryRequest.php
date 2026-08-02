@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreGalleryRequest extends FormRequest
+class GalleryRequest extends FormRequest
 {
     public function authorize(): bool
     {
@@ -15,7 +15,7 @@ class StoreGalleryRequest extends FormRequest
     {
         return [
             'title' => ['nullable', 'string', 'max:255'],
-            'image' => ['required', 'image', 'max:2048'],
+            'image' => [$this->isMethod('put') ? 'nullable' : 'required', 'image', 'max:2048'],
             'image_alt' => ['nullable', 'string', 'max:255'],
             'category' => ['required', 'in:kegiatan,fasilitas,umkm,lainnya'],
             'description' => ['nullable', 'string'],

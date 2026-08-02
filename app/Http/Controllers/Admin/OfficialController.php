@@ -3,8 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreOfficialRequest;
-use App\Http\Requests\UpdateOfficialRequest;
+use App\Http\Requests\OfficialRequest;
 use App\Models\Official;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Storage;
@@ -26,7 +25,7 @@ class OfficialController extends Controller
         return view('admin.officials.create');
     }
 
-    public function store(StoreOfficialRequest $request): RedirectResponse
+    public function store(OfficialRequest $request): RedirectResponse
     {
         $validated = $request->validated();
 
@@ -46,7 +45,7 @@ class OfficialController extends Controller
         return view('admin.officials.edit', ['official' => $aparatur]);
     }
 
-    public function update(UpdateOfficialRequest $request, Official $aparatur): RedirectResponse
+    public function update(OfficialRequest $request, Official $aparatur): RedirectResponse
     {
         $validated = $request->validated();
 

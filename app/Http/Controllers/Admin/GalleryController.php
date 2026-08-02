@@ -3,8 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreGalleryRequest;
-use App\Http\Requests\UpdateGalleryRequest;
+use App\Http\Requests\GalleryRequest;
 use App\Models\Gallery;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Storage;
@@ -24,7 +23,7 @@ class GalleryController extends Controller
         return view('admin.galleries.create');
     }
 
-    public function store(StoreGalleryRequest $request): RedirectResponse
+    public function store(GalleryRequest $request): RedirectResponse
     {
         $validated = $request->validated();
         $validated['image'] = $request->file('image')->store('galleries', 'public');
@@ -41,7 +40,7 @@ class GalleryController extends Controller
         return view('admin.galleries.edit', ['gallery' => $galeri]);
     }
 
-    public function update(UpdateGalleryRequest $request, Gallery $galeri): RedirectResponse
+    public function update(GalleryRequest $request, Gallery $galeri): RedirectResponse
     {
         $validated = $request->validated();
 

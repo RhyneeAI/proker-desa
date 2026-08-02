@@ -3,8 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreUmkmRequest;
-use App\Http\Requests\UpdateUmkmRequest;
+use App\Http\Requests\UmkmRequest;
 use App\Models\Umkm;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Storage;
@@ -24,7 +23,7 @@ class UmkmController extends Controller
         return view('admin.umkms.create');
     }
 
-    public function store(StoreUmkmRequest $request): RedirectResponse
+    public function store(UmkmRequest $request): RedirectResponse
     {
         $validated = $request->validated();
 
@@ -44,7 +43,7 @@ class UmkmController extends Controller
         return view('admin.umkms.edit', compact('umkm'));
     }
 
-    public function update(UpdateUmkmRequest $request, Umkm $umkm): RedirectResponse
+    public function update(UmkmRequest $request, Umkm $umkm): RedirectResponse
     {
         $validated = $request->validated();
 

@@ -3,8 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreWaterPointRequest;
-use App\Http\Requests\UpdateWaterPointRequest;
+use App\Http\Requests\WaterPointRequest;
 use App\Models\WaterPoint;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Storage;
@@ -24,7 +23,7 @@ class WaterPointController extends Controller
         return view('admin.water-points.create');
     }
 
-    public function store(StoreWaterPointRequest $request): RedirectResponse
+    public function store(WaterPointRequest $request): RedirectResponse
     {
         $validated = $request->validated();
 
@@ -44,7 +43,7 @@ class WaterPointController extends Controller
         return view('admin.water-points.edit', compact('waterPoint'));
     }
 
-    public function update(UpdateWaterPointRequest $request, WaterPoint $waterPoint): RedirectResponse
+    public function update(WaterPointRequest $request, WaterPoint $waterPoint): RedirectResponse
     {
         $validated = $request->validated();
 

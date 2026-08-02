@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateGalleryRequest extends FormRequest
+class PotensiDesaRequest extends FormRequest
 {
     public function authorize(): bool
     {
@@ -14,21 +14,23 @@ class UpdateGalleryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => ['nullable', 'string', 'max:255'],
+            'name' => ['required', 'string', 'max:255'],
+            'category' => ['required', 'in:pertanian,wisata,alam,ekonomi,budaya,lainnya'],
+            'description' => ['nullable', 'string'],
             'image' => ['nullable', 'image', 'max:2048'],
             'image_alt' => ['nullable', 'string', 'max:255'],
-            'category' => ['required', 'in:kegiatan,fasilitas,umkm,lainnya'],
-            'description' => ['nullable', 'string'],
+            'display_order' => ['nullable', 'integer', 'min:0'],
         ];
     }
 
     public function messages(): array
     {
         return [
-            'image.image' => 'File harus berupa gambar.',
-            'image.max' => 'Ukuran foto maksimal 2MB.',
+            'name.required' => 'Nama potensi wajib diisi.',
             'category.required' => 'Kategori wajib dipilih.',
             'category.in' => 'Kategori tidak valid.',
+            'image.image' => 'File harus berupa gambar.',
+            'image.max' => 'Ukuran gambar maksimal 2MB.',
         ];
     }
 }

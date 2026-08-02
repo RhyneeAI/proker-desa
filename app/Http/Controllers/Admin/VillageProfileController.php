@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\UpdateVillageProfileRequest;
+use App\Http\Requests\VillageProfileRequest;
 use App\Models\VillageProfile;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Storage;
@@ -18,7 +18,7 @@ class VillageProfileController extends Controller
         return view('admin.village-profile.edit', compact('profile'));
     }
 
-    public function update(UpdateVillageProfileRequest $request): RedirectResponse
+    public function update(VillageProfileRequest $request): RedirectResponse
     {
         $profile = VillageProfile::firstOrFail();
         $validated = $request->validated();

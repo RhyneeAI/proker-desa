@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreAnnouncementRequest extends FormRequest
+class AnnouncementRequest extends FormRequest
 {
     public function authorize(): bool
     {
@@ -16,7 +16,7 @@ class StoreAnnouncementRequest extends FormRequest
         return [
             'title' => ['required', 'string', 'max:255'],
             'content' => ['required', 'string'],
-            'deadline' => ['nullable', 'date', 'after_or_equal:today'],
+            'deadline' => ['nullable', 'date', $this->isMethod('put') ? '' : 'after_or_equal:today'],
             'is_published' => ['nullable', 'boolean'],
         ];
     }

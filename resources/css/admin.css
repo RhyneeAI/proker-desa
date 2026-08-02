@@ -14,3 +14,12 @@
     color: #fff;
     background-color: rgba(255, 255, 255, 0.06);
 }
+
+[data-bs-theme="dark"] .navbar:not(.navbar-vertical) {
+    background-color: #1e293b;
+    border-color: #334155;
+}
+
+[data-bs-theme="dark"] .navbar:not(.navbar-vertical) .btn-icon {
+    color: #e2e8f0;
+}

@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateWaterPointRequest extends FormRequest
+class WaterPointRequest extends FormRequest
 {
     public function authorize(): bool
     {

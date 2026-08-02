@@ -1,4 +1,4 @@
-<header class="navbar navbar-expand-lg navbar-light border-bottom d-print-none" data-bs-theme="light">
+<header class="navbar navbar-expand-lg border-bottom d-print-none">
     <div class="container-fluid">
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#sidebar-menu"
             aria-controls="sidebar-menu" aria-expanded="false" aria-label="Buka menu">
@@ -10,6 +10,15 @@
         </div>
 
         <div class="navbar-nav flex-row order-md-last ms-auto">
+            <div class="nav-item d-flex align-items-center me-2"
+                x-data="{ dark: document.documentElement.getAttribute('data-bs-theme') === 'dark' }">
+                <button type="button" class="btn btn-icon"
+                    @click="dark = !dark; document.documentElement.setAttribute('data-bs-theme', dark ? 'dark' : 'light'); localStorage.setItem('theme', dark ? 'dark' : 'light')"
+                    :aria-label="dark ? 'Mode terang' : 'Mode gelap'">
+                    <i class="ti" :class="dark ? 'ti-sun' : 'ti-moon'"></i>
+                </button>
+            </div>
+
             <div class="nav-item dropdown">
                 <a href="#" class="nav-link d-flex lh-1 text-reset p-0" data-bs-toggle="dropdown" aria-expanded="false">
                     <span class="avatar avatar-sm">{{ strtoupper(substr(auth()->user()->name, 0, 1)) }}</span>

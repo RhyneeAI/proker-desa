@@ -3,8 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StorePotensiDesaRequest;
-use App\Http\Requests\UpdatePotensiDesaRequest;
+use App\Http\Requests\PotensiDesaRequest;
 use App\Models\PotensiDesa;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Storage;
@@ -26,7 +25,7 @@ class PotensiDesaController extends Controller
         return view('admin.potensi-desa.create');
     }
 
-    public function store(StorePotensiDesaRequest $request): RedirectResponse
+    public function store(PotensiDesaRequest $request): RedirectResponse
     {
         $validated = $request->validated();
 
@@ -46,7 +45,7 @@ class PotensiDesaController extends Controller
         return view('admin.potensi-desa.edit', ['potensiDesa' => $potensiDesa]);
     }
 
-    public function update(UpdatePotensiDesaRequest $request, PotensiDesa $potensiDesa): RedirectResponse
+    public function update(PotensiDesaRequest $request, PotensiDesa $potensiDesa): RedirectResponse
     {
         $validated = $request->validated();
 

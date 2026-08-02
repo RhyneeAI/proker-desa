@@ -3,8 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StorePotentialRequest;
-use App\Http\Requests\UpdatePotentialRequest;
+use App\Http\Requests\PotentialRequest;
 use App\Models\Potential;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Storage;
@@ -24,7 +23,7 @@ class PotentialController extends Controller
         return view('admin.potentials.create');
     }
 
-    public function store(StorePotentialRequest $request): RedirectResponse
+    public function store(PotentialRequest $request): RedirectResponse
     {
         $validated = $request->validated();
 
@@ -44,7 +43,7 @@ class PotentialController extends Controller
         return view('admin.potentials.edit', compact('potential'));
     }
 
-    public function update(UpdatePotentialRequest $request, Potential $potential): RedirectResponse
+    public function update(PotentialRequest $request, Potential $potential): RedirectResponse
     {
         $validated = $request->validated();
 

@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateVillageProfileRequest extends FormRequest
+class VillageProfileRequest extends FormRequest
 {
     public function authorize(): bool
     {

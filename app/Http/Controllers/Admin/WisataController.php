@@ -3,8 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreWisataRequest;
-use App\Http\Requests\UpdateWisataRequest;
+use App\Http\Requests\WisataRequest;
 use App\Models\Wisata;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Storage;
@@ -24,7 +23,7 @@ class WisataController extends Controller
         return view('admin.wisatas.create');
     }
 
-    public function store(StoreWisataRequest $request): RedirectResponse
+    public function store(WisataRequest $request): RedirectResponse
     {
         $validated = $request->validated();
 
@@ -44,7 +43,7 @@ class WisataController extends Controller
         return view('admin.wisatas.edit', compact('wisata'));
     }
 
-    public function update(UpdateWisataRequest $request, Wisata $wisata): RedirectResponse
+    public function update(WisataRequest $request, Wisata $wisata): RedirectResponse
     {
         $validated = $request->validated();
 

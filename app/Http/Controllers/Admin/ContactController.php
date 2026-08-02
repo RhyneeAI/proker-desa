@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\UpdateContactRequest;
+use App\Http\Requests\ContactRequest;
 use App\Models\Contact;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
@@ -17,7 +17,7 @@ class ContactController extends Controller
         return view('admin.contact.edit', compact('contact'));
     }
 
-    public function update(UpdateContactRequest $request): RedirectResponse
+    public function update(ContactRequest $request): RedirectResponse
     {
         $contact = Contact::firstOrFail();
         $contact->update($request->validated());

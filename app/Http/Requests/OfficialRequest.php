@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StorePotentialRequest extends FormRequest
+class OfficialRequest extends FormRequest
 {
     public function authorize(): bool
     {
@@ -15,22 +15,22 @@ class StorePotentialRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:255'],
-            'category' => ['nullable', 'string', 'max:100'],
-            'description' => ['nullable', 'string'],
+            'position' => ['required', 'string', 'max:255'],
             'photo' => ['nullable', 'image', 'max:2048'],
             'photo_alt' => ['nullable', 'string', 'max:255'],
+            'display_order' => ['required', 'integer', 'min:0'],
         ];
     }
 
     public function messages(): array
     {
         return [
-            'name.required' => 'Nama potensi wajib diisi.',
-            'name.max' => 'Nama potensi maksimal 255 karakter.',
-            'category.max' => 'Kategori maksimal 100 karakter.',
+            'name.required' => 'Nama wajib diisi.',
+            'position.required' => 'Jabatan wajib diisi.',
             'photo.image' => 'File harus berupa gambar.',
             'photo.max' => 'Ukuran foto maksimal 2MB.',
-            'photo_alt.max' => 'Teks alternatif maksimal 255 karakter.',
+            'display_order.required' => 'Urutan tampil wajib diisi.',
+            'display_order.integer' => 'Urutan tampil harus berupa angka.',
         ];
     }
 }

@@ -3,8 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreAnnouncementRequest;
-use App\Http\Requests\UpdateAnnouncementRequest;
+use App\Http\Requests\AnnouncementRequest;
 use App\Models\Announcement;
 use App\Traits\HasUniqueSlug;
 use Illuminate\Http\RedirectResponse;
@@ -26,7 +25,7 @@ class AnnouncementController extends Controller
         return view('admin.announcements.create');
     }
 
-    public function store(StoreAnnouncementRequest $request): RedirectResponse
+    public function store(AnnouncementRequest $request): RedirectResponse
     {
         $validated = $request->validated();
         $validated['slug'] = $this->generateUniqueSlug(Announcement::class, $validated['title']);
@@ -49,7 +48,7 @@ class AnnouncementController extends Controller
         return view('admin.announcements.edit', ['announcement' => $pengumuman]);
     }
 
-    public function update(UpdateAnnouncementRequest $request, Announcement $pengumuman): RedirectResponse
+    public function update(AnnouncementRequest $request, Announcement $pengumuman): RedirectResponse
     {
         $validated = $request->validated();
         $validated['is_published'] = $request->boolean('is_published');

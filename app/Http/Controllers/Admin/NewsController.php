@@ -3,8 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreNewsRequest;
-use App\Http\Requests\UpdateNewsRequest;
+use App\Http\Requests\NewsRequest;
 use App\Models\News;
 use App\Traits\HasUniqueSlug;
 use Illuminate\Http\RedirectResponse;
@@ -27,7 +26,7 @@ class NewsController extends Controller
         return view('admin.news.create');
     }
 
-    public function store(StoreNewsRequest $request): RedirectResponse
+    public function store(NewsRequest $request): RedirectResponse
     {
         $validated = $request->validated();
         $validated['slug'] = $this->generateUniqueSlug(News::class, $validated['title']);
@@ -54,7 +53,7 @@ class NewsController extends Controller
         return view('admin.news.edit', ['news' => $berita]);
     }
 
-    public function update(UpdateNewsRequest $request, News $berita): RedirectResponse
+    public function update(NewsRequest $request, News $berita): RedirectResponse
     {
         $validated = $request->validated();
         $validated['is_published'] = $request->boolean('is_published');
