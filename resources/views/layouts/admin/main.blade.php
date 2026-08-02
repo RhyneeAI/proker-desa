@@ -2,6 +2,18 @@
     {{ $content }}
 </div>
 
+{{-- Lightbox --}}
+<div id="admin-lightbox"
+    class="d-none position-fixed top-0 start-0 end-0 bottom-0 align-items-center justify-content-center bg-black bg-opacity-75"
+    style="z-index:2000" role="dialog" aria-modal="true" aria-label="Pratinjau gambar">
+    <button type="button" id="admin-lightbox-close"
+        class="position-absolute top-0 end-0 m-3 text-white bg-transparent border-0" aria-label="Tutup">
+        <i class="ti ti-x" style="font-size:2rem"></i>
+    </button>
+    <img id="admin-lightbox-img" src="" alt=""
+        class="img-fluid rounded shadow-lg" style="max-height:85vh;max-width:90vw;object-fit:contain">
+</div>
+
 {{-- Toast Notifikasi --}}
 <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index:1090">
     @if (session('success'))

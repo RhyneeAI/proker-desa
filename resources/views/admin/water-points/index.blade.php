@@ -29,7 +29,7 @@
                             <td>{{ $loop->iteration }}</td>
                             <td>
                                 @if ($waterPoint->photo)
-                                    <img src="{{ Storage::url($waterPoint->photo) }}"
+                                    <img src="{{ Storage::url($waterPoint->photo) }}" data-lightbox="{{ Storage::url($waterPoint->photo) }}"
                                         alt="{{ $waterPoint->photo_alt }}"
                                         class="avatar avatar-lg rounded">
                                 @else

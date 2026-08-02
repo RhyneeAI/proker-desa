@@ -30,7 +30,7 @@
                         @endphp
                         <tr>
                             <td>
-                                <img src="{{ $img }}" alt="{{ $gallery->image_alt ?? $gallery->title }}"
+                                <img src="{{ $img }}" data-lightbox="{{ $img }}" alt="{{ $gallery->image_alt ?? $gallery->title }}"
                                     class="rounded" style="width:72px;height:48px;object-fit:cover">
                             </td>
                             <td class="fw-medium text-body">{{ $gallery->title ?? 'Tanpa judul' }}</td>

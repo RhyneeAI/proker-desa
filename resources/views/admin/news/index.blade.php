@@ -26,7 +26,7 @@
                         <tr>
                             <td>
                                 @if ($news->thumbnail)
-                                    <img src="{{ Storage::url($news->thumbnail) }}"
+                                    <img src="{{ Storage::url($news->thumbnail) }}" data-lightbox="{{ Storage::url($news->thumbnail) }}"
                                         alt="{{ $news->thumbnail_alt }}"
                                         class="avatar avatar-lg rounded">
                                 @else

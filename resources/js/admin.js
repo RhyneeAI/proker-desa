@@ -12,6 +12,41 @@ util.external($);
 
 Alpine.start();
 
+// Lightbox: zoom gambar di halaman admin
+(function () {
+    const lightbox = document.getElementById('admin-lightbox');
+    const lightboxImg = document.getElementById('admin-lightbox-img');
+    const closeBtn = document.getElementById('admin-lightbox-close');
+    if (!lightbox || !lightboxImg || !closeBtn) return;
+
+    const open = (src, alt) => {
+        lightboxImg.src = src;
+        lightboxImg.alt = alt || '';
+        lightbox.classList.remove('d-none');
+        lightbox.classList.add('d-flex');
+    };
+    const close = () => {
+        lightbox.classList.add('d-none');
+        lightbox.classList.remove('d-flex');
+        lightboxImg.src = '';
+    };
+
+    document.addEventListener('click', (e) => {
+        const t = e.target.closest('[data-lightbox]');
+        if (!t) return;
+        e.preventDefault();
+        open(t.dataset.lightbox, t.getAttribute('alt') || '');
+    });
+
+    closeBtn.addEventListener('click', close);
+    lightbox.addEventListener('click', (e) => {
+        if (e.target === lightbox) close();
+    });
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') close();
+    });
+})();
+
 $(function () {
     $('.toast').each(function () {
         const $t = $(this);

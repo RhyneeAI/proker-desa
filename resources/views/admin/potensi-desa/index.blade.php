@@ -25,7 +25,7 @@
                             <td>
                                 <div class="d-flex align-items-center gap-3">
                                     @if ($item->image)
-                                        <img src="{{ Storage::url($item->image) }}"
+                                        <img src="{{ Storage::url($item->image) }}" data-lightbox="{{ Storage::url($item->image) }}"
                                             alt="{{ $item->image_alt ?? $item->name }}"
                                             class="avatar avatar-sm rounded">
                                     @else

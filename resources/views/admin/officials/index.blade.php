@@ -28,7 +28,7 @@
                             <td class="text-secondary">{{ $loop->iteration }}</td>
                             <td>
                                 @if ($official->photo)
-                                    <img src="{{ Storage::url($official->photo) }}"
+                                    <img src="{{ Storage::url($official->photo) }}" data-lightbox="{{ Storage::url($official->photo) }}"
                                         alt="{{ $official->photo_alt }}"
                                         class="avatar avatar-sm rounded">
                                 @else
