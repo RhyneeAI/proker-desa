@@ -99,236 +99,385 @@
         </div>
 
         {{-- ================= DAFTAR TITIK PETA ================= --}}
-        <section class="space-y-8">
+        @php
+            $airItems = $waterPoints->map(fn ($p) => [
+                'name' => $p->name,
+                'col1' => $p->category ?? '-',
+                'badge' => $p->status ?? '-',
+                'badgeClass' => $p->status === 'Rusak' ? 'bg-red-100 text-red-700' : ($p->status === 'Pemeliharaan' ? 'bg-amber-100 text-amber-700' : 'bg-emerald-100 text-emerald-700'),
+                'desc' => $p->description,
+                'address' => $p->address,
+                'coord' => $p->latitude . ', ' . $p->longitude,
+                'photo' => $imgUrl($p->photo, 'titik-air-' . $p->id),
+                'alt' => $p->photo_alt ?? $p->name,
+            ])->values()->toArray();
+
+            $wisataItems = $wisatas->map(fn ($p) => [
+                'name' => $p->name,
+                'col1' => $p->category ?? '-',
+                'col2' => $p->opening_hours ?? '-',
+                'desc' => $p->description,
+                'address' => $p->address,
+                'extra' => $p->ticket_price ?? '-',
+                'coord' => $p->latitude . ', ' . $p->longitude,
+                'photo' => $imgUrl($p->photo, 'wisata-' . $p->id),
+                'alt' => $p->photo_alt ?? $p->name,
+            ])->values()->toArray();
+
+            $umkmItems = $umkms->map(fn ($p) => [
+                'name' => $p->name,
+                'col1' => $p->category ?? '-',
+                'col2' => $p->phone ?? '-',
+                'desc' => $p->description,
+                'address' => $p->address,
+                'extra' => $p->owner_name ?? '-',
+                'coord' => $p->latitude . ', ' . $p->longitude,
+                'photo' => $imgUrl($p->photo, 'umkm-' . $p->id),
+                'alt' => $p->photo_alt ?? $p->name,
+            ])->values()->toArray();
+
+            $fasilitasItems = $facilities->map(fn ($p) => [
+                'name' => $p->name,
+                'col1' => $p->address ?? '-',
+                'desc' => $p->description,
+                'coord' => $p->latitude . ', ' . $p->longitude,
+                'photo' => $imgUrl($p->photo, 'fasilitas-' . $p->id),
+                'alt' => $p->photo_alt ?? $p->name,
+            ])->values()->toArray();
+        @endphp
+
+        <section class="space-y-10 mt-16">
             <div class="text-center" data-aos="fade-up">
                 <h2 class="text-2xl sm:text-3xl font-extrabold text-[#192E03]">Daftar Titik Peta</h2>
-                <p class="mt-2 text-sm text-slate-500 max-w-xl mx-auto">Klik baris pada tabel untuk melihat detail tiap titik secara dinamis.</p>
+                <p class="mt-2 text-sm text-slate-500 max-w-xl mx-auto">Klik nama bagian untuk membuka tabel, lalu klik baris untuk melihat detail tiap titik.</p>
             </div>
 
-            {{-- TITIK AIR --}}
-            @if ($waterPoints->isNotEmpty())
-                <div class="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden" x-data="{ open: null }" data-aos="fade-up">
-                    <div class="flex items-center gap-2.5 px-5 py-4 border-b border-slate-200">
-                        <span class="w-3 h-3 rounded-full flex-shrink-0" style="background:#2563eb"></span>
+            {{-- Section: Titik Air --}}
+            <div class="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden" data-aos="fade-up"
+                x-data="{
+                    open: false,
+                    page: 1,
+                    per: 5,
+                    detail: null,
+                    items: {{ Js::from($airItems) }},
+                    get pages() { return Math.max(1, Math.ceil(this.items.length / this.per)) },
+                    get rows() { return this.items.slice((this.page - 1) * this.per, this.page * this.per) },
+                    setPer(p) { this.per = p; this.page = 1; this.detail = null },
+                }">
+                <button type="button" @click="open = !open"
+                    class="w-full flex items-center gap-3 px-5 py-4 hover:bg-slate-50 transition text-left">
+                    <span class="w-3 h-3 rounded-full flex-shrink-0" style="background:#2563eb"></span>
+                    <div class="flex-1 min-w-0">
                         <h3 class="font-bold text-slate-800">Titik Air <span class="text-slate-400 font-medium">({{ $waterPoints->count() }})</span></h3>
+                        <p class="text-xs text-slate-500 mt-0.5">Sumber dan sarana air bersih yang tersedia di desa.</p>
                     </div>
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-sm">
-                            <thead class="bg-slate-50 text-slate-500 text-left border-b border-slate-200">
-                                <tr>
-                                    <th class="px-4 py-3 font-medium w-10">No</th>
-                                    <th class="px-4 py-3 font-medium">Nama Titik</th>
-                                    <th class="px-4 py-3 font-medium">Jenis</th>
-                                    <th class="px-4 py-3 font-medium">Status</th>
-                                    <th class="px-4 py-3 font-medium text-right">Detail</th>
-                                </tr>
-                            </thead>
-                            <tbody class="divide-y divide-slate-100">
-                                @foreach ($waterPoints as $point)
-                                    <tr @click="open = open === {{ $loop->index }} ? null : {{ $loop->index }}"
-                                        class="cursor-pointer hover:bg-slate-50 transition">
-                                        <td class="px-4 py-3 text-slate-500">{{ $loop->iteration }}</td>
-                                        <td class="px-4 py-3 font-medium text-slate-800">{{ $point->name }}</td>
-                                        <td class="px-4 py-3 text-slate-600">{{ $point->category ?? '-' }}</td>
-                                        <td class="px-4 py-3">
-                                            @php
-                                                $statusClass = $point->status === 'Rusak' ? 'bg-red-100 text-red-700' : ($point->status === 'Pemeliharaan' ? 'bg-amber-100 text-amber-700' : 'bg-emerald-100 text-emerald-700');
-                                            @endphp
-                                            <span class="inline-flex px-2.5 py-1 rounded-full text-xs font-semibold {{ $statusClass }}">{{ $point->status ?? '-' }}</span>
-                                        </td>
-                                        <td class="px-4 py-3 text-right text-slate-400">
-                                            <svg x-show="open !== {{ $loop->index }}" class="w-4 h-4 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-                                            <svg x-show="open === {{ $loop->index }}" x-cloak class="w-4 h-4 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"/></svg>
-                                        </td>
-                                    </tr>
-                                    <tr x-show="open === {{ $loop->index }}" x-cloak class="bg-slate-50/70">
-                                        <td colspan="5" class="px-5 py-5">
-                                            <div class="grid grid-cols-1 md:grid-cols-[220px_1fr] gap-5">
-                                                <img src="{{ $imgUrl($point->photo, 'titik-air-' . $point->id) }}"
-                                                    alt="{{ $point->photo_alt ?? $point->name }}"
-                                                    loading="lazy"
-                                                    class="w-full h-40 object-cover rounded-xl border border-slate-200">
-                                                <div class="space-y-2.5 text-sm">
-                                                    @if ($point->description)
-                                                        <p class="text-slate-600 leading-relaxed">{{ $point->description }}</p>
-                                                    @endif
-                                                    <p class="text-slate-500"><span class="font-semibold text-slate-700">Alamat:</span> {{ $point->address ?? '-' }}</p>
-                                                    <p class="text-slate-500"><span class="font-semibold text-slate-700">Koordinat:</span> {{ $point->latitude }}, {{ $point->longitude }}</p>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+                    <svg x-show="!open" class="w-5 h-5 text-slate-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                    <svg x-show="open" x-cloak class="w-5 h-5 text-slate-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"/></svg>
+                </button>
+
+                <div x-show="open" x-cloak>
+                    <div class="flex flex-wrap items-center justify-between gap-2 px-5 py-3 border-t border-slate-200 bg-slate-50/70">
+                        <span class="text-xs text-slate-500">Tampilkan per halaman:</span>
+                        <div class="flex gap-1.5">
+                            <template x-for="opt in [5,10,25,50]" :key="opt">
+                                <button @click="setPer(opt)" x-text="opt"
+                                    class="px-2.5 py-1 text-xs font-semibold rounded-lg transition"
+                                    :class="per === opt ? 'bg-[#192E03] text-white' : 'bg-white text-slate-600 border border-slate-200 hover:border-[#192E03]/40'"></button>
+                            </template>
+                        </div>
+                    </div>
+
+                    <div class="hidden md:grid grid-cols-[3rem_1fr_8rem_8rem_2rem] gap-2 px-5 py-2.5 border-t border-slate-200 text-xs font-semibold uppercase tracking-wide text-slate-500">
+                        <span>No</span><span>Nama Titik</span><span>Jenis</span><span>Status</span><span></span>
+                    </div>
+                    <div class="divide-y divide-slate-100">
+                        <template x-for="(row, i) in rows" :key="row.name + i">
+                            <div>
+                                <div @click="detail = detail === i ? null : i"
+                                    class="px-5 py-3 grid grid-cols-1 md:grid-cols-[3rem_1fr_8rem_8rem_2rem] md:gap-2 gap-1 items-center cursor-pointer hover:bg-slate-50 transition">
+                                    <span class="text-xs text-slate-400 md:block hidden" x-text="(page - 1) * per + i + 1"></span>
+                                    <p class="font-medium text-slate-800" x-text="row.name"></p>
+                                    <p class="text-sm text-slate-600" x-text="row.col1"></p>
+                                    <span class="justify-self-start md:justify-self-auto" :class="row.badgeClass">
+                                        <span class="inline-flex px-2.5 py-1 rounded-full text-xs font-semibold" x-text="row.badge"></span>
+                                    </span>
+                                    <span class="text-right text-slate-400">
+                                        <svg x-show="detail !== i" class="w-4 h-4 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                                        <svg x-show="detail === i" class="w-4 h-4 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"/></svg>
+                                    </span>
+                                </div>
+                                <div x-show="detail === i" x-cloak class="px-5 py-4 bg-slate-50/70 border-t border-slate-100">
+                                    <div class="grid grid-cols-1 sm:grid-cols-[176px_1fr] gap-4">
+                                        <img :src="row.photo" :alt="row.alt" loading="lazy"
+                                            class="w-full sm:w-44 h-28 sm:h-32 object-cover rounded-lg border border-slate-200">
+                                        <div class="space-y-2 text-sm">
+                                            <p class="text-slate-600 leading-relaxed" x-show="row.desc" x-text="row.desc"></p>
+                                            <p class="text-slate-500"><span class="font-semibold text-slate-700">Alamat:</span> <span x-text="row.address ?? '-'"></span></p>
+                                            <p class="text-slate-500"><span class="font-semibold text-slate-700">Koordinat:</span> <span x-text="row.coord"></span></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </template>
+                        <p x-show="!items.length" class="px-5 py-8 text-center text-sm text-slate-500">Belum ada data.</p>
+                    </div>
+
+                    <div class="flex flex-wrap items-center justify-between gap-2 px-5 py-3 border-t border-slate-200">
+                        <p class="text-xs text-slate-500" x-text="'Menampilkan ' + ((page - 1) * per + 1) + '–' + Math.min(page * per, items.length) + ' dari ' + items.length + ' data'"></p>
+                        <div class="flex items-center gap-2">
+                            <button @click="page = Math.max(1, page - 1)" :disabled="page === 1"
+                                class="px-3 py-1.5 text-xs font-semibold rounded-lg border border-slate-200 text-slate-600 hover:border-[#192E03]/40 disabled:opacity-40 disabled:cursor-not-allowed transition">‹ Sebelumnya</button>
+                            <span class="text-xs text-slate-500" x-text="'Halaman ' + page + ' dari ' + pages"></span>
+                            <button @click="page = Math.min(pages, page + 1)" :disabled="page === pages"
+                                class="px-3 py-1.5 text-xs font-semibold rounded-lg border border-slate-200 text-slate-600 hover:border-[#192E03]/40 disabled:opacity-40 disabled:cursor-not-allowed transition">Berikutnya ›</button>
+                        </div>
                     </div>
                 </div>
-            @endif
+            </div>
 
-            {{-- WISATA --}}
-            @if ($wisatas->isNotEmpty())
-                <div class="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden" x-data="{ open: null }" data-aos="fade-up">
-                    <div class="flex items-center gap-2.5 px-5 py-4 border-b border-slate-200">
-                        <span class="w-3 h-3 rounded-full flex-shrink-0" style="background:#7c3aed"></span>
+            {{-- Section: Wisata --}}
+            <div class="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden" data-aos="fade-up"
+                x-data="{
+                    open: false,
+                    page: 1,
+                    per: 5,
+                    detail: null,
+                    items: {{ Js::from($wisataItems) }},
+                    get pages() { return Math.max(1, Math.ceil(this.items.length / this.per)) },
+                    get rows() { return this.items.slice((this.page - 1) * this.per, this.page * this.per) },
+                    setPer(p) { this.per = p; this.page = 1; this.detail = null },
+                }">
+                <button type="button" @click="open = !open"
+                    class="w-full flex items-center gap-3 px-5 py-4 hover:bg-slate-50 transition text-left">
+                    <span class="w-3 h-3 rounded-full flex-shrink-0" style="background:#7c3aed"></span>
+                    <div class="flex-1 min-w-0">
                         <h3 class="font-bold text-slate-800">Wisata <span class="text-slate-400 font-medium">({{ $wisatas->count() }})</span></h3>
+                        <p class="text-xs text-slate-500 mt-0.5">Destinasi wisata dan tempat menarik di desa.</p>
                     </div>
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-sm">
-                            <thead class="bg-slate-50 text-slate-500 text-left border-b border-slate-200">
-                                <tr>
-                                    <th class="px-4 py-3 font-medium w-10">No</th>
-                                    <th class="px-4 py-3 font-medium">Nama Wisata</th>
-                                    <th class="px-4 py-3 font-medium">Kategori</th>
-                                    <th class="px-4 py-3 font-medium">Jam Buka</th>
-                                    <th class="px-4 py-3 font-medium text-right">Detail</th>
-                                </tr>
-                            </thead>
-                            <tbody class="divide-y divide-slate-100">
-                                @foreach ($wisatas as $point)
-                                    <tr @click="open = open === {{ $loop->index }} ? null : {{ $loop->index }}"
-                                        class="cursor-pointer hover:bg-slate-50 transition">
-                                        <td class="px-4 py-3 text-slate-500">{{ $loop->iteration }}</td>
-                                        <td class="px-4 py-3 font-medium text-slate-800">{{ $point->name }}</td>
-                                        <td class="px-4 py-3 text-slate-600">{{ $point->category ?? '-' }}</td>
-                                        <td class="px-4 py-3 text-slate-600">{{ $point->opening_hours ?? '-' }}</td>
-                                        <td class="px-4 py-3 text-right text-slate-400">
-                                            <svg x-show="open !== {{ $loop->index }}" class="w-4 h-4 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-                                            <svg x-show="open === {{ $loop->index }}" x-cloak class="w-4 h-4 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"/></svg>
-                                        </td>
-                                    </tr>
-                                    <tr x-show="open === {{ $loop->index }}" x-cloak class="bg-slate-50/70">
-                                        <td colspan="5" class="px-5 py-5">
-                                            <div class="grid grid-cols-1 md:grid-cols-[220px_1fr] gap-5">
-                                                <img src="{{ $imgUrl($point->photo, 'wisata-' . $point->id) }}"
-                                                    alt="{{ $point->photo_alt ?? $point->name }}"
-                                                    loading="lazy"
-                                                    class="w-full h-40 object-cover rounded-xl border border-slate-200">
-                                                <div class="space-y-2.5 text-sm">
-                                                    @if ($point->description)
-                                                        <p class="text-slate-600 leading-relaxed">{{ $point->description }}</p>
-                                                    @endif
-                                                    <p class="text-slate-500"><span class="font-semibold text-slate-700">Alamat:</span> {{ $point->address ?? '-' }}</p>
-                                                    <p class="text-slate-500"><span class="font-semibold text-slate-700">Harga Tiket:</span> {{ $point->ticket_price ?? '-' }}</p>
-                                                    <p class="text-slate-500"><span class="font-semibold text-slate-700">Koordinat:</span> {{ $point->latitude }}, {{ $point->longitude }}</p>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+                    <svg x-show="!open" class="w-5 h-5 text-slate-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                    <svg x-show="open" x-cloak class="w-5 h-5 text-slate-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"/></svg>
+                </button>
+
+                <div x-show="open" x-cloak>
+                    <div class="flex flex-wrap items-center justify-between gap-2 px-5 py-3 border-t border-slate-200 bg-slate-50/70">
+                        <span class="text-xs text-slate-500">Tampilkan per halaman:</span>
+                        <div class="flex gap-1.5">
+                            <template x-for="opt in [5,10,25,50]" :key="opt">
+                                <button @click="setPer(opt)" x-text="opt"
+                                    class="px-2.5 py-1 text-xs font-semibold rounded-lg transition"
+                                    :class="per === opt ? 'bg-[#192E03] text-white' : 'bg-white text-slate-600 border border-slate-200 hover:border-[#192E03]/40'"></button>
+                            </template>
+                        </div>
+                    </div>
+
+                    <div class="hidden md:grid grid-cols-[3rem_1fr_7rem_8rem_2rem] gap-2 px-5 py-2.5 border-t border-slate-200 text-xs font-semibold uppercase tracking-wide text-slate-500">
+                        <span>No</span><span>Nama Wisata</span><span>Kategori</span><span>Jam Buka</span><span></span>
+                    </div>
+                    <div class="divide-y divide-slate-100">
+                        <template x-for="(row, i) in rows" :key="row.name + i">
+                            <div>
+                                <div @click="detail = detail === i ? null : i"
+                                    class="px-5 py-3 grid grid-cols-1 md:grid-cols-[3rem_1fr_7rem_8rem_2rem] md:gap-2 gap-1 items-center cursor-pointer hover:bg-slate-50 transition">
+                                    <span class="text-xs text-slate-400 md:block hidden" x-text="(page - 1) * per + i + 1"></span>
+                                    <p class="font-medium text-slate-800" x-text="row.name"></p>
+                                    <p class="text-sm text-slate-600" x-text="row.col1"></p>
+                                    <p class="text-sm text-slate-600" x-text="row.col2"></p>
+                                    <span class="text-right text-slate-400">
+                                        <svg x-show="detail !== i" class="w-4 h-4 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                                        <svg x-show="detail === i" class="w-4 h-4 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"/></svg>
+                                    </span>
+                                </div>
+                                <div x-show="detail === i" x-cloak class="px-5 py-4 bg-slate-50/70 border-t border-slate-100">
+                                    <div class="grid grid-cols-1 sm:grid-cols-[176px_1fr] gap-4">
+                                        <img :src="row.photo" :alt="row.alt" loading="lazy"
+                                            class="w-full sm:w-44 h-28 sm:h-32 object-cover rounded-lg border border-slate-200">
+                                        <div class="space-y-2 text-sm">
+                                            <p class="text-slate-600 leading-relaxed" x-show="row.desc" x-text="row.desc"></p>
+                                            <p class="text-slate-500"><span class="font-semibold text-slate-700">Alamat:</span> <span x-text="row.address ?? '-'"></span></p>
+                                            <p class="text-slate-500"><span class="font-semibold text-slate-700">Harga Tiket:</span> <span x-text="row.extra"></span></p>
+                                            <p class="text-slate-500"><span class="font-semibold text-slate-700">Koordinat:</span> <span x-text="row.coord"></span></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </template>
+                        <p x-show="!items.length" class="px-5 py-8 text-center text-sm text-slate-500">Belum ada data.</p>
+                    </div>
+
+                    <div class="flex flex-wrap items-center justify-between gap-2 px-5 py-3 border-t border-slate-200">
+                        <p class="text-xs text-slate-500" x-text="'Menampilkan ' + ((page - 1) * per + 1) + '–' + Math.min(page * per, items.length) + ' dari ' + items.length + ' data'"></p>
+                        <div class="flex items-center gap-2">
+                            <button @click="page = Math.max(1, page - 1)" :disabled="page === 1"
+                                class="px-3 py-1.5 text-xs font-semibold rounded-lg border border-slate-200 text-slate-600 hover:border-[#192E03]/40 disabled:opacity-40 disabled:cursor-not-allowed transition">‹ Sebelumnya</button>
+                            <span class="text-xs text-slate-500" x-text="'Halaman ' + page + ' dari ' + pages"></span>
+                            <button @click="page = Math.min(pages, page + 1)" :disabled="page === pages"
+                                class="px-3 py-1.5 text-xs font-semibold rounded-lg border border-slate-200 text-slate-600 hover:border-[#192E03]/40 disabled:opacity-40 disabled:cursor-not-allowed transition">Berikutnya ›</button>
+                        </div>
                     </div>
                 </div>
-            @endif
+            </div>
 
-            {{-- UMKM --}}
-            @if ($umkms->isNotEmpty())
-                <div class="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden" x-data="{ open: null }" data-aos="fade-up">
-                    <div class="flex items-center gap-2.5 px-5 py-4 border-b border-slate-200">
-                        <span class="w-3 h-3 rounded-full flex-shrink-0" style="background:#059669"></span>
+            {{-- Section: UMKM --}}
+            <div class="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden" data-aos="fade-up"
+                x-data="{
+                    open: false,
+                    page: 1,
+                    per: 5,
+                    detail: null,
+                    items: {{ Js::from($umkmItems) }},
+                    get pages() { return Math.max(1, Math.ceil(this.items.length / this.per)) },
+                    get rows() { return this.items.slice((this.page - 1) * this.per, this.page * this.per) },
+                    setPer(p) { this.per = p; this.page = 1; this.detail = null },
+                }">
+                <button type="button" @click="open = !open"
+                    class="w-full flex items-center gap-3 px-5 py-4 hover:bg-slate-50 transition text-left">
+                    <span class="w-3 h-3 rounded-full flex-shrink-0" style="background:#059669"></span>
+                    <div class="flex-1 min-w-0">
                         <h3 class="font-bold text-slate-800">UMKM <span class="text-slate-400 font-medium">({{ $umkms->count() }})</span></h3>
+                        <p class="text-xs text-slate-500 mt-0.5">Usaha mikro, kecil, dan menengah milik warga desa.</p>
                     </div>
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-sm">
-                            <thead class="bg-slate-50 text-slate-500 text-left border-b border-slate-200">
-                                <tr>
-                                    <th class="px-4 py-3 font-medium w-10">No</th>
-                                    <th class="px-4 py-3 font-medium">Nama Usaha</th>
-                                    <th class="px-4 py-3 font-medium">Kategori</th>
-                                    <th class="px-4 py-3 font-medium">Telepon</th>
-                                    <th class="px-4 py-3 font-medium text-right">Detail</th>
-                                </tr>
-                            </thead>
-                            <tbody class="divide-y divide-slate-100">
-                                @foreach ($umkms as $point)
-                                    <tr @click="open = open === {{ $loop->index }} ? null : {{ $loop->index }}"
-                                        class="cursor-pointer hover:bg-slate-50 transition">
-                                        <td class="px-4 py-3 text-slate-500">{{ $loop->iteration }}</td>
-                                        <td class="px-4 py-3 font-medium text-slate-800">{{ $point->name }}</td>
-                                        <td class="px-4 py-3 text-slate-600">{{ $point->category ?? '-' }}</td>
-                                        <td class="px-4 py-3 text-slate-600">{{ $point->phone ?? '-' }}</td>
-                                        <td class="px-4 py-3 text-right text-slate-400">
-                                            <svg x-show="open !== {{ $loop->index }}" class="w-4 h-4 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-                                            <svg x-show="open === {{ $loop->index }}" x-cloak class="w-4 h-4 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"/></svg>
-                                        </td>
-                                    </tr>
-                                    <tr x-show="open === {{ $loop->index }}" x-cloak class="bg-slate-50/70">
-                                        <td colspan="5" class="px-5 py-5">
-                                            <div class="grid grid-cols-1 md:grid-cols-[220px_1fr] gap-5">
-                                                <img src="{{ $imgUrl($point->photo, 'umkm-' . $point->id) }}"
-                                                    alt="{{ $point->photo_alt ?? $point->name }}"
-                                                    loading="lazy"
-                                                    class="w-full h-40 object-cover rounded-xl border border-slate-200">
-                                                <div class="space-y-2.5 text-sm">
-                                                    @if ($point->description)
-                                                        <p class="text-slate-600 leading-relaxed">{{ $point->description }}</p>
-                                                    @endif
-                                                    <p class="text-slate-500"><span class="font-semibold text-slate-700">Pemilik:</span> {{ $point->owner_name ?? '-' }}</p>
-                                                    <p class="text-slate-500"><span class="font-semibold text-slate-700">Alamat:</span> {{ $point->address ?? '-' }}</p>
-                                                    <p class="text-slate-500"><span class="font-semibold text-slate-700">Koordinat:</span> {{ $point->latitude }}, {{ $point->longitude }}</p>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            @endif
+                    <svg x-show="!open" class="w-5 h-5 text-slate-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                    <svg x-show="open" x-cloak class="w-5 h-5 text-slate-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"/></svg>
+                </button>
 
-            {{-- FASILITAS --}}
-            @if ($facilities->isNotEmpty())
-                <div class="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden" x-data="{ open: null }" data-aos="fade-up">
-                    <div class="flex items-center gap-2.5 px-5 py-4 border-b border-slate-200">
-                        <span class="w-3 h-3 rounded-full flex-shrink-0" style="background:#d97706"></span>
-                        <h3 class="font-bold text-slate-800">Fasilitas Umum <span class="text-slate-400 font-medium">({{ $facilities->count() }})</span></h3>
+                <div x-show="open" x-cloak>
+                    <div class="flex flex-wrap items-center justify-between gap-2 px-5 py-3 border-t border-slate-200 bg-slate-50/70">
+                        <span class="text-xs text-slate-500">Tampilkan per halaman:</span>
+                        <div class="flex gap-1.5">
+                            <template x-for="opt in [5,10,25,50]" :key="opt">
+                                <button @click="setPer(opt)" x-text="opt"
+                                    class="px-2.5 py-1 text-xs font-semibold rounded-lg transition"
+                                    :class="per === opt ? 'bg-[#192E03] text-white' : 'bg-white text-slate-600 border border-slate-200 hover:border-[#192E03]/40'"></button>
+                            </template>
+                        </div>
                     </div>
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-sm">
-                            <thead class="bg-slate-50 text-slate-500 text-left border-b border-slate-200">
-                                <tr>
-                                    <th class="px-4 py-3 font-medium w-10">No</th>
-                                    <th class="px-4 py-3 font-medium">Nama Fasilitas</th>
-                                    <th class="px-4 py-3 font-medium">Alamat</th>
-                                    <th class="px-4 py-3 font-medium text-right">Detail</th>
-                                </tr>
-                            </thead>
-                            <tbody class="divide-y divide-slate-100">
-                                @foreach ($facilities as $point)
-                                    <tr @click="open = open === {{ $loop->index }} ? null : {{ $loop->index }}"
-                                        class="cursor-pointer hover:bg-slate-50 transition">
-                                        <td class="px-4 py-3 text-slate-500">{{ $loop->iteration }}</td>
-                                        <td class="px-4 py-3 font-medium text-slate-800">{{ $point->name }}</td>
-                                        <td class="px-4 py-3 text-slate-600">{{ $point->address ?? '-' }}</td>
-                                        <td class="px-4 py-3 text-right text-slate-400">
-                                            <svg x-show="open !== {{ $loop->index }}" class="w-4 h-4 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-                                            <svg x-show="open === {{ $loop->index }}" x-cloak class="w-4 h-4 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"/></svg>
-                                        </td>
-                                    </tr>
-                                    <tr x-show="open === {{ $loop->index }}" x-cloak class="bg-slate-50/70">
-                                        <td colspan="4" class="px-5 py-5">
-                                            <div class="grid grid-cols-1 md:grid-cols-[220px_1fr] gap-5">
-                                                <img src="{{ $imgUrl($point->photo, 'fasilitas-' . $point->id) }}"
-                                                    alt="{{ $point->photo_alt ?? $point->name }}"
-                                                    loading="lazy"
-                                                    class="w-full h-40 object-cover rounded-xl border border-slate-200">
-                                                <div class="space-y-2.5 text-sm">
-                                                    @if ($point->description)
-                                                        <p class="text-slate-600 leading-relaxed">{{ $point->description }}</p>
-                                                    @endif
-                                                    <p class="text-slate-500"><span class="font-semibold text-slate-700">Alamat:</span> {{ $point->address ?? '-' }}</p>
-                                                    <p class="text-slate-500"><span class="font-semibold text-slate-700">Koordinat:</span> {{ $point->latitude }}, {{ $point->longitude }}</p>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+
+                    <div class="hidden md:grid grid-cols-[3rem_1fr_8rem_9rem_2rem] gap-2 px-5 py-2.5 border-t border-slate-200 text-xs font-semibold uppercase tracking-wide text-slate-500">
+                        <span>No</span><span>Nama Usaha</span><span>Kategori</span><span>Telepon</span><span></span>
+                    </div>
+                    <div class="divide-y divide-slate-100">
+                        <template x-for="(row, i) in rows" :key="row.name + i">
+                            <div>
+                                <div @click="detail = detail === i ? null : i"
+                                    class="px-5 py-3 grid grid-cols-1 md:grid-cols-[3rem_1fr_8rem_9rem_2rem] md:gap-2 gap-1 items-center cursor-pointer hover:bg-slate-50 transition">
+                                    <span class="text-xs text-slate-400 md:block hidden" x-text="(page - 1) * per + i + 1"></span>
+                                    <p class="font-medium text-slate-800" x-text="row.name"></p>
+                                    <p class="text-sm text-slate-600" x-text="row.col1"></p>
+                                    <p class="text-sm text-slate-600" x-text="row.col2"></p>
+                                    <span class="text-right text-slate-400">
+                                        <svg x-show="detail !== i" class="w-4 h-4 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                                        <svg x-show="detail === i" class="w-4 h-4 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"/></svg>
+                                    </span>
+                                </div>
+                                <div x-show="detail === i" x-cloak class="px-5 py-4 bg-slate-50/70 border-t border-slate-100">
+                                    <div class="grid grid-cols-1 sm:grid-cols-[176px_1fr] gap-4">
+                                        <img :src="row.photo" :alt="row.alt" loading="lazy"
+                                            class="w-full sm:w-44 h-28 sm:h-32 object-cover rounded-lg border border-slate-200">
+                                        <div class="space-y-2 text-sm">
+                                            <p class="text-slate-600 leading-relaxed" x-show="row.desc" x-text="row.desc"></p>
+                                            <p class="text-slate-500"><span class="font-semibold text-slate-700">Alamat:</span> <span x-text="row.address ?? '-'"></span></p>
+                                            <p class="text-slate-500"><span class="font-semibold text-slate-700">Pemilik:</span> <span x-text="row.extra"></span></p>
+                                            <p class="text-slate-500"><span class="font-semibold text-slate-700">Koordinat:</span> <span x-text="row.coord"></span></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </template>
+                        <p x-show="!items.length" class="px-5 py-8 text-center text-sm text-slate-500">Belum ada data.</p>
+                    </div>
+
+                    <div class="flex flex-wrap items-center justify-between gap-2 px-5 py-3 border-t border-slate-200">
+                        <p class="text-xs text-slate-500" x-text="'Menampilkan ' + ((page - 1) * per + 1) + '–' + Math.min(page * per, items.length) + ' dari ' + items.length + ' data'"></p>
+                        <div class="flex items-center gap-2">
+                            <button @click="page = Math.max(1, page - 1)" :disabled="page === 1"
+                                class="px-3 py-1.5 text-xs font-semibold rounded-lg border border-slate-200 text-slate-600 hover:border-[#192E03]/40 disabled:opacity-40 disabled:cursor-not-allowed transition">‹ Sebelumnya</button>
+                            <span class="text-xs text-slate-500" x-text="'Halaman ' + page + ' dari ' + pages"></span>
+                            <button @click="page = Math.min(pages, page + 1)" :disabled="page === pages"
+                                class="px-3 py-1.5 text-xs font-semibold rounded-lg border border-slate-200 text-slate-600 hover:border-[#192E03]/40 disabled:opacity-40 disabled:cursor-not-allowed transition">Berikutnya ›</button>
+                        </div>
                     </div>
                 </div>
-            @endif
+            </div>
+
+            {{-- Section: Fasilitas --}}
+            <div class="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden" data-aos="fade-up"
+                x-data="{
+                    open: false,
+                    page: 1,
+                    per: 5,
+                    detail: null,
+                    items: {{ Js::from($fasilitasItems) }},
+                    get pages() { return Math.max(1, Math.ceil(this.items.length / this.per)) },
+                    get rows() { return this.items.slice((this.page - 1) * this.per, this.page * this.per) },
+                    setPer(p) { this.per = p; this.page = 1; this.detail = null },
+                }">
+                <button type="button" @click="open = !open"
+                    class="w-full flex items-center gap-3 px-5 py-4 hover:bg-slate-50 transition text-left">
+                    <span class="w-3 h-3 rounded-full flex-shrink-0" style="background:#d97706"></span>
+                    <div class="flex-1 min-w-0">
+                        <h3 class="font-bold text-slate-800">Fasilitas Umum <span class="text-slate-400 font-medium">({{ $facilities->count() }})</span></h3>
+                        <p class="text-xs text-slate-500 mt-0.5">Sarana dan prasarana umum yang melayani masyarakat.</p>
+                    </div>
+                    <svg x-show="!open" class="w-5 h-5 text-slate-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                    <svg x-show="open" x-cloak class="w-5 h-5 text-slate-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"/></svg>
+                </button>
+
+                <div x-show="open" x-cloak>
+                    <div class="flex flex-wrap items-center justify-between gap-2 px-5 py-3 border-t border-slate-200 bg-slate-50/70">
+                        <span class="text-xs text-slate-500">Tampilkan per halaman:</span>
+                        <div class="flex gap-1.5">
+                            <template x-for="opt in [5,10,25,50]" :key="opt">
+                                <button @click="setPer(opt)" x-text="opt"
+                                    class="px-2.5 py-1 text-xs font-semibold rounded-lg transition"
+                                    :class="per === opt ? 'bg-[#192E03] text-white' : 'bg-white text-slate-600 border border-slate-200 hover:border-[#192E03]/40'"></button>
+                            </template>
+                        </div>
+                    </div>
+
+                    <div class="hidden md:grid grid-cols-[3rem_1fr_1fr_2rem] gap-2 px-5 py-2.5 border-t border-slate-200 text-xs font-semibold uppercase tracking-wide text-slate-500">
+                        <span>No</span><span>Nama Fasilitas</span><span>Alamat</span><span></span>
+                    </div>
+                    <div class="divide-y divide-slate-100">
+                        <template x-for="(row, i) in rows" :key="row.name + i">
+                            <div>
+                                <div @click="detail = detail === i ? null : i"
+                                    class="px-5 py-3 grid grid-cols-1 md:grid-cols-[3rem_1fr_1fr_2rem] md:gap-2 gap-1 items-center cursor-pointer hover:bg-slate-50 transition">
+                                    <span class="text-xs text-slate-400 md:block hidden" x-text="(page - 1) * per + i + 1"></span>
+                                    <p class="font-medium text-slate-800" x-text="row.name"></p>
+                                    <p class="text-sm text-slate-600" x-text="row.col1"></p>
+                                    <span class="text-right text-slate-400">
+                                        <svg x-show="detail !== i" class="w-4 h-4 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                                        <svg x-show="detail === i" class="w-4 h-4 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"/></svg>
+                                    </span>
+                                </div>
+                                <div x-show="detail === i" x-cloak class="px-5 py-4 bg-slate-50/70 border-t border-slate-100">
+                                    <div class="grid grid-cols-1 sm:grid-cols-[176px_1fr] gap-4">
+                                        <img :src="row.photo" :alt="row.alt" loading="lazy"
+                                            class="w-full sm:w-44 h-28 sm:h-32 object-cover rounded-lg border border-slate-200">
+                                        <div class="space-y-2 text-sm">
+                                            <p class="text-slate-600 leading-relaxed" x-show="row.desc" x-text="row.desc"></p>
+                                            <p class="text-slate-500"><span class="font-semibold text-slate-700">Alamat:</span> <span x-text="row.address ?? '-'"></span></p>
+                                            <p class="text-slate-500"><span class="font-semibold text-slate-700">Koordinat:</span> <span x-text="row.coord"></span></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </template>
+                        <p x-show="!items.length" class="px-5 py-8 text-center text-sm text-slate-500">Belum ada data.</p>
+                    </div>
+
+                    <div class="flex flex-wrap items-center justify-between gap-2 px-5 py-3 border-t border-slate-200">
+                        <p class="text-xs text-slate-500" x-text="'Menampilkan ' + ((page - 1) * per + 1) + '–' + Math.min(page * per, items.length) + ' dari ' + items.length + ' data'"></p>
+                        <div class="flex items-center gap-2">
+                            <button @click="page = Math.max(1, page - 1)" :disabled="page === 1"
+                                class="px-3 py-1.5 text-xs font-semibold rounded-lg border border-slate-200 text-slate-600 hover:border-[#192E03]/40 disabled:opacity-40 disabled:cursor-not-allowed transition">‹ Sebelumnya</button>
+                            <span class="text-xs text-slate-500" x-text="'Halaman ' + page + ' dari ' + pages"></span>
+                            <button @click="page = Math.min(pages, page + 1)" :disabled="page === pages"
+                                class="px-3 py-1.5 text-xs font-semibold rounded-lg border border-slate-200 text-slate-600 hover:border-[#192E03]/40 disabled:opacity-40 disabled:cursor-not-allowed transition">Berikutnya ›</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </section>
     </div>
 </x-layouts.public>

@@ -60,6 +60,15 @@
     color: #e2e8f0;
 }
 
+/* Jangan sembunyikan konten bila animasi AOS dimatikan (prefers-reduced-motion) */
+@media (prefers-reduced-motion: reduce) {
+    [data-aos] {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+    }
+}
+
 /* ================= BAGAN ORGANISASI ================= */
 .org-tree,
 .org-tree ul {
