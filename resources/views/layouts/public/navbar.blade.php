@@ -64,8 +64,26 @@
                 </a>
             </div>
 
-            {{-- Aksi Kanan: Tema & Bahasa --}}
+            {{-- Aksi Kanan: Login, Tema & Bahasa --}}
             <div class="flex items-center gap-3">
+                @auth
+                    <a href="{{ route('admin.dashboard') }}"
+                        class="hidden sm:inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-white text-[#192E03] text-sm font-semibold shadow-sm hover:bg-[#192E03] hover:text-white transition">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857"/>
+                        </svg>
+                        {{ __('nav.dashboard') }}
+                    </a>
+                @else
+                    <a href="{{ route('login') }}"
+                        class="hidden sm:inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-white text-[#192E03] text-sm font-semibold shadow-sm hover:bg-[#192E03] hover:text-white transition">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"/>
+                        </svg>
+                        {{ __('nav.login') }}
+                    </a>
+                @endauth
+
                 <button @click="toggleTheme()"
                     class="w-8 h-8 rounded-full border border-white/30 text-white flex items-center justify-center hover:bg-white/10 transition"
                     :aria-label="themeDark ? 'Mode terang' : 'Mode gelap'">
