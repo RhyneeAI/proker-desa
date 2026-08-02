@@ -39,9 +39,7 @@
                     <button type="button" @click="open = !open" class="nav-link w-100 text-start" aria-expanded="false">
                         <span class="nav-link-icon"><i class="ti ti-file-text"></i></span>
                         <span>Konten</span>
-                        <span class="nav-link-toggle">
-                            <i class="ti ti-chevron-down" :class="open ? 'rotate-180' : ''"></i>
-                        </span>
+                        <span class="nav-link-toggle"></span>
                     </button>
                     <div x-show="open" x-cloak class="nav-submenu">
                         <a href="{{ route('admin.berita.index') }}" class="d-flex align-items-center gap-2 py-2 ps-3 pe-3 small rounded {{ request()->routeIs('admin.berita.*') ? 'text-white bg-white bg-opacity-10' : 'text-secondary' }}"><i class="ti ti-news" style="width:1.25rem"></i> Berita</a>
@@ -55,9 +53,7 @@
                     <button type="button" @click="open = !open" class="nav-link w-100 text-start" aria-expanded="false">
                         <span class="nav-link-icon"><i class="ti ti-shopping-bag"></i></span>
                         <span>Ekonomi & Wisata</span>
-                        <span class="nav-link-toggle">
-                            <i class="ti ti-chevron-down" :class="open ? 'rotate-180' : ''"></i>
-                        </span>
+                        <span class="nav-link-toggle"></span>
                     </button>
                     <div x-show="open" x-cloak class="nav-submenu">
                         <a href="{{ route('admin.umkm.index') }}" class="d-flex align-items-center gap-2 py-2 ps-3 pe-3 small rounded {{ request()->routeIs('admin.umkm.*') ? 'text-white bg-white bg-opacity-10' : 'text-secondary' }}"><i class="ti ti-shopping-bag" style="width:1.25rem"></i> UMKM</a>
@@ -71,9 +67,7 @@
                     <button type="button" @click="open = !open" class="nav-link w-100 text-start" aria-expanded="false">
                         <span class="nav-link-icon"><i class="ti ti-map-pin"></i></span>
                         <span>Wilayah & Infrastruktur</span>
-                        <span class="nav-link-toggle">
-                            <i class="ti ti-chevron-down" :class="open ? 'rotate-180' : ''"></i>
-                        </span>
+                        <span class="nav-link-toggle"></span>
                     </button>
                     <div x-show="open" x-cloak class="nav-submenu">
                         <a href="{{ route('admin.fasilitas.index') }}" class="d-flex align-items-center gap-2 py-2 ps-3 pe-3 small rounded {{ request()->routeIs('admin.fasilitas.*') ? 'text-white bg-white bg-opacity-10' : 'text-secondary' }}"><i class="ti ti-building-community" style="width:1.25rem"></i> Fasilitas Umum</a>
@@ -87,9 +81,7 @@
                     <button type="button" @click="open = !open" class="nav-link w-100 text-start" aria-expanded="false">
                         <span class="nav-link-icon"><i class="ti ti-settings"></i></span>
                         <span>Pengaturan</span>
-                        <span class="nav-link-toggle">
-                            <i class="ti ti-chevron-down" :class="open ? 'rotate-180' : ''"></i>
-                        </span>
+                        <span class="nav-link-toggle"></span>
                     </button>
                     <div x-show="open" x-cloak class="nav-submenu">
                         <a href="{{ route('admin.profil-desa.edit') }}" class="d-flex align-items-center gap-2 py-2 ps-3 pe-3 small rounded {{ request()->routeIs('admin.profil-desa.*') ? 'text-white bg-white bg-opacity-10' : 'text-secondary' }}"><i class="ti ti-building" style="width:1.25rem"></i> Profil Desa</a>
