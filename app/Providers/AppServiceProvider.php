@@ -10,7 +10,9 @@ use App\Models\Official;
 use App\Models\PotensiDesa;
 use App\Models\WaterPoint;
 use App\Models\Wisata;
+use App\View\Composers\PublicSiteComposer;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -30,5 +32,7 @@ class AppServiceProvider extends ServiceProvider
         Route::model('potensiDesa', PotensiDesa::class);
         Route::model('titikAir', WaterPoint::class);
         Route::model('wisata', Wisata::class);
+
+        View::composer(['layouts.public.footer', 'layouts.public.navbar'], PublicSiteComposer::class);
     }
 }

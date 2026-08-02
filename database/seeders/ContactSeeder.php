@@ -12,10 +12,10 @@ class ContactSeeder extends Seeder
         Contact::updateOrCreate(
             ['id' => 1],
             [
-                'address' => 'Jl. Raya Cibulakan No. 1, Kecamatan Cianjur, Kabupaten Cianjur, Jawa Barat 43211',
+                'address' => 'Desa Cibulakan, Kecamatan Cugenang, Kabupaten Cianjur, Jawa Barat 43252',
                 'phone' => '0263123456',
                 'whatsapp' => '081234567890',
-                'email' => 'desasukamaju@example.id',
+                'email' => 'desacibulakan@example.com',
                 'office_hours' => 'Senin–Jumat, 08:00–15:00 WIB',
             ]
         );
