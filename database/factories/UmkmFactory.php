@@ -15,8 +15,8 @@ class UmkmFactory extends Factory
             'description' => fake('id_ID')->paragraph(),
             'phone' => fake('id_ID')->phoneNumber(),
             'address' => fake('id_ID')->address(),
-            'latitude' => fake()->latitude(-8, -6),
-            'longitude' => fake()->longitude(106, 108),
+            'latitude' => fake()->latitude(-6.832, -6.818),
+            'longitude' => fake()->longitude(107.080, 107.110),
             'photo' => null,
             'photo_alt' => null,
         ];

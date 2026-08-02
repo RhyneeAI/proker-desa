@@ -23,8 +23,8 @@ class FacilityFactory extends Factory
             'address' => fake('id_ID')->address(),
             'photo' => null,
             'photo_alt' => null,
-            'latitude' => fake()->latitude(-8, -6),
-            'longitude' => fake()->longitude(106, 108),
+            'latitude' => fake()->latitude(-6.832, -6.818),
+            'longitude' => fake()->longitude(107.080, 107.110),
         ];
     }
 }

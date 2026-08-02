@@ -15,8 +15,8 @@ class WisataFactory extends Factory
             'address' => fake('id_ID')->address(),
             'opening_hours' => '08.00 - 17.00 WIB',
             'ticket_price' => fake()->randomElement(['Gratis', 'Rp 5.000', 'Rp 10.000', 'Rp 15.000']),
-            'latitude' => fake()->latitude(-8, -6),
-            'longitude' => fake()->longitude(106, 108),
+            'latitude' => fake()->latitude(-6.832, -6.818),
+            'longitude' => fake()->longitude(107.080, 107.110),
             'photo' => null,
             'photo_alt' => null,
         ];
