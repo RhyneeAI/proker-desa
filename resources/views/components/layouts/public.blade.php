@@ -1,7 +1,11 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    @include('layouts.public.header', ['title' => $title ?? 'Desa Cibulakan'])
+    @include('layouts.public.header', [
+        'title' => $title ?? 'Beranda',
+        'profile' => $profile ?? null,
+        'metaDescription' => $metaDescription ?? null,
+    ])
 </head>
 <body class="bg-white text-slate-600 antialiased font-sans overflow-x-hidden">
 

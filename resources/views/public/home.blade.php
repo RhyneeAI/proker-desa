@@ -1,4 +1,4 @@
-<x-layouts.public :title="__('nav.home')">
+<x-layouts.public title="Beranda">
 
     {{-- ================= HERO SLIDER ================= --}}
     <section class="relative w-full h-screen overflow-hidden"
@@ -56,21 +56,21 @@
         {{-- Konten Tengah --}}
         <div class="absolute inset-0 z-20 flex flex-col items-center justify-center text-center px-4">
             <h1 class="text-white font-black uppercase tracking-tight text-4xl sm:text-6xl lg:text-7xl drop-shadow-lg leading-[1.1]">
-                {{ __('hero.welcome') }}
+                Selamat datang di
                 <span class="block">{{ strtoupper($profile?->village_name ?? 'DESA CIBULAKAN') }}</span>
             </h1>
             <p class="mt-5 text-white text-lg sm:text-xl font-medium max-w-2xl drop-shadow">
-                {{ __('hero.subtitle') }}
+                Sumber informasi resmi tentang pemerintahan dan pelayanan desa
             </p>
 
             <div class="mt-8 flex flex-wrap items-center justify-center gap-4">
                 <a href="{{ route('profile-desa.show') }}"
                     class="px-6 py-3 bg-[#192E03] hover:bg-[#192E03]/90 text-white text-sm font-semibold rounded-full shadow-lg transition">
-                    {{ __('hero.profil_btn') }}
+                    Profil Desa
                 </a>
                 <a href="{{ route('berita.index') }}"
                     class="px-6 py-3 border border-white text-white text-sm font-semibold rounded-full hover:bg-white/10 transition">
-                    {{ __('hero.berita_btn') }}
+                    Berita Desa
                 </a>
             </div>
         </div>
@@ -107,13 +107,13 @@
                     @if ($profile->population)
                         <div>
                             <p class="text-3xl sm:text-4xl font-extrabold">{{ number_format($profile->population, 0, ',', '.') }}</p>
-                            <p class="text-white/80 text-sm mt-1">{{ __('stats.population') }}</p>
+                            <p class="text-white/80 text-sm mt-1">Jumlah Penduduk</p>
                         </div>
                     @endif
                     @if ($profile->area_size)
                         <div>
                             <p class="text-3xl sm:text-4xl font-extrabold">{{ number_format($profile->area_size, 2, ',', '.') }}</p>
-                            <p class="text-white/80 text-sm mt-1">{{ __('stats.area') }}</p>
+                            <p class="text-white/80 text-sm mt-1">Luas Wilayah (km²)</p>
                         </div>
                     @endif
                 </div>
@@ -130,10 +130,10 @@
                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-2.236 9.168-5.5"/>
                     </svg>
-                    {{ __('section.pengumuman.eyebrow') }}
+                    Informasi Resmi
                 </span>
-                <h2 class="mt-3 text-3xl sm:text-4xl font-extrabold text-[#192E03]">{{ __('section.pengumuman.title') }}</h2>
-                <p class="mt-3 text-[#192E03] opacity-80 max-w-xl mx-auto">{{ __('section.pengumuman.desc') }}</p>
+                <h2 class="mt-3 text-3xl sm:text-4xl font-extrabold text-[#192E03]">Pengumuman</h2>
+                <p class="mt-3 text-[#192E03] opacity-80 max-w-xl mx-auto">Pengumuman resmi dari pemerintah desa yang perlu diketahui masyarakat.</p>
             </div>
 
             @if ($latestAnnouncements->isEmpty())
@@ -173,7 +173,7 @@
                             </p>
 
                             <span class="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-[#192E03] group-hover:text-[#192E03] transition">
-                                {{ __('common.selengkapnya') }}
+                                Selengkapnya
                                 <svg class="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
                                 </svg>
@@ -186,7 +186,7 @@
             <div class="mt-10 flex justify-end">
                 <a href="{{ route('pengumuman.index') }}"
                     class="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-white bg-[#192E03] hover:bg-[#1F3B04] rounded-full shadow-md shadow-[#192E03]/20 transition">
-                    {{ __('common.lihat_semua') }} Pengumuman
+                    Lihat Semua Pengumuman
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
                     </svg>
@@ -204,10 +204,10 @@
                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10l6 6v8a2 2 0 01-2 2z"/>
                     </svg>
-                    {{ __('section.berita.eyebrow') }}
+                    Kabar Desa
                 </span>
-                <h2 class="mt-3 text-3xl sm:text-4xl font-extrabold text-[#192E03]">{{ __('section.berita.title') }}</h2>
-                <p class="mt-3 text-[#192E03] opacity-80 max-w-xl mx-auto">{{ __('section.berita.desc') }}</p>
+                <h2 class="mt-3 text-3xl sm:text-4xl font-extrabold text-[#192E03]">Berita Terbaru</h2>
+                <p class="mt-3 text-[#192E03] opacity-80 max-w-xl mx-auto">Informasi terkini seputar kegiatan, pembangunan, dan layanan desa.</p>
             </div>
 
             @if ($latestNews->isEmpty())
@@ -218,18 +218,15 @@
                         <a href="{{ route('berita.show', $news->slug) }}"
                             class="group bg-white rounded-2xl border border-slate-200 overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col">
                             <div class="relative overflow-hidden aspect-video">
-                                @if ($news->thumbnail)
-                                    <img src="{{ Storage::url($news->thumbnail) }}"
-                                        alt="{{ $news->thumbnail_alt ?? $news->title }}"
-                                        loading="lazy"
-                                        class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
-                                @else
-                                    <div class="w-full h-full bg-gradient-to-br from-[#192E03]/5 to-slate-100 flex items-center justify-center">
-                                        <svg class="w-10 h-10 text-[#3A5C0A]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10l6 6v8a2 2 0 01-2 2z"/>
-                                        </svg>
-                                    </div>
-                                @endif
+                                @php
+                                    $newsImg = $news->thumbnail && Storage::disk('public')->exists($news->thumbnail)
+                                        ? Storage::url($news->thumbnail)
+                                        : 'https://picsum.photos/seed/news-' . $news->id . '/800/450';
+                                @endphp
+                                <img src="{{ $newsImg }}"
+                                    alt="{{ $news->thumbnail_alt ?? $news->title }}"
+                                    loading="lazy"
+                                    class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
                                 <span class="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-[#192E03] text-white text-[11px] font-semibold shadow-sm">Berita</span>
                             </div>
                             <div class="p-5 flex flex-col flex-1">
@@ -241,7 +238,7 @@
                                 </p>
                                 <h3 class="font-bold text-[#192E03] mt-2 line-clamp-2 leading-snug group-hover:text-[#192E03] transition">{{ $news->title }}</h3>
                                 <span class="mt-auto pt-4 text-sm font-semibold text-[#192E03] group-hover:text-[#192E03] inline-flex items-center gap-1.5 transition">
-                                    {{ __('common.baca_selengkapnya') }}
+                                    Baca Selengkapnya
                                     <svg class="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
                                     </svg>
@@ -255,7 +252,7 @@
             <div class="mt-10 flex justify-end">
                 <a href="{{ route('berita.index') }}"
                     class="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-white bg-[#192E03] hover:bg-[#1F3B04] rounded-full shadow-md shadow-[#192E03]/20 transition">
-                    {{ __('common.lihat_semua') }} Berita
+                    Lihat Semua Berita
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
                     </svg>
@@ -285,7 +282,7 @@
                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                     </svg>
-                    {{ __('layanan.galeri') }}
+                    Galeri Foto
                 </span>
                 <h2 class="mt-3 text-3xl sm:text-4xl font-extrabold text-white">Galeri Foto Desa</h2>
                 <p class="mt-3 text-white/70 max-w-xl mx-auto">Dokumentasi kegiatan dan suasana desa.</p>
@@ -347,7 +344,7 @@
                 <div class="mt-8 text-center">
                     <a href="{{ route('galeri.index') }}"
                         class="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-white bg-[#192E03] hover:bg-[#1F3B04] rounded-full transition">
-                        {{ __('common.lihat_semua') }} {{ __('layanan.galeri') }}
+                        Lihat Semua Galeri Foto
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
                         </svg>
@@ -369,9 +366,9 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
                     </svg>
-                    {{ __('section.peta.eyebrow') }}
+                    Lokasi & Wilayah
                 </span>
-                <h2 class="mt-3 text-3xl sm:text-4xl font-extrabold text-[#192E03]">{{ __('section.peta.title') }}</h2>
+                <h2 class="mt-3 text-3xl sm:text-4xl font-extrabold text-[#192E03]">Peta Desa</h2>
                 <p class="mt-3 text-[#192E03] opacity-80 max-w-xl mx-auto">Lihat lokasi dan wilayah {{ $profile?->village_name ?? 'Desa' }} pada peta interaktif.</p>
             </div>
 
@@ -407,7 +404,7 @@
                     </p>
                     <a href="{{ route('peta-desa.show') }}"
                         class="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-white bg-[#192E03] hover:bg-[#1F3B04] rounded-full shadow-md shadow-[#192E03]/20 transition flex-shrink-0">
-                        {{ __('common.lihat_peta_lengkap') }}
+                        Lihat Peta Lengkap
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
                         </svg>
@@ -425,18 +422,18 @@
                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                     </svg>
-                    {{ __('section.layanan.eyebrow') }}
+                    Layanan & Informasi
                 </span>
-                <h2 class="mt-3 text-3xl sm:text-4xl font-extrabold text-[#192E03]">{{ __('section.layanan.title') }}</h2>
-                <p class="mt-3 text-[#192E03] opacity-80 max-w-2xl mx-auto">{{ __('section.layanan.desc') }}</p>
+                <h2 class="mt-3 text-3xl sm:text-4xl font-extrabold text-[#192E03]">Layanan Desa</h2>
+                <p class="mt-3 text-[#192E03] opacity-80 max-w-2xl mx-auto">Akses cepat layanan dan informasi publik untuk masyarakat.</p>
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                 @foreach ([
-                    ['label' => __('layanan.aparatur'), 'desc' => __('layanan.aparatur.desc'), 'route' => 'aparatur.index', 'icon' => 'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0'],
-                    ['label' => __('layanan.umkm'), 'desc' => __('layanan.umkm.desc'), 'route' => 'umkm.index', 'icon' => 'M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z'],
-                    ['label' => __('layanan.fasilitas'), 'desc' => __('layanan.fasilitas.desc'), 'route' => 'fasilitas.index', 'icon' => 'M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z'],
-                    ['label' => __('layanan.galeri'), 'desc' => __('layanan.galeri.desc'), 'route' => 'galeri.index', 'icon' => 'M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z'],
+                    ['label' => 'Aparatur Desa', 'desc' => 'Struktur perangkat desa', 'route' => 'aparatur.index', 'icon' => 'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0'],
+                    ['label' => 'UMKM Desa', 'desc' => 'Produk unggulan warga', 'route' => 'umkm.index', 'icon' => 'M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z'],
+                    ['label' => 'Fasilitas Umum', 'desc' => 'Sarana & prasarana desa', 'route' => 'fasilitas.index', 'icon' => 'M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z'],
+                    ['label' => 'Galeri Foto', 'desc' => 'Dokumentasi kegiatan', 'route' => 'galeri.index', 'icon' => 'M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z'],
                 ] as $item)
                     <a href="{{ route($item['route']) }}"
                         data-aos="fade-up"
@@ -464,19 +461,19 @@
 
         <div class="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 text-center">
             <h2 class="text-3xl sm:text-4xl font-extrabold text-white">
-                {{ __('cta.title') }}
+                Butuh Informasi Lebih Lanjut?
             </h2>
             <p class="mt-4 text-white/80 max-w-2xl mx-auto">
-                {{ __('cta.desc') }}
+                Kunjungi kantor desa atau jelajahi profil, layanan, dan potensi desa untuk mengenal desa kami lebih dekat.
             </p>
             <div class="mt-8 flex flex-wrap items-center justify-center gap-4">
                 <a href="{{ route('kontak.show') }}"
                     class="px-6 py-3 bg-white text-[#192E03] text-sm font-semibold rounded-full shadow-lg hover:bg-[#192E03]/5 transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white">
-                    {{ __('cta.kontak_btn') }}
+                    Hubungi Kami
                 </a>
                 <a href="{{ route('profile-desa.show') }}"
                     class="px-6 py-3 border border-white/70 text-white text-sm font-semibold rounded-full hover:bg-white/10 transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white">
-                    {{ __('cta.profil_btn') }}
+                    Profil Desa
                 </a>
             </div>
         </div>

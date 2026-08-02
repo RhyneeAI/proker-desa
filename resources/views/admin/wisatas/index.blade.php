@@ -11,7 +11,7 @@
 
     <div class="card">
         <div class="table-responsive">
-            <table class="table table-vcenter card-table">
+            <table class="table table-vcenter card-table datatable">
                 <thead>
                     <tr>
                         <th>No</th>
@@ -25,7 +25,7 @@
                 <tbody>
                     @forelse ($wisatas as $wisata)
                         <tr>
-                            <td class="text-secondary">{{ $wisatas->firstItem() + $loop->index }}</td>
+                            <td class="text-secondary">{{ $loop->iteration }}</td>
                             <td>
                                 @if ($wisata->photo)
                                     <img src="{{ Storage::url($wisata->photo) }}"
@@ -56,12 +56,12 @@
                             </td>
                             <td class="text-end">
                                 <div class="d-flex justify-content-end gap-1">
-                                    <a href="{{ route('admin.wisata.edit', $wisata) }}" class="btn btn-sm btn-outline-primary">Edit</a>
+                                    <a href="{{ route('admin.wisata.edit', $wisata) }}" class="btn btn-sm btn-icon btn-outline-primary" title="Edit"><i class="ti ti-pencil"></i></a>
                                     <form method="POST" action="{{ route('admin.wisata.destroy', $wisata) }}"
                                         onsubmit="return confirm('Hapus data wisata ini?');">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-sm btn-outline-danger">Hapus</button>
+                                        <button type="submit" class="btn btn-sm btn-icon btn-outline-danger" title="Hapus"><i class="ti ti-trash"></i></button>
                                     </form>
                                 </div>
                             </td>
@@ -77,9 +77,5 @@
                 </tbody>
             </table>
         </div>
-    </div>
-
-    <div class="mt-3">
-        {{ $wisatas->links() }}
     </div>
 </x-layouts.admin>

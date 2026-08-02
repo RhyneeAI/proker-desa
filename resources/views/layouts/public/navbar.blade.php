@@ -40,50 +40,32 @@
             <div class="hidden lg:flex items-center gap-1 text-sm font-semibold">
                 <a href="{{ route('home') }}"
                     class="px-3 py-2 text-white transition {{ request()->routeIs('home') ? 'border-b-2 border-white' : 'opacity-80 hover:opacity-100' }}">
-                    {{ __('nav.home') }}
+                    Beranda
                 </a>
                 <a href="{{ route('profile-desa.show') }}"
                     class="px-3 py-2 text-white transition {{ request()->routeIs('profile-desa.*') ? 'border-b-2 border-white' : 'opacity-80 hover:opacity-100' }}">
-                    {{ __('nav.profil') }}
+                    Profil Desa
                 </a>
                 <a href="{{ route('peta-desa.show') }}"
                     class="px-3 py-2 text-white transition {{ request()->routeIs('peta-desa.*') ? 'border-b-2 border-white' : 'opacity-80 hover:opacity-100' }}">
-                    {{ __('nav.peta') }}
+                    Peta Desa
                 </a>
                 <a href="{{ route('berita.index') }}"
                     class="px-3 py-2 text-white transition {{ request()->routeIs('berita.*') ? 'border-b-2 border-white' : 'opacity-80 hover:opacity-100' }}">
-                    {{ __('nav.berita') }}
+                    Berita
                 </a>
                 <a href="{{ route('umkm.index') }}"
                     class="px-3 py-2 text-white transition {{ request()->routeIs('umkm.*') ? 'border-b-2 border-white' : 'opacity-80 hover:opacity-100' }}">
-                    {{ __('nav.umkm') }}
+                    UMKM
                 </a>
                 <a href="{{ route('fasilitas.index') }}"
                     class="px-3 py-2 text-white transition {{ request()->routeIs('fasilitas.*') ? 'border-b-2 border-white' : 'opacity-80 hover:opacity-100' }}">
-                    {{ __('nav.fasilitas') }}
+                    Fasilitas
                 </a>
             </div>
 
-            {{-- Aksi Kanan: Login, Tema & Bahasa --}}
+            {{-- Aksi Kanan: Tema --}}
             <div class="flex items-center gap-3">
-                @auth
-                    <a href="{{ route('admin.dashboard') }}"
-                        class="hidden sm:inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-white text-[#192E03] text-sm font-semibold shadow-sm hover:bg-[#192E03] hover:text-white transition">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857"/>
-                        </svg>
-                        {{ __('nav.dashboard') }}
-                    </a>
-                @else
-                    <a href="{{ route('login') }}"
-                        class="hidden sm:inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-white text-[#192E03] text-sm font-semibold shadow-sm hover:bg-[#192E03] hover:text-white transition">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"/>
-                        </svg>
-                        {{ __('nav.login') }}
-                    </a>
-                @endauth
-
                 <button @click="toggleTheme()"
                     class="w-8 h-8 rounded-full border border-white/30 text-white flex items-center justify-center hover:bg-white/10 transition"
                     :aria-label="themeDark ? 'Mode terang' : 'Mode gelap'">
@@ -94,16 +76,6 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
                     </svg>
                 </button>
-
-                @if (app()->getLocale() === 'id')
-                    <a href="{{ route('locale.switch', 'en') }}"
-                        class="px-2.5 py-1.5 rounded-full border border-white/30 text-white text-xs font-semibold hover:bg-white/10 transition"
-                        aria-label="Switch to English">EN</a>
-                @else
-                    <a href="{{ route('locale.switch', 'id') }}"
-                        class="px-2.5 py-1.5 rounded-full border border-white/30 text-white text-xs font-semibold hover:bg-white/10 transition"
-                        aria-label="Ganti ke Bahasa Indonesia">ID</a>
-                @endif
             </div>
 
             {{-- Hamburger Mobile --}}
@@ -121,42 +93,28 @@
         <div x-show="open" x-cloak class="lg:hidden pb-4 pt-2 border-t border-white/10 space-y-1">
             <a href="{{ route('home') }}"
                 class="block px-3 py-2 rounded-lg text-sm font-medium text-white transition hover:bg-white/10 {{ request()->routeIs('home') ? 'bg-white/10' : 'opacity-80' }}">
-                {{ __('nav.home') }}
+                Beranda
             </a>
             <a href="{{ route('profile-desa.show') }}"
                 class="block px-3 py-2 rounded-lg text-sm font-medium text-white transition hover:bg-white/10 {{ request()->routeIs('profile-desa.*') ? 'bg-white/10' : 'opacity-80' }}">
-                {{ __('nav.profil') }}
+                Profil Desa
             </a>
             <a href="{{ route('peta-desa.show') }}"
                 class="block px-3 py-2 rounded-lg text-sm font-medium text-white transition hover:bg-white/10 {{ request()->routeIs('peta-desa.*') ? 'bg-white/10' : 'opacity-80' }}">
-                {{ __('nav.peta') }}
+                Peta Desa
             </a>
             <a href="{{ route('berita.index') }}"
                 class="block px-3 py-2 rounded-lg text-sm font-medium text-white transition hover:bg-white/10 {{ request()->routeIs('berita.*') ? 'bg-white/10' : 'opacity-80' }}">
-                {{ __('nav.berita') }}
+                Berita
             </a>
             <a href="{{ route('umkm.index') }}"
                 class="block px-3 py-2 rounded-lg text-sm font-medium text-white transition hover:bg-white/10 {{ request()->routeIs('umkm.*') ? 'bg-white/10' : 'opacity-80' }}">
-                {{ __('nav.umkm') }}
+                UMKM
             </a>
             <a href="{{ route('fasilitas.index') }}"
                 class="block px-3 py-2 rounded-lg text-sm font-medium text-white transition hover:bg-white/10 {{ request()->routeIs('fasilitas.*') ? 'bg-white/10' : 'opacity-80' }}">
-                {{ __('nav.fasilitas') }}
+                Fasilitas
             </a>
-
-            <div class="pt-3 mt-2 border-t border-white/10">
-                @auth
-                    <a href="{{ route('admin.dashboard') }}"
-                        class="flex items-center justify-center px-3 py-2 rounded-lg text-sm font-semibold text-[#192E03] bg-white hover:bg-white/90 transition">
-                        {{ __('nav.dashboard') }}
-                    </a>
-                @else
-                    <a href="{{ route('login') }}"
-                        class="flex items-center justify-center px-3 py-2 rounded-lg text-sm font-semibold text-[#192E03] bg-white hover:bg-white/90 transition">
-                        {{ __('nav.login') }}
-                    </a>
-                @endauth
-            </div>
         </div>
     </div>
 </nav>

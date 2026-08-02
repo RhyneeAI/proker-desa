@@ -11,7 +11,7 @@
 
     <div class="card">
         <div class="table-responsive">
-            <table class="table table-vcenter card-table">
+            <table class="table table-vcenter card-table datatable">
                 <thead>
                     <tr>
                         <th>Foto</th>
@@ -51,12 +51,12 @@
                             </td>
                             <td class="text-end">
                                 <div class="d-flex justify-content-end align-items-center gap-1">
-                                    <a href="{{ route('admin.potensi.edit', $potential) }}" class="btn btn-sm btn-outline-primary">Edit</a>
+                                    <a href="{{ route('admin.potensi.edit', $potential) }}" class="btn btn-sm btn-icon btn-outline-primary" title="Edit"><i class="ti ti-pencil"></i></a>
                                     <form method="POST" action="{{ route('admin.potensi.destroy', $potential) }}"
                                         onsubmit="return confirm('Hapus potensi ini?');">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-sm btn-outline-danger">Hapus</button>
+                                        <button type="submit" class="btn btn-sm btn-icon btn-outline-danger" title="Hapus"><i class="ti ti-trash"></i></button>
                                     </form>
                                 </div>
                             </td>
@@ -72,9 +72,5 @@
                 </tbody>
             </table>
         </div>
-    </div>
-
-    <div class="mt-3">
-        {{ $potentials->links() }}
     </div>
 </x-layouts.admin>

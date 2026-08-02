@@ -23,6 +23,7 @@ use App\Http\Controllers\NewsController;
 use App\Http\Controllers\OfficialController;
 use App\Http\Controllers\PotentialController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SitemapController;
 use App\Http\Controllers\UmkmController;
 use App\Http\Controllers\VillageProfileController;
 use App\Http\Controllers\WisataController;
@@ -49,13 +50,13 @@ Route::get('/potensi-desa/{potential}', [PotentialController::class, 'show'])->n
 Route::get('/wisata', [WisataController::class, 'index'])->name('wisata.index');
 Route::get('/wisata/{wisata}', [WisataController::class, 'show'])->name('wisata.show');
 
-Route::get('/locale/{locale}', function (string $locale) {
-    abort_unless(in_array($locale, ['id', 'en'], true), 404);
+Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
 
-    session(['locale' => $locale]);
+Route::get('/robots.txt', function () {
+    $content = "User-agent: *\nAllow: /\nDisallow: /admin\nDisallow: /login\n\nSitemap: " . route('sitemap');
 
-    return redirect()->back();
-})->name('locale.switch');
+    return response($content)->header('Content-Type', 'text/plain');
+})->name('robots');
 
 // ========================
 // AREA ADMIN

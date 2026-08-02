@@ -14,7 +14,7 @@ class UmkmController extends Controller
 {
     public function index(): View
     {
-        $umkms = Umkm::latest()->paginate(10);
+        $umkms = Umkm::latest()->get();
 
         return view('admin.umkms.index', compact('umkms'));
     }

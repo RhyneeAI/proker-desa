@@ -58,10 +58,19 @@
                 </div>
                 <div class="list-group list-group-flush">
                     @forelse ($latestNews as $news)
+                        @php
+                            $newsImg = $news->thumbnail && Storage::disk('public')->exists($news->thumbnail)
+                                ? Storage::url($news->thumbnail)
+                                : 'https://picsum.photos/seed/news-' . $news->id . '/120/120';
+                        @endphp
                         <div class="list-group-item d-flex justify-content-between align-items-start gap-3">
-                            <div class="min-w-0">
-                                <p class="text-body fw-medium text-truncate mb-1">{{ $news->title }}</p>
-                                <p class="text-secondary small mb-0">{{ $news->published_at?->translatedFormat('d F Y') }}</p>
+                            <div class="d-flex align-items-start gap-3 min-w-0">
+                                <img src="{{ $newsImg }}" alt="{{ $news->thumbnail_alt ?? $news->title }}"
+                                    class="rounded flex-shrink-0" style="width:56px;height:40px;object-fit:cover">
+                                <div class="min-w-0">
+                                    <p class="text-body fw-medium text-truncate mb-1">{{ $news->title }}</p>
+                                    <p class="text-secondary small mb-0">{{ $news->published_at?->translatedFormat('d F Y') }}</p>
+                                </div>
                             </div>
                             <span class="badge {{ $news->is_published ? 'bg-success' : 'bg-secondary' }} text-nowrap">
                                 {{ $news->is_published ? 'Terbit' : 'Draf' }}

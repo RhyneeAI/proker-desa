@@ -1,4 +1,4 @@
-<x-layouts.public :title="$umkm->name">
+<x-layouts.public :title="$umkm->name" :meta-description="Str::limit(strip_tags($umkm->description ?? ''), 160)">
     <x-public-page-header :title="$umkm->name"
         eyebrow="UMKM Desa"
         :crumbs="[

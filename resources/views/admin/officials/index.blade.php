@@ -11,7 +11,7 @@
 
     <div class="card">
         <div class="table-responsive">
-            <table class="table table-vcenter card-table">
+            <table class="table table-vcenter card-table datatable">
                 <thead>
                     <tr>
                         <th>No</th>
@@ -25,7 +25,7 @@
                 <tbody>
                     @forelse ($officials as $official)
                         <tr>
-                            <td class="text-secondary">{{ $officials->firstItem() + $loop->index }}</td>
+                            <td class="text-secondary">{{ $loop->iteration }}</td>
                             <td>
                                 @if ($official->photo)
                                     <img src="{{ Storage::url($official->photo) }}"
@@ -44,12 +44,12 @@
                             </td>
                             <td class="text-end">
                                 <div class="d-flex justify-content-end gap-1">
-                                    <a href="{{ route('admin.aparatur.edit', $official) }}" class="btn btn-sm btn-outline-primary">Edit</a>
+                                    <a href="{{ route('admin.aparatur.edit', $official) }}" class="btn btn-sm btn-icon btn-outline-primary" title="Edit"><i class="ti ti-pencil"></i></a>
                                     <form method="POST" action="{{ route('admin.aparatur.destroy', $official) }}"
                                         onsubmit="return confirm('Hapus data aparatur ini?');">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-sm btn-outline-danger">Hapus</button>
+                                        <button type="submit" class="btn btn-sm btn-icon btn-outline-danger" title="Hapus"><i class="ti ti-trash"></i></button>
                                     </form>
                                 </div>
                             </td>
@@ -65,9 +65,5 @@
                 </tbody>
             </table>
         </div>
-    </div>
-
-    <div class="mt-3">
-        {{ $officials->links() }}
     </div>
 </x-layouts.admin>

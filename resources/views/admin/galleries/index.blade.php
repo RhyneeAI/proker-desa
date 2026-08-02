@@ -28,12 +28,12 @@
                             {{ $gallery->title ?? 'Tanpa judul' }}
                         </p>
                         <div class="d-flex justify-content-between align-items-center mt-2">
-                            <a href="{{ route('admin.galeri.edit', $gallery) }}" class="btn btn-sm btn-outline-primary">Edit</a>
+                            <a href="{{ route('admin.galeri.edit', $gallery) }}" class="btn btn-sm btn-icon btn-outline-primary" title="Edit"><i class="ti ti-pencil"></i></a>
                             <form method="POST" action="{{ route('admin.galeri.destroy', $gallery) }}"
                                 onsubmit="return confirm('Hapus foto ini?');">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-sm btn-outline-danger">Hapus</button>
+                                <button type="submit" class="btn btn-sm btn-icon btn-outline-danger" title="Hapus"><i class="ti ti-trash"></i></button>
                             </form>
                         </div>
                     </div>
@@ -45,9 +45,5 @@
                 <div>Belum ada foto di galeri.</div>
             </div>
         @endforelse
-    </div>
-
-    <div class="mt-3">
-        {{ $galleries->links() }}
     </div>
 </x-layouts.admin>

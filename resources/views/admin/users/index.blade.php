@@ -8,7 +8,7 @@
 
     <div class="card">
         <div class="table-responsive">
-            <table class="table table-vcenter card-table">
+            <table class="table table-vcenter card-table datatable">
                 <thead>
                     <tr>
                         <th>No</th>
@@ -22,7 +22,7 @@
                 <tbody>
                     @forelse ($users as $user)
                         <tr>
-                            <td class="text-secondary">{{ $users->firstItem() + $loop->index }}</td>
+                            <td class="text-secondary">{{ $loop->iteration }}</td>
                             <td class="fw-medium text-body">
                                 <div class="d-flex align-items-center gap-2">
                                     <span class="avatar avatar-sm">{{ strtoupper(substr($user->name, 0, 1)) }}</span>
@@ -69,9 +69,5 @@
                 </tbody>
             </table>
         </div>
-    </div>
-
-    <div class="mt-3">
-        {{ $users->links() }}
     </div>
 </x-layouts.admin>

@@ -16,7 +16,7 @@ class PotensiDesaController extends Controller
     {
         $potensiDesa = PotensiDesa::orderBy('display_order')
             ->orderBy('id')
-            ->paginate(12);
+            ->get();
 
         return view('admin.potensi-desa.index', compact('potensiDesa'));
     }

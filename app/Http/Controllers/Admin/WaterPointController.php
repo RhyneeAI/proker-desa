@@ -14,7 +14,7 @@ class WaterPointController extends Controller
 {
     public function index(): View
     {
-        $waterPoints = WaterPoint::latest()->paginate(10);
+        $waterPoints = WaterPoint::latest()->get();
 
         return view('admin.water-points.index', compact('waterPoints'));
     }

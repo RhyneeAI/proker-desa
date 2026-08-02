@@ -1,4 +1,4 @@
-<x-layouts.public :title="$news->title">
+<x-layouts.public :title="$news->title" :meta-description="Str::limit(strip_tags($news->content), 160)">
     <x-public-page-header :title="$news->title"
         eyebrow="Berita Desa"
         :crumbs="[

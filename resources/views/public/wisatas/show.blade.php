@@ -1,4 +1,4 @@
-<x-layouts.public :title="$wisata->name">
+<x-layouts.public :title="$wisata->name" :meta-description="Str::limit(strip_tags($wisata->description ?? ''), 160)">
     <x-public-page-header :title="$wisata->name"
         eyebrow="Wisata Desa"
         :crumbs="[

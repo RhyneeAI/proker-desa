@@ -14,7 +14,7 @@ class PotentialController extends Controller
 {
     public function index(): View
     {
-        $potentials = Potential::latest()->paginate(10);
+        $potentials = Potential::latest()->get();
 
         return view('admin.potentials.index', compact('potentials'));
     }
