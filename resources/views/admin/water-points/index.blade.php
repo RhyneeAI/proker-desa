@@ -17,9 +17,7 @@
                         <th>No</th>
                         <th>Foto</th>
                         <th>Nama</th>
-                        <th>Kategori</th>
-                        <th>Status</th>
-                        <th>Koordinat</th>
+                        <th>Arah Lintasan</th>
                         <th class="text-end">Aksi</th>
                     </tr>
                 </thead>
@@ -28,9 +26,9 @@
                         <tr>
                             <td>{{ $loop->iteration }}</td>
                             <td>
-                                @if ($waterPoint->photo)
-                                    <img src="{{ Storage::url($waterPoint->photo) }}" data-lightbox="{{ Storage::url($waterPoint->photo) }}"
-                                        alt="{{ $waterPoint->photo_alt }}"
+                                @if ($waterPoint->documentation_photo)
+                                    <img src="{{ Storage::url($waterPoint->documentation_photo) }}" data-lightbox="{{ Storage::url($waterPoint->documentation_photo) }}"
+                                        alt="{{ $waterPoint->name }}"
                                         class="avatar avatar-lg rounded">
                                 @else
                                     <span class="avatar avatar-lg bg-secondary-lt rounded">
@@ -41,38 +39,7 @@
                             <td>
                                 <p class="fw-medium text-body mb-0">{{ $waterPoint->name }}</p>
                             </td>
-                            <td>
-                                @if ($waterPoint->category)
-                                    <x-category-badge :category="$waterPoint->category" />
-                                @else
-                                    <span class="text-secondary small">-</span>
-                                @endif
-                            </td>
-                            <td>
-                                @if ($waterPoint->status)
-                                    @php
-                                        $badgeColor = match ($waterPoint->status) {
-                                            'Rusak' => 'bg-danger-lt text-danger',
-                                            'Pemeliharaan' => 'bg-warning-lt text-warning',
-                                            default => 'bg-success-lt text-success',
-                                        };
-                                    @endphp
-                                    <span class="badge {{ $badgeColor }}">{{ $waterPoint->status }}</span>
-                                @else
-                                    <span class="text-secondary small">-</span>
-                                @endif
-                            </td>
-                            <td>
-                                @if ($waterPoint->latitude && $waterPoint->longitude)
-                                    <a href="https://www.google.com/maps?q={{ $waterPoint->latitude }},{{ $waterPoint->longitude }}"
-                                        target="_blank"
-                                        class="text-primary">
-                                        Lihat Peta
-                                    </a>
-                                @else
-                                    <span class="text-secondary">Belum diisi</span>
-                                @endif
-                            </td>
+                            <td class="text-secondary">{{ $waterPoint->direction ?? '-' }}</td>
                             <td class="text-end">
                                 <div class="d-flex justify-content-end gap-1">
                                     <a href="{{ route('admin.titik-air.edit', $waterPoint) }}" class="btn btn-icon btn-outline-primary" title="Edit"><i class="ti ti-pencil"></i></a>
@@ -87,7 +54,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="7" class="text-center text-secondary py-5">
+                            <td colspan="5" class="text-center text-secondary py-5">
                                 <i class="ti ti-inbox text-secondary mb-2" style="font-size:2rem"></i>
                                 <div>Belum ada data titik air.</div>
                             </td>

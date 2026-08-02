@@ -27,8 +27,12 @@ class WaterPointController extends Controller
     {
         $validated = $request->validated();
 
-        if ($request->hasFile('photo')) {
-            $validated['photo'] = $request->file('photo')->store('water-points', 'public');
+        if ($request->hasFile('documentation_photo')) {
+            $validated['documentation_photo'] = $request->file('documentation_photo')->store('water-points', 'public');
+        }
+
+        if ($request->hasFile('interpretation_photo')) {
+            $validated['interpretation_photo'] = $request->file('interpretation_photo')->store('water-points', 'public');
         }
 
         WaterPoint::create($validated);
@@ -47,11 +51,18 @@ class WaterPointController extends Controller
     {
         $validated = $request->validated();
 
-        if ($request->hasFile('photo')) {
-            if ($waterPoint->photo) {
-                Storage::disk('public')->delete($waterPoint->photo);
+        if ($request->hasFile('documentation_photo')) {
+            if ($waterPoint->documentation_photo) {
+                Storage::disk('public')->delete($waterPoint->documentation_photo);
             }
-            $validated['photo'] = $request->file('photo')->store('water-points', 'public');
+            $validated['documentation_photo'] = $request->file('documentation_photo')->store('water-points', 'public');
+        }
+
+        if ($request->hasFile('interpretation_photo')) {
+            if ($waterPoint->interpretation_photo) {
+                Storage::disk('public')->delete($waterPoint->interpretation_photo);
+            }
+            $validated['interpretation_photo'] = $request->file('interpretation_photo')->store('water-points', 'public');
         }
 
         $waterPoint->update($validated);
@@ -63,8 +74,12 @@ class WaterPointController extends Controller
 
     public function destroy(WaterPoint $waterPoint): RedirectResponse
     {
-        if ($waterPoint->photo) {
-            Storage::disk('public')->delete($waterPoint->photo);
+        if ($waterPoint->documentation_photo) {
+            Storage::disk('public')->delete($waterPoint->documentation_photo);
+        }
+
+        if ($waterPoint->interpretation_photo) {
+            Storage::disk('public')->delete($waterPoint->interpretation_photo);
         }
 
         $waterPoint->delete();

@@ -16,21 +16,6 @@
                 </div>
                 <div class="card-body">
                     <x-form-input label="Nama" name="name" :value="$waterPoint->name" required />
-
-                    <x-form-select
-                        label="Kategori"
-                        name="category"
-                        :options="['Sumur' => 'Sumur', 'Pompa Air' => 'Pompa Air', 'Mata Air' => 'Mata Air', 'Hidran Umum' => 'Hidran Umum', 'Embung' => 'Embung', 'PAM' => 'PAM']"
-                        :selected="$waterPoint->category"
-                    />
-
-                    <x-form-select
-                        label="Status"
-                        name="status"
-                        :options="['Berfungsi' => 'Berfungsi', 'Rusak' => 'Rusak', 'Pemeliharaan' => 'Pemeliharaan']"
-                        :selected="$waterPoint->status"
-                    />
-
                     <x-form-textarea label="Alamat" name="address" :value="$waterPoint->address" :rows="2" />
                     <x-form-textarea label="Deskripsi" name="description" :value="$waterPoint->description" :rows="3" />
                 </div>
@@ -38,52 +23,100 @@
 
             <div class="card mb-3">
                 <div class="card-header">
-                    <h3 class="card-title">Koordinat Lokasi</h3>
+                    <h3 class="card-title">Titik Koordinat</h3>
                 </div>
                 <div class="card-body">
-                    <div class="row g-3">
-                        <div class="col-6">
-                            <x-form-input label="Latitude" name="latitude" :value="$waterPoint->latitude" type="number" step="0.0000001" />
-                        </div>
-                        <div class="col-6">
-                            <x-form-input label="Longitude" name="longitude" :value="$waterPoint->longitude" type="number" step="0.0000001" />
-                        </div>
-                    </div>
+                    <small class="text-secondary d-block mb-3">Koordinat tidak ditampilkan ke publik.</small>
 
-                    @if ($waterPoint->latitude && $waterPoint->longitude)
-                        <a href="https://www.google.com/maps?q={{ $waterPoint->latitude }},{{ $waterPoint->longitude }}"
-                            target="_blank"
-                            class="link-primary text-decoration-none">
-                            <i class="ti ti-map-pin me-1"></i> Lihat lokasi saat ini di Google Maps
-                        </a>
-                    @endif
+                    @foreach ([
+                        ['label' => 'Titik Awal', 'prefix' => 'start'],
+                        ['label' => 'Titik Akhir', 'prefix' => 'end'],
+                        ['label' => 'Titik Rekomendasi', 'prefix' => 'recommend'],
+                    ] as $point)
+                        <div class="mb-3">
+                            <label class="form-label">{{ $point['label'] }}</label>
+                            <div class="row g-3">
+                                <div class="col-6">
+                                    <x-form-input
+                                        label="Latitude"
+                                        name="{{ $point['prefix'] }}_latitude"
+                                        :value="$waterPoint->{$point['prefix'].'_latitude'}"
+                                        type="number"
+                                        step="0.0000001"
+                                        placeholder="-6.821900"
+                                    />
+                                </div>
+                                <div class="col-6">
+                                    <x-form-input
+                                        label="Longitude"
+                                        name="{{ $point['prefix'] }}_longitude"
+                                        :value="$waterPoint->{$point['prefix'].'_longitude'}"
+                                        type="number"
+                                        step="0.0000001"
+                                        placeholder="107.142500"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+
+                    <x-form-input
+                        label="Arah Lintasan"
+                        name="direction"
+                        :value="$waterPoint->direction"
+                        placeholder="mis. Utara → Selatan"
+                        hint="Arah jalur/lintasan jaringan air."
+                    />
                 </div>
             </div>
 
             <div class="card mb-3">
                 <div class="card-header">
-                    <h3 class="card-title">Foto</h3>
+                    <h3 class="card-title">Foto Dokumentasi</h3>
                 </div>
                 <div class="card-body">
-                    @if ($waterPoint->photo)
+                    @if ($waterPoint->documentation_photo)
                         <div class="mb-3">
                             <small class="text-secondary d-block mb-2">Foto saat ini:</small>
-                            <img src="{{ Storage::url($waterPoint->photo) }}"
-                                alt="{{ $waterPoint->photo_alt }}"
-                                class="img-fluid rounded mb-2">
+                            <img src="{{ Storage::url($waterPoint->documentation_photo) }}"
+                                alt="{{ $waterPoint->name }}"
+                                class="img-fluid rounded mb-2" style="max-height:220px;object-fit:cover">
                         </div>
                     @endif
 
-                    <div class="mb-3">
-                        <label class="form-label">Ganti Foto</label>
-                        <input type="file" name="photo" accept="image/*" class="form-control @error('photo') is-invalid @enderror">
-                        <small class="form-hint">Kosongkan jika tidak ingin mengganti foto.</small>
-                        @error('photo')
+                    <div class="mb-0">
+                        <label class="form-label">Ganti Foto Dokumentasi</label>
+                        <input type="file" name="documentation_photo" accept="image/*" class="form-control @error('documentation_photo') is-invalid @enderror">
+                        <small class="form-hint">Kosongkan jika tidak ingin mengganti. Maks. 5MB.</small>
+                        @error('documentation_photo')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
+                </div>
+            </div>
 
-                    <x-form-input label="Teks Alternatif Foto" name="photo_alt" :value="$waterPoint->photo_alt" />
+            <div class="card mb-3">
+                <div class="card-header">
+                    <h3 class="card-title">Foto Interpretasi (Plot)</h3>
+                </div>
+                <div class="card-body">
+                    @if ($waterPoint->interpretation_photo)
+                        <div class="mb-3">
+                            <small class="text-secondary d-block mb-2">Foto saat ini:</small>
+                            <img src="{{ Storage::url($waterPoint->interpretation_photo) }}"
+                                alt="{{ $waterPoint->name }}"
+                                class="img-fluid rounded mb-2" style="max-height:220px;object-fit:cover">
+                        </div>
+                    @endif
+
+                    <div class="mb-0">
+                        <label class="form-label">Ganti Foto Interpretasi / Plot</label>
+                        <input type="file" name="interpretation_photo" accept="image/*" class="form-control @error('interpretation_photo') is-invalid @enderror">
+                        <small class="form-hint">Plot interpretasi alat AIDU (konfigurasi 0 dan 2). Kosongkan jika tidak ingin mengganti. Maks. 5MB.</small>
+                        @error('interpretation_photo')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
                 </div>
             </div>
 

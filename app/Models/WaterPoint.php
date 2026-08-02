@@ -12,21 +12,28 @@ class WaterPoint extends Model
 
     protected $fillable = [
         'name',
-        'category',
-        'status',
         'description',
         'address',
-        'latitude',
-        'longitude',
-        'photo',
-        'photo_alt',
+        'start_latitude',
+        'start_longitude',
+        'end_latitude',
+        'end_longitude',
+        'recommend_latitude',
+        'recommend_longitude',
+        'direction',
+        'documentation_photo',
+        'interpretation_photo',
     ];
 
     protected function casts(): array
     {
         return [
-            'latitude' => 'decimal:7',
-            'longitude' => 'decimal:7',
+            'start_latitude' => 'decimal:7',
+            'start_longitude' => 'decimal:7',
+            'end_latitude' => 'decimal:7',
+            'end_longitude' => 'decimal:7',
+            'recommend_latitude' => 'decimal:7',
+            'recommend_longitude' => 'decimal:7',
         ];
     }
 }

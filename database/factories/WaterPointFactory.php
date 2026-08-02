@@ -10,14 +10,17 @@ class WaterPointFactory extends Factory
     {
         return [
             'name' => fake('id_ID')->sentence(3),
-            'category' => fake()->randomElement(['Sumur', 'Pompa Air', 'Mata Air', 'Hidran Umum', 'Embung', 'PAM']),
-            'status' => fake()->randomElement(['Berfungsi', 'Rusak', 'Pemeliharaan']),
             'description' => fake('id_ID')->paragraph(),
             'address' => fake('id_ID')->address(),
-            'latitude' => fake()->latitude(-6.832, -6.818),
-            'longitude' => fake()->longitude(107.080, 107.110),
-            'photo' => null,
-            'photo_alt' => null,
+            'start_latitude' => fake()->latitude(-6.832, -6.818),
+            'start_longitude' => fake()->longitude(107.080, 107.110),
+            'end_latitude' => fake()->latitude(-6.832, -6.818),
+            'end_longitude' => fake()->longitude(107.080, 107.110),
+            'recommend_latitude' => fake()->latitude(-6.832, -6.818),
+            'recommend_longitude' => fake()->longitude(107.080, 107.110),
+            'direction' => fake()->randomElement(['Utara', 'Timur Laut', 'Timur', 'Tenggara', 'Selatan', 'Barat Daya', 'Barat', 'Barat Laut']),
+            'documentation_photo' => null,
+            'interpretation_photo' => null,
         ];
     }
 }

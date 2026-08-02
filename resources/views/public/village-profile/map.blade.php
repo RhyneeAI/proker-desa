@@ -10,7 +10,7 @@
         $mapUmkms = $umkms->filter(fn ($u) => $u->latitude && $u->longitude);
         $mapFacilities = $facilities->filter(fn ($f) => $f->latitude && $f->longitude);
         $mapWisatas = $wisatas->filter(fn ($w) => $w->latitude && $w->longitude);
-        $mapWaterPoints = $waterPoints->filter(fn ($wp) => $wp->latitude && $wp->longitude);
+        $mapWaterPoints = $waterPoints->filter(fn ($wp) => $wp->recommend_latitude && $wp->recommend_longitude);
 
         $imgUrl = function (?string $file, string $seed) {
             return $file && Storage::disk('public')->exists($file)
@@ -102,14 +102,12 @@
         @php
             $airItems = $waterPoints->map(fn ($p) => [
                 'name' => $p->name,
-                'col1' => $p->category ?? '-',
-                'badge' => $p->status ?? '-',
-                'badgeClass' => $p->status === 'Rusak' ? 'bg-red-100 text-red-700' : ($p->status === 'Pemeliharaan' ? 'bg-amber-100 text-amber-700' : 'bg-emerald-100 text-emerald-700'),
+                'col1' => $p->direction ?? '-',
                 'desc' => $p->description,
                 'address' => $p->address,
-                'coord' => $p->latitude . ', ' . $p->longitude,
-                'photo' => $imgUrl($p->photo, 'titik-air-' . $p->id),
-                'alt' => $p->photo_alt ?? $p->name,
+                'coord' => $p->recommend_latitude . ', ' . $p->recommend_longitude,
+                'photo' => $imgUrl($p->documentation_photo, 'titik-air-' . $p->id),
+                'alt' => $p->name,
             ])->values()->toArray();
 
             $wisataItems = $wisatas->map(fn ($p) => [
@@ -187,20 +185,17 @@
                         </div>
                     </div>
 
-                    <div class="hidden md:grid grid-cols-[3rem_1fr_8rem_8rem_2rem] gap-2 px-5 py-2.5 border-t border-slate-200 text-xs font-semibold uppercase tracking-wide text-slate-500">
-                        <span>No</span><span>Nama Titik</span><span>Jenis</span><span>Status</span><span></span>
+                    <div class="hidden md:grid grid-cols-[3rem_1fr_10rem_2rem] gap-2 px-5 py-2.5 border-t border-slate-200 text-xs font-semibold uppercase tracking-wide text-slate-500">
+                        <span>No</span><span>Nama Titik</span><span>Arah Lintasan</span><span></span>
                     </div>
                     <div class="divide-y divide-slate-100">
                         <template x-for="(row, i) in rows" :key="row.name + i">
                             <div>
                                 <div @click="detail = detail === i ? null : i"
-                                    class="px-5 py-3 grid grid-cols-1 md:grid-cols-[3rem_1fr_8rem_8rem_2rem] md:gap-2 gap-1 items-center cursor-pointer hover:bg-slate-50 transition">
+                                    class="px-5 py-3 grid grid-cols-1 md:grid-cols-[3rem_1fr_10rem_2rem] md:gap-2 gap-1 items-center cursor-pointer hover:bg-slate-50 transition">
                                     <span class="text-xs text-slate-400 md:block hidden" x-text="(page - 1) * per + i + 1"></span>
                                     <p class="font-medium text-slate-800" x-text="row.name"></p>
                                     <p class="text-sm text-slate-600" x-text="row.col1"></p>
-                                    <span class="justify-self-start md:justify-self-auto" :class="row.badgeClass">
-                                        <span class="inline-flex px-2.5 py-1 rounded-full text-xs font-semibold" x-text="row.badge"></span>
-                                    </span>
                                     <span class="text-right text-slate-400">
                                         <svg x-show="detail !== i" class="w-4 h-4 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
                                         <svg x-show="detail === i" class="w-4 h-4 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"/></svg>

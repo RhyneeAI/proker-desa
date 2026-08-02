@@ -43,11 +43,11 @@
             'address' => $w->address,
             'url' => route('wisata.show', $w->id),
         ])->values(),
-        'titikAir' => $waterPoints->filter(fn ($wp) => $wp->latitude && $wp->longitude)->map(fn ($wp) => [
+        'titikAir' => $waterPoints->filter(fn ($wp) => $wp->recommend_latitude && $wp->recommend_longitude)->map(fn ($wp) => [
             'name' => $wp->name,
-            'lat' => (float) $wp->latitude,
-            'lng' => (float) $wp->longitude,
-            'category' => $wp->category . ($wp->status && $wp->status !== 'Berfungsi' ? ' • ' . $wp->status : ''),
+            'lat' => (float) $wp->recommend_latitude,
+            'lng' => (float) $wp->recommend_longitude,
+            'category' => $wp->direction,
             'address' => $wp->address,
         ])->values(),
     ];

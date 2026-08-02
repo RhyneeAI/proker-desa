@@ -15,14 +15,17 @@ class WaterPointRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:255'],
-            'category' => ['nullable', 'string', 'max:100'],
-            'status' => ['nullable', 'string', 'max:50'],
             'description' => ['nullable', 'string'],
             'address' => ['nullable', 'string'],
-            'latitude' => ['nullable', 'numeric', 'between:-11,6'],
-            'longitude' => ['nullable', 'numeric', 'between:95,141'],
-            'photo' => ['nullable', 'image', 'max:2048'],
-            'photo_alt' => ['nullable', 'string', 'max:255'],
+            'start_latitude' => ['nullable', 'numeric', 'between:-11,6'],
+            'start_longitude' => ['nullable', 'numeric', 'between:95,141'],
+            'end_latitude' => ['nullable', 'numeric', 'between:-11,6'],
+            'end_longitude' => ['nullable', 'numeric', 'between:95,141'],
+            'recommend_latitude' => ['nullable', 'numeric', 'between:-11,6'],
+            'recommend_longitude' => ['nullable', 'numeric', 'between:95,141'],
+            'direction' => ['nullable', 'string', 'max:100'],
+            'documentation_photo' => ['nullable', 'image', 'max:5120'],
+            'interpretation_photo' => ['nullable', 'image', 'max:5120'],
         ];
     }
 
@@ -30,8 +33,12 @@ class WaterPointRequest extends FormRequest
     {
         return [
             'name.required' => 'Nama titik air wajib diisi.',
-            'latitude.between' => 'Latitude harus dalam wilayah Indonesia.',
-            'longitude.between' => 'Longitude harus dalam wilayah Indonesia.',
+            'start_latitude.between' => 'Latitude titik awal harus dalam wilayah Indonesia.',
+            'start_longitude.between' => 'Longitude titik awal harus dalam wilayah Indonesia.',
+            'end_latitude.between' => 'Latitude titik akhir harus dalam wilayah Indonesia.',
+            'end_longitude.between' => 'Longitude titik akhir harus dalam wilayah Indonesia.',
+            'recommend_latitude.between' => 'Latitude titik rekomendasi harus dalam wilayah Indonesia.',
+            'recommend_longitude.between' => 'Longitude titik rekomendasi harus dalam wilayah Indonesia.',
         ];
     }
 }

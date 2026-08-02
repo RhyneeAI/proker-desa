@@ -39,8 +39,8 @@ class HomeController extends Controller
             ->latest()
             ->get();
 
-        $waterPoints = WaterPoint::whereNotNull('latitude')
-            ->whereNotNull('longitude')
+        $waterPoints = WaterPoint::whereNotNull('recommend_latitude')
+            ->whereNotNull('recommend_longitude')
             ->latest()
             ->get();
 
