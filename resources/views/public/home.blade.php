@@ -100,7 +100,7 @@
     </section>
 
     {{-- ================= STATS BAR ================= --}}
-    <section class="bg-[#192E03] text-white" data-aos="fade-up">
+    <section class="bg-[#192E03] text-white" data-aos="fade-down">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
             <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
                 <div>
@@ -198,7 +198,7 @@
     </section>
 
     {{-- ================= BERITA TERBARU ================= --}}
-    <section class="bg-slate-50" data-aos="fade-up">
+    <section class="bg-slate-50" data-aos="fade-down">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 sm:pt-14 pb-16 sm:pb-20">
 
             <div class="text-center mb-12">
@@ -359,7 +359,7 @@
     </section>
 
     {{-- ================= PETA DESA ================= --}}
-    <section class="bg-white" data-aos="fade-up">
+    <section class="bg-white" data-aos="fade-down">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 sm:pt-14 pb-16 sm:pb-20">
 
             <div class="text-center mb-12">
