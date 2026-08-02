@@ -34,13 +34,12 @@ class RolesAndPermissionsSeeder extends Seeder
             Permission::firstOrCreate(['name' => $permission]);
         }
 
-        $superAdmin = Role::firstOrCreate(['name' => 'super-admin']);
-        $superAdmin->syncPermissions(self::PERMISSIONS);
-
+        // Hanya satu peran: admin (guest tidak login sama sekali).
         $admin = Role::firstOrCreate(['name' => 'admin']);
-        $admin->syncPermissions(array_values(array_diff(self::PERMISSIONS, ['manage pengguna'])));
+        $admin->syncPermissions(self::PERMISSIONS);
 
-        $user = User::where('email', 'admin@desa.test')->first();
-        $user?->assignRole('super-admin');
+        Role::where('name', 'super-admin')->delete();
+
+        User::where('email', 'admin@desa.test')->first()?->assignRole('admin');
     }
 }
