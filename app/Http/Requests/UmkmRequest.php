@@ -24,6 +24,8 @@ class UmkmRequest extends FormRequest
             'longitude' => ['nullable', 'numeric', 'between:95,141'],
             'photo' => ['nullable', 'image', 'max:2048'],
             'photo_alt' => ['nullable', 'string', 'max:255'],
+            'documentation_photos' => ['nullable', 'array'],
+            'documentation_photos.*' => ['image', 'max:5120'],
         ];
     }
 

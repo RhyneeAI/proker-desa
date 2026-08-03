@@ -28,7 +28,7 @@
                                 <p class="text-secondary small mb-0">{{ $announcement->slug }}</p>
                             </td>
                             <td>
-                                <span class="badge {{ $announcement->is_published ? 'bg-success' : 'bg-secondary' }}">
+                                <span class="badge text-white {{ $announcement->is_published ? 'bg-success' : 'bg-secondary' }}">
                                     {{ $announcement->is_published ? 'Terbit' : 'Draf' }}
                                 </span>
                             </td>

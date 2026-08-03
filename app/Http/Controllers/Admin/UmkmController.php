@@ -31,6 +31,13 @@ class UmkmController extends Controller
             $validated['photo'] = $request->file('photo')->store('umkms', 'public');
         }
 
+        if ($request->hasFile('documentation_photos')) {
+            $validated['documentation_photos'] = collect($request->file('documentation_photos'))
+                ->map(fn ($file) => $file->store('umkms', 'public'))
+                ->values()
+                ->all();
+        }
+
         Umkm::create($validated);
 
         return redirect()
@@ -54,6 +61,14 @@ class UmkmController extends Controller
             $validated['photo'] = $request->file('photo')->store('umkms', 'public');
         }
 
+        if ($request->hasFile('documentation_photos')) {
+            collect($umkm->documentation_photos ?? [])->each(fn ($path) => Storage::disk('public')->delete($path));
+            $validated['documentation_photos'] = collect($request->file('documentation_photos'))
+                ->map(fn ($file) => $file->store('umkms', 'public'))
+                ->values()
+                ->all();
+        }
+
         $umkm->update($validated);
 
         return redirect()
@@ -66,6 +81,8 @@ class UmkmController extends Controller
         if ($umkm->photo) {
             Storage::disk('public')->delete($umkm->photo);
         }
+
+        collect($umkm->documentation_photos ?? [])->each(fn ($path) => Storage::disk('public')->delete($path));
 
         $umkm->delete();
 

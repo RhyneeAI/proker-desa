@@ -50,23 +50,12 @@
                     <h3 class="card-title">Foto</h3>
                 </div>
                 <div class="card-body">
-                    @if ($facility->photo)
-                        <div class="mb-3">
-                            <small class="text-secondary d-block mb-2">Foto saat ini:</small>
-                            <img src="{{ Storage::url($facility->photo) }}"
-                                alt="{{ $facility->photo_alt }}"
-                                class="img-fluid rounded mb-2">
-                        </div>
-                    @endif
-
-                    <div class="mb-3">
-                        <label class="form-label">Ganti Foto</label>
-                        <input type="file" name="photo" accept="image/*" class="form-control @error('photo') is-invalid @enderror">
-                        <small class="form-hint">Kosongkan jika tidak ingin mengganti foto.</small>
-                        @error('photo')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
+                    <x-file-upload
+                        name="photo"
+                        label="Ganti Foto"
+                        hint="Kosongkan jika tidak ingin mengganti foto."
+                        :previews="$facility->photo ? [Storage::url($facility->photo)] : []"
+                    />
 
                     <x-form-input label="Teks Alternatif Foto" name="photo_alt" :value="$facility->photo_alt" />
                 </div>

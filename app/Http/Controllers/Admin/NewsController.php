@@ -84,6 +84,18 @@ class NewsController extends Controller
             ->with('success', 'Berita berhasil diperbarui.');
     }
 
+    public function togglePublish(News $berita): RedirectResponse
+    {
+        $berita->update([
+            'is_published' => ! $berita->is_published,
+            'published_at' => $berita->is_published ? null : now(),
+        ]);
+
+        $status = $berita->is_published ? 'diterbitkan' : 'diturunkan';
+
+        return back()->with('success', "Berita berhasil {$status}.");
+    }
+
     public function destroy(News $berita): RedirectResponse
     {
         if ($berita->thumbnail) {

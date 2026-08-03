@@ -32,21 +32,12 @@
                         required
                     />
 
-                    <div class="mb-3">
-                        @if ($potensiDesa->image)
-                            <small class="text-secondary d-block mb-2">Gambar saat ini:</small>
-                            <img src="{{ Storage::url($potensiDesa->image) }}"
-                                alt="{{ $potensiDesa->image_alt ?? $potensiDesa->name }}"
-                                class="img-fluid rounded mb-3">
-                        @endif
-
-                        <label class="form-label">Ganti Gambar</label>
-                        <input type="file" name="image" accept="image/*" class="form-control @error('image') is-invalid @enderror">
-                        <small class="form-hint">Kosongkan jika tidak ingin mengganti gambar.</small>
-                        @error('image')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
+                    <x-file-upload
+                        name="image"
+                        label="Ganti Gambar"
+                        hint="Kosongkan jika tidak ingin mengganti gambar."
+                        :previews="$potensiDesa->image ? [Storage::url($potensiDesa->image)] : []"
+                    />
 
                     <x-form-input label="Teks Alternatif" name="image_alt" :value="$potensiDesa->image_alt" />
                     <x-form-textarea label="Deskripsi" name="description" :value="$potensiDesa->description" :rows="3" />

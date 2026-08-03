@@ -27,12 +27,18 @@ class WaterPointController extends Controller
     {
         $validated = $request->validated();
 
-        if ($request->hasFile('documentation_photo')) {
-            $validated['documentation_photo'] = $request->file('documentation_photo')->store('water-points', 'public');
+        if ($request->hasFile('documentation_photos')) {
+            $validated['documentation_photos'] = collect($request->file('documentation_photos'))
+                ->map(fn ($file) => $file->store('water-points', 'public'))
+                ->values()
+                ->all();
         }
 
-        if ($request->hasFile('interpretation_photo')) {
-            $validated['interpretation_photo'] = $request->file('interpretation_photo')->store('water-points', 'public');
+        if ($request->hasFile('interpretation_photos')) {
+            $validated['interpretation_photos'] = collect($request->file('interpretation_photos'))
+                ->map(fn ($file) => $file->store('water-points', 'public'))
+                ->values()
+                ->all();
         }
 
         WaterPoint::create($validated);
@@ -51,18 +57,20 @@ class WaterPointController extends Controller
     {
         $validated = $request->validated();
 
-        if ($request->hasFile('documentation_photo')) {
-            if ($waterPoint->documentation_photo) {
-                Storage::disk('public')->delete($waterPoint->documentation_photo);
-            }
-            $validated['documentation_photo'] = $request->file('documentation_photo')->store('water-points', 'public');
+        if ($request->hasFile('documentation_photos')) {
+            collect($waterPoint->documentation_photos ?? [])->each(fn ($path) => Storage::disk('public')->delete($path));
+            $validated['documentation_photos'] = collect($request->file('documentation_photos'))
+                ->map(fn ($file) => $file->store('water-points', 'public'))
+                ->values()
+                ->all();
         }
 
-        if ($request->hasFile('interpretation_photo')) {
-            if ($waterPoint->interpretation_photo) {
-                Storage::disk('public')->delete($waterPoint->interpretation_photo);
-            }
-            $validated['interpretation_photo'] = $request->file('interpretation_photo')->store('water-points', 'public');
+        if ($request->hasFile('interpretation_photos')) {
+            collect($waterPoint->interpretation_photos ?? [])->each(fn ($path) => Storage::disk('public')->delete($path));
+            $validated['interpretation_photos'] = collect($request->file('interpretation_photos'))
+                ->map(fn ($file) => $file->store('water-points', 'public'))
+                ->values()
+                ->all();
         }
 
         $waterPoint->update($validated);
@@ -74,13 +82,8 @@ class WaterPointController extends Controller
 
     public function destroy(WaterPoint $waterPoint): RedirectResponse
     {
-        if ($waterPoint->documentation_photo) {
-            Storage::disk('public')->delete($waterPoint->documentation_photo);
-        }
-
-        if ($waterPoint->interpretation_photo) {
-            Storage::disk('public')->delete($waterPoint->interpretation_photo);
-        }
+        collect($waterPoint->documentation_photos ?? [])->each(fn ($path) => Storage::disk('public')->delete($path));
+        collect($waterPoint->interpretation_photos ?? [])->each(fn ($path) => Storage::disk('public')->delete($path));
 
         $waterPoint->delete();
 

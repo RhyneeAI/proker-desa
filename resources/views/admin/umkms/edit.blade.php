@@ -71,25 +71,28 @@
                     <h3 class="card-title">Foto</h3>
                 </div>
                 <div class="card-body">
-                    @if ($umkm->photo)
-                        <div class="mb-3">
-                            <small class="text-secondary d-block mb-2">Foto saat ini:</small>
-                            <img src="{{ Storage::url($umkm->photo) }}"
-                                alt="{{ $umkm->photo_alt }}"
-                                class="img-fluid rounded mb-2">
-                        </div>
-                    @endif
-
-                    <div class="mb-3">
-                        <label class="form-label">Ganti Foto</label>
-                        <input type="file" name="photo" accept="image/*" class="form-control @error('photo') is-invalid @enderror">
-                        <small class="form-hint">Kosongkan jika tidak ingin mengganti foto.</small>
-                        @error('photo')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
+                    <x-file-upload
+                        name="photo"
+                        label="Foto Utama"
+                        hint="Kosongkan jika tidak ingin mengganti foto."
+                        :previews="$umkm->photo ? [Storage::url($umkm->photo)] : []"
+                    />
 
                     <x-form-input label="Teks Alternatif Foto" name="photo_alt" :value="$umkm->photo_alt" />
+                </div>
+            </div>
+
+            <div class="card mb-3">
+                <div class="card-header">
+                    <h3 class="card-title">Dokumentasi (lebih dari 1)</h3>
+                </div>
+                <div class="card-body">
+                    <x-file-upload
+                        name="documentation_photos[]"
+                        label="Foto Dokumentasi"
+                        :multiple="true"
+                        :previews="$umkm->documentation_photos ? collect($umkm->documentation_photos)->map(fn ($p) => Storage::url($p))->values()->all() : []"
+                    />
                 </div>
             </div>
 

@@ -63,6 +63,12 @@
                         placeholder="mis. Utara → Selatan"
                         hint="Arah jalur/lintasan jaringan air."
                     />
+
+                    <x-form-input
+                        label="Debit Air"
+                        name="debit"
+                        placeholder="mis. 2.5 L/detik"
+                    />
                 </div>
             </div>
 
@@ -71,14 +77,12 @@
                     <h3 class="card-title">Foto Dokumentasi</h3>
                 </div>
                 <div class="card-body">
-                    <div class="mb-0">
-                        <label class="form-label">Foto Dokumentasi</label>
-                        <input type="file" name="documentation_photo" accept="image/*" class="form-control @error('documentation_photo') is-invalid @enderror">
-                        <small class="form-hint">Format: JPG, PNG. Maks. 5MB.</small>
-                        @error('documentation_photo')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
+                    <x-file-upload
+                        name="documentation_photos[]"
+                        label="Foto Dokumentasi"
+                        :multiple="true"
+                        hint="Format: JPG, PNG. Maks. 5MB per file."
+                    />
                 </div>
             </div>
 
@@ -87,14 +91,12 @@
                     <h3 class="card-title">Foto Interpretasi (Plot)</h3>
                 </div>
                 <div class="card-body">
-                    <div class="mb-0">
-                        <label class="form-label">Foto Interpretasi / Plot</label>
-                        <input type="file" name="interpretation_photo" accept="image/*" class="form-control @error('interpretation_photo') is-invalid @enderror">
-                        <small class="form-hint">Plot interpretasi alat AIDU (konfigurasi 0 dan 2). Format: JPG, PNG. Maks. 5MB.</small>
-                        @error('interpretation_photo')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
+                    <x-file-upload
+                        name="interpretation_photos[]"
+                        label="Foto Interpretasi / Plot (AIDU konfigurasi 0 dan 2)"
+                        :multiple="true"
+                        hint="Plot interpretasi alat AIDU. Tanpa batas jumlah gambar."
+                    />
                 </div>
             </div>
 

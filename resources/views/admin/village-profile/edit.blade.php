@@ -78,24 +78,22 @@
             </div>
             <div class="card-body">
                 <div class="mb-3">
-                    <label class="form-label">Logo Desa</label>
-                    @if ($profile->logo)
-                        <img src="{{ Storage::url($profile->logo) }}" alt="{{ $profile->logo_alt }}" class="avatar avatar-xl rounded mb-2 d-block">
-                    @endif
-                    <input type="file" name="logo" accept="image/*" class="form-control @error('logo') is-invalid @enderror">
-                    <small class="form-hint">Maks. 2MB. Kosongkan jika tidak ingin mengubah.</small>
-                    @error('logo')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                    <x-file-upload
+                        name="logo"
+                        label="Logo Desa"
+                        hint="Maks. 2MB. Kosongkan jika tidak ingin mengubah."
+                        :previews="$profile->logo ? [Storage::url($profile->logo)] : []"
+                    />
                     <x-form-input label="Teks Alternatif Logo" name="logo_alt" :value="$profile->logo_alt" placeholder="Deskripsi singkat logo"/>
                 </div>
 
                 <div class="mb-3">
-                    <label class="form-label">Gambar Cover</label>
-                    @if ($profile->cover_image)
-                        <img src="{{ Storage::url($profile->cover_image) }}" alt="{{ $profile->cover_image_alt }}" class="img-fluid rounded mb-2 d-block">
-                    @endif
-                    <input type="file" name="cover_image" accept="image/*" class="form-control @error('cover_image') is-invalid @enderror">
-                    <small class="form-hint">Maks. 4MB. Ukuran ideal 1920×480px.</small>
-                    @error('cover_image')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                    <x-file-upload
+                        name="cover_image"
+                        label="Gambar Cover"
+                        hint="Maks. 4MB. Ukuran ideal 1920×480px."
+                        :previews="$profile->cover_image ? [Storage::url($profile->cover_image)] : []"
+                    />
                     <x-form-input label="Teks Alternatif Cover" name="cover_image_alt" :value="$profile->cover_image_alt" placeholder="Deskripsi singkat gambar cover"/>
                 </div>
             </div>
@@ -151,25 +149,21 @@
             </div>
             <div class="card-body">
                 <div class="mb-3">
-                    <label class="form-label">Bagan Pemerintahan Desa</label>
-                    @if ($profile->org_chart_image)
-                        <img src="{{ Storage::url($profile->org_chart_image) }}" alt="Bagan struktur organisasi desa"
-                            class="img-fluid rounded mb-2 d-block">
-                    @endif
-                    <input type="file" name="org_chart_image" accept="image/*" class="form-control @error('org_chart_image') is-invalid @enderror">
-                    <small class="form-hint">Maks. 4MB. Gambar bagan struktur organisasi pemerintahan desa.</small>
-                    @error('org_chart_image')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                    <x-file-upload
+                        name="org_chart_image"
+                        label="Bagan Pemerintahan Desa"
+                        hint="Maks. 4MB. Gambar bagan struktur organisasi pemerintahan desa."
+                        :previews="$profile->org_chart_image ? [Storage::url($profile->org_chart_image)] : []"
+                    />
                 </div>
 
                 <div class="mb-3">
-                    <label class="form-label">Bagan BPD</label>
-                    @if ($profile->bpd_chart_image)
-                        <img src="{{ Storage::url($profile->bpd_chart_image) }}" alt="Bagan BPD"
-                            class="img-fluid rounded mb-2 d-block">
-                    @endif
-                    <input type="file" name="bpd_chart_image" accept="image/*" class="form-control @error('bpd_chart_image') is-invalid @enderror">
-                    <small class="form-hint">Maks. 4MB. Gambar bagan Badan Permusyawaratan Desa.</small>
-                    @error('bpd_chart_image')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                    <x-file-upload
+                        name="bpd_chart_image"
+                        label="Bagan BPD"
+                        hint="Maks. 4MB. Gambar bagan Badan Permusyawaratan Desa."
+                        :previews="$profile->bpd_chart_image ? [Storage::url($profile->bpd_chart_image)] : []"
+                    />
                 </div>
             </div>
         </div>

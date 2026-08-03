@@ -32,14 +32,11 @@
                     <h3 class="card-title">Foto</h3>
                 </div>
                 <div class="card-body">
-                    <div class="mb-3">
-                        <label class="form-label">Foto Aparatur</label>
-                        <input type="file" name="photo" accept="image/*" class="form-control @error('photo') is-invalid @enderror">
-                        <small class="form-hint">Format: JPG, PNG. Maks. 2MB.</small>
-                        @error('photo')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
+                    <x-file-upload
+                        name="photo"
+                        label="Foto Aparatur"
+                        hint="Format: JPG, PNG. Maks. 2MB."
+                    />
 
                     <x-form-input
                         label="Teks Alternatif Foto"

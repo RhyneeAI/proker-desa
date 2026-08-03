@@ -21,8 +21,9 @@ class WaterPoint extends Model
         'recommend_latitude',
         'recommend_longitude',
         'direction',
-        'documentation_photo',
-        'interpretation_photo',
+        'debit',
+        'documentation_photos',
+        'interpretation_photos',
     ];
 
     protected function casts(): array
@@ -34,6 +35,8 @@ class WaterPoint extends Model
             'end_longitude' => 'decimal:7',
             'recommend_latitude' => 'decimal:7',
             'recommend_longitude' => 'decimal:7',
+            'documentation_photos' => 'array',
+            'interpretation_photos' => 'array',
         ];
     }
 }

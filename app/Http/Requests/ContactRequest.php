@@ -21,6 +21,7 @@ class ContactRequest extends FormRequest
             'facebook' => ['nullable', 'url', 'max:255'],
             'instagram' => ['nullable', 'url', 'max:255'],
             'youtube' => ['nullable', 'url', 'max:255'],
+            'tiktok' => ['nullable', 'url', 'max:255'],
             'map_embed' => ['nullable', 'string'],
             'office_hours' => ['nullable', 'string', 'max:255'],
         ];
@@ -34,6 +35,7 @@ class ContactRequest extends FormRequest
             'facebook.url' => 'Link Facebook harus berupa URL yang valid (awali dengan https://).',
             'instagram.url' => 'Link Instagram harus berupa URL yang valid (awali dengan https://).',
             'youtube.url' => 'Link YouTube harus berupa URL yang valid (awali dengan https://).',
+            'tiktok.url' => 'Link TikTok harus berupa URL yang valid (awali dengan https://).',
         ];
     }
 }

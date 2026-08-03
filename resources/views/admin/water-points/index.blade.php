@@ -18,16 +18,18 @@
                         <th>Foto</th>
                         <th>Nama</th>
                         <th>Arah Lintasan</th>
+                        <th>Debit</th>
                         <th class="text-end">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
                     @forelse ($waterPoints as $waterPoint)
+                        @php $docPhotos = $waterPoint->documentation_photos ?? []; @endphp
                         <tr>
                             <td>{{ $loop->iteration }}</td>
                             <td>
-                                @if ($waterPoint->documentation_photo)
-                                    <img src="{{ Storage::url($waterPoint->documentation_photo) }}" data-lightbox="{{ Storage::url($waterPoint->documentation_photo) }}"
+                                @if (!empty($docPhotos[0]))
+                                    <img src="{{ Storage::url($docPhotos[0]) }}" data-lightbox="{{ Storage::url($docPhotos[0]) }}"
                                         alt="{{ $waterPoint->name }}"
                                         class="avatar avatar-lg rounded">
                                 @else
@@ -40,6 +42,7 @@
                                 <p class="fw-medium text-body mb-0">{{ $waterPoint->name }}</p>
                             </td>
                             <td class="text-secondary">{{ $waterPoint->direction ?? '-' }}</td>
+                            <td class="text-secondary">{{ $waterPoint->debit ?? '-' }}</td>
                             <td class="text-end">
                                 <div class="d-flex justify-content-end gap-1">
                                     <a href="{{ route('admin.titik-air.edit', $waterPoint) }}" class="btn btn-icon btn-outline-primary" title="Edit"><i class="ti ti-pencil"></i></a>
@@ -54,7 +57,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="5" class="text-center text-secondary py-5">
+                            <td colspan="6" class="text-center text-secondary py-5">
                                 <i class="ti ti-inbox text-secondary mb-2" style="font-size:2rem"></i>
                                 <div>Belum ada data titik air.</div>
                             </td>

@@ -68,14 +68,11 @@
                 <div class="card-body">
                     <x-form-textarea label="Deskripsi" name="description" :rows="3" />
 
-                    <div class="mb-3">
-                        <label class="form-label">Foto</label>
-                        <input type="file" name="photo" accept="image/*" class="form-control @error('photo') is-invalid @enderror">
-                        <small class="form-hint">Format: JPG, PNG. Maks. 2MB.</small>
-                        @error('photo')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
+                    <x-file-upload
+                        name="photo"
+                        label="Foto"
+                        hint="Format: JPG, PNG. Maks. 2MB."
+                    />
 
                     <x-form-input label="Teks Alternatif Foto" name="photo_alt" placeholder="Deskripsi singkat foto" />
                 </div>
@@ -87,4 +84,13 @@
             </div>
         </form>
     </div>
+
+    @push('scripts')
+        <script>
+            document.querySelector('input[name="ticket_price"]')?.addEventListener('input', function () {
+                var digits = this.value.replace(/\D/g, '');
+                this.value = digits ? Number(digits).toLocaleString('id-ID') : '';
+            });
+        </script>
+    @endpush
 </x-layouts.admin>

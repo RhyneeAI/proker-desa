@@ -17,8 +17,9 @@
                 <p class="text-sm text-white/60 leading-relaxed max-w-md">
                     Media informasi resmi Pemerintah Desa Cibulakan. Menyajikan berita, pengumuman, layanan publik, serta potensi desa untuk masyarakat.
                 </p>
+                <p class="text-xs text-white/40 mt-1">Dikembangkan oleh Luhung Lugina · M. Hasby Ashidiqqie · Vinna Laila Luqiana</p>
 
-                @if ($contact?->facebook || $contact?->instagram || $contact?->youtube || $contact?->whatsapp)
+                @if ($contact?->facebook || $contact?->instagram || $contact?->youtube || $contact?->tiktok || $contact?->whatsapp)
                     <div class="flex items-center gap-3 mt-5">
                         <span class="text-xs font-semibold uppercase tracking-widest text-white/50">Ikuti Kami</span>
                         <div class="flex gap-2">
@@ -43,6 +44,14 @@
                                     class="w-9 h-9 rounded-full bg-white/10 hover:bg-[#3A5C0A] flex items-center justify-center text-white transition" aria-label="YouTube">
                                     <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
                                         <path d="M23.5 6.19a3.02 3.02 0 00-2.12-2.14C19.5 3.55 12 3.55 12 3.55s-7.5 0-9.38.5A3.02 3.02 0 00.5 6.19C0 8.07 0 12 0 12s0 3.93.5 5.81a3.02 3.02 0 002.12 2.14c1.88.5 9.38.5 9.38.5s7.5 0 9.38-.5a3.02 3.02 0 002.12-2.14C24 15.93 24 12 24 12s0-3.93-.5-5.81zM9.55 15.57V8.43L15.82 12l-6.27 3.57z"/>
+                                    </svg>
+                                </a>
+                            @endif
+                            @if ($contact->tiktok)
+                                <a href="{{ $contact->tiktok }}" target="_blank" rel="noopener"
+                                    class="w-9 h-9 rounded-full bg-white/10 hover:bg-[#3A5C0A] flex items-center justify-center text-white transition" aria-label="TikTok">
+                                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/>
                                     </svg>
                                 </a>
                             @endif
@@ -89,6 +98,7 @@
     <div class="border-t border-white/10">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col sm:flex-row justify-between items-center gap-3 text-xs text-white/50">
             <p>&copy; {{ date('Y') }} Pemerintah Desa Cibulakan. Seluruh hak cipta dilindungi.</p>
+            <span class="text-white/30 text-[11px] tracking-widest uppercase">KKN Desa Cibulakan</span>
             <a href="{{ route('login') }}" class="inline-flex items-center gap-1.5 hover:text-[#3A5C0A] transition font-medium">
                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"/>

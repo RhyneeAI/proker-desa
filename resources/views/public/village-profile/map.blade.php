@@ -106,7 +106,7 @@
                 'desc' => $p->description,
                 'address' => $p->address,
                 'coord' => $p->recommend_latitude . ', ' . $p->recommend_longitude,
-                'photo' => $imgUrl($p->documentation_photo, 'titik-air-' . $p->id),
+                'photo' => $imgUrl(is_array($p->documentation_photos) ? ($p->documentation_photos[0] ?? null) : null, 'titik-air-' . $p->id),
                 'alt' => $p->name,
             ])->values()->toArray();
 

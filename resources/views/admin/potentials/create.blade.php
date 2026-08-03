@@ -53,18 +53,11 @@
                         placeholder="Jelaskan potensi desa ini"
                     />
 
-                    <div class="mb-3">
-                        <label class="form-label">Foto</label>
-                        <div class="border rounded p-4 text-center bg-body-tertiary mb-2">
-                            <i class="ti ti-photo d-block mx-auto mb-2 text-secondary" style="font-size: 2rem;"></i>
-                            <p class="text-secondary mb-2">Klik untuk pilih foto</p>
-                            <input type="file" name="photo" accept="image/*" class="form-control @error('photo') is-invalid @enderror">
-                            <small class="text-secondary mt-2">Format: JPG, PNG. Maks. 2MB.</small>
-                        </div>
-                        @error('photo')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
+                    <x-file-upload
+                        name="photo"
+                        label="Foto"
+                        hint="Format: JPG, PNG. Maks. 2MB."
+                    />
 
                     <x-form-input
                         label="Teks Alternatif Foto"

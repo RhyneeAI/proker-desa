@@ -77,6 +77,12 @@
                     :value="$contact->youtube"
                     placeholder="https://youtube.com/@desasukamaju"
                 />
+                <x-form-input
+                    label="TikTok"
+                    name="tiktok"
+                    :value="$contact->tiktok"
+                    placeholder="https://tiktok.com/@desasukamaju"
+                />
             </div>
         </div>
 

@@ -93,6 +93,7 @@ Route::middleware('auth')->group(function () {
             Route::post('/', [AdminNewsController::class, 'store'])->name('store');
             Route::get('/{berita}/edit', [AdminNewsController::class, 'edit'])->name('edit');
             Route::put('/{berita}', [AdminNewsController::class, 'update'])->name('update');
+            Route::post('/{berita}/toggle', [AdminNewsController::class, 'togglePublish'])->name('toggle');
             Route::delete('/{berita}', [AdminNewsController::class, 'destroy'])->name('destroy');
         });
 

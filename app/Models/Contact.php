@@ -17,6 +17,7 @@ class Contact extends Model
         'facebook',
         'instagram',
         'youtube',
+        'tiktok',
         'map_embed',
         'office_hours',
     ];

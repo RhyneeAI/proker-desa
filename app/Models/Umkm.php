@@ -21,6 +21,7 @@ class Umkm extends Model
         'longitude',
         'photo',
         'photo_alt',
+        'documentation_photos',
     ];
 
     protected function casts(): array
@@ -28,6 +29,7 @@ class Umkm extends Model
         return [
             'latitude' => 'decimal:7',
             'longitude' => 'decimal:7',
+            'documentation_photos' => 'array',
         ];
     }
 }

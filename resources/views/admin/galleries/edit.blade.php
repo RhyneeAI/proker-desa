@@ -25,19 +25,12 @@
                         required
                     />
 
-                    <div class="mb-3">
-                        <small class="text-secondary d-block mb-2">Foto saat ini:</small>
-                        <img src="{{ Storage::url($gallery->image) }}"
-                            alt="{{ $gallery->image_alt }}"
-                            class="img-fluid rounded mb-3">
-
-                        <label class="form-label">Ganti Foto</label>
-                        <input type="file" name="image" accept="image/*" class="form-control @error('image') is-invalid @enderror">
-                        <small class="form-hint">Kosongkan jika tidak ingin mengganti foto.</small>
-                        @error('image')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
+                    <x-file-upload
+                        name="image"
+                        label="Ganti Foto"
+                        hint="Kosongkan jika tidak ingin mengganti foto."
+                        :previews="$gallery->image ? [Storage::url($gallery->image)] : []"
+                    />
 
                     <x-form-input label="Teks Alternatif" name="image_alt" :value="$gallery->image_alt" />
                     <x-form-textarea label="Deskripsi (opsional)" name="description" :value="$gallery->description" :rows="2" />

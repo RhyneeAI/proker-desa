@@ -61,23 +61,12 @@
                 <div class="card-body">
                     <x-form-textarea label="Deskripsi" name="description" :value="$wisata->description" :rows="3" />
 
-                    @if ($wisata->photo)
-                        <div class="mb-3">
-                            <small class="text-secondary d-block mb-2">Foto saat ini:</small>
-                            <img src="{{ Storage::url($wisata->photo) }}"
-                                alt="{{ $wisata->photo_alt }}"
-                                class="img-fluid rounded mb-2">
-                        </div>
-                    @endif
-
-                    <div class="mb-3">
-                        <label class="form-label">Ganti Foto</label>
-                        <input type="file" name="photo" accept="image/*" class="form-control @error('photo') is-invalid @enderror">
-                        <small class="form-hint">Kosongkan jika tidak ingin mengganti foto.</small>
-                        @error('photo')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
+                    <x-file-upload
+                        name="photo"
+                        label="Ganti Foto"
+                        hint="Kosongkan jika tidak ingin mengganti foto."
+                        :previews="$wisata->photo ? [Storage::url($wisata->photo)] : []"
+                    />
 
                     <x-form-input label="Teks Alternatif Foto" name="photo_alt" :value="$wisata->photo_alt" />
                 </div>
@@ -89,4 +78,13 @@
             </div>
         </form>
     </div>
+
+    @push('scripts')
+        <script>
+            document.querySelector('input[name="ticket_price"]')?.addEventListener('input', function () {
+                var digits = this.value.replace(/\D/g, '');
+                this.value = digits ? Number(digits).toLocaleString('id-ID') : '';
+            });
+        </script>
+    @endpush
 </x-layouts.admin>

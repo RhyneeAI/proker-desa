@@ -30,16 +30,11 @@
                     <h3 class="card-title">Thumbnail</h3>
                 </div>
                 <div class="card-body">
-                    <div class="mb-3">
-                        <label class="form-label">Gambar Thumbnail</label>
-                        <input type="file" name="thumbnail" id="thumbnailInput" accept="image/*"
-                            class="form-control @error('thumbnail') is-invalid @enderror">
-                        <small class="form-hint">Format: JPG, PNG. Maks. 2MB. Ukuran ideal: 800×450px.</small>
-                        <img id="thumbnailPreview" alt="Pratinjau thumbnail" class="d-none mt-3 img-fluid rounded border" style="max-height:220px;object-fit:cover">
-                        @error('thumbnail')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
+                    <x-file-upload
+                        name="thumbnail"
+                        label="Gambar Thumbnail"
+                        hint="Format: JPG, PNG. Maks. 2MB. Ukuran ideal: 800×450px."
+                    />
 
                     <x-form-input
                         label="Teks Alternatif Thumbnail"
@@ -71,18 +66,4 @@
             </div>
         </form>
     </div>
-
-    @push('scripts')
-        <script>
-            document.getElementById('thumbnailInput').addEventListener('change', function () {
-                const preview = document.getElementById('thumbnailPreview');
-                if (this.files && this.files[0]) {
-                    preview.src = URL.createObjectURL(this.files[0]);
-                    preview.classList.remove('d-none');
-                } else {
-                    preview.classList.add('d-none');
-                }
-            });
-        </script>
-    @endpush
 </x-layouts.admin>

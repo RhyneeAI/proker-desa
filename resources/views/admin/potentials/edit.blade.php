@@ -54,21 +54,12 @@
                         :rows="3"
                     />
 
-                    <div class="mb-3">
-                        @if ($potential->photo)
-                            <small class="text-secondary d-block mb-2">Foto saat ini:</small>
-                            <img src="{{ Storage::url($potential->photo) }}"
-                                alt="{{ $potential->photo_alt ?? $potential->name }}"
-                                class="img-fluid rounded mb-3">
-                        @endif
-
-                        <label class="form-label">Ganti Foto</label>
-                        <input type="file" name="photo" accept="image/*" class="form-control @error('photo') is-invalid @enderror">
-                        <small class="form-hint">Kosongkan jika tidak ingin mengganti foto.</small>
-                        @error('photo')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
+                    <x-file-upload
+                        name="photo"
+                        label="Ganti Foto"
+                        hint="Kosongkan jika tidak ingin mengganti foto."
+                        :previews="$potential->photo ? [Storage::url($potential->photo)] : []"
+                    />
 
                     <x-form-input
                         label="Teks Alternatif Foto"

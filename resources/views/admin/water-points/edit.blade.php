@@ -67,6 +67,13 @@
                         placeholder="mis. Utara → Selatan"
                         hint="Arah jalur/lintasan jaringan air."
                     />
+
+                    <x-form-input
+                        label="Debit Air"
+                        name="debit"
+                        :value="$waterPoint->debit"
+                        placeholder="mis. 2.5 L/detik"
+                    />
                 </div>
             </div>
 
@@ -75,23 +82,13 @@
                     <h3 class="card-title">Foto Dokumentasi</h3>
                 </div>
                 <div class="card-body">
-                    @if ($waterPoint->documentation_photo)
-                        <div class="mb-3">
-                            <small class="text-secondary d-block mb-2">Foto saat ini:</small>
-                            <img src="{{ Storage::url($waterPoint->documentation_photo) }}"
-                                alt="{{ $waterPoint->name }}"
-                                class="img-fluid rounded mb-2" style="max-height:220px;object-fit:cover">
-                        </div>
-                    @endif
-
-                    <div class="mb-0">
-                        <label class="form-label">Ganti Foto Dokumentasi</label>
-                        <input type="file" name="documentation_photo" accept="image/*" class="form-control @error('documentation_photo') is-invalid @enderror">
-                        <small class="form-hint">Kosongkan jika tidak ingin mengganti. Maks. 5MB.</small>
-                        @error('documentation_photo')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
+                    <x-file-upload
+                        name="documentation_photos[]"
+                        label="Foto Dokumentasi"
+                        :multiple="true"
+                        hint="Format: JPG, PNG. Maks. 5MB per file."
+                        :previews="$waterPoint->documentation_photos ? collect($waterPoint->documentation_photos)->map(fn ($p) => Storage::url($p))->values()->all() : []"
+                    />
                 </div>
             </div>
 
@@ -100,23 +97,13 @@
                     <h3 class="card-title">Foto Interpretasi (Plot)</h3>
                 </div>
                 <div class="card-body">
-                    @if ($waterPoint->interpretation_photo)
-                        <div class="mb-3">
-                            <small class="text-secondary d-block mb-2">Foto saat ini:</small>
-                            <img src="{{ Storage::url($waterPoint->interpretation_photo) }}"
-                                alt="{{ $waterPoint->name }}"
-                                class="img-fluid rounded mb-2" style="max-height:220px;object-fit:cover">
-                        </div>
-                    @endif
-
-                    <div class="mb-0">
-                        <label class="form-label">Ganti Foto Interpretasi / Plot</label>
-                        <input type="file" name="interpretation_photo" accept="image/*" class="form-control @error('interpretation_photo') is-invalid @enderror">
-                        <small class="form-hint">Plot interpretasi alat AIDU (konfigurasi 0 dan 2). Kosongkan jika tidak ingin mengganti. Maks. 5MB.</small>
-                        @error('interpretation_photo')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
+                    <x-file-upload
+                        name="interpretation_photos[]"
+                        label="Foto Interpretasi / Plot (AIDU konfigurasi 0 dan 2)"
+                        :multiple="true"
+                        hint="Plot interpretasi alat AIDU. Tanpa batas jumlah gambar."
+                        :previews="$waterPoint->interpretation_photos ? collect($waterPoint->interpretation_photos)->map(fn ($p) => Storage::url($p))->values()->all() : []"
+                    />
                 </div>
             </div>
 

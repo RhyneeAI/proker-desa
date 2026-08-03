@@ -19,8 +19,8 @@ class WaterPointFactory extends Factory
             'recommend_latitude' => fake()->latitude(-6.832, -6.818),
             'recommend_longitude' => fake()->longitude(107.080, 107.110),
             'direction' => fake()->randomElement(['Utara', 'Timur Laut', 'Timur', 'Tenggara', 'Selatan', 'Barat Daya', 'Barat', 'Barat Laut']),
-            'documentation_photo' => null,
-            'interpretation_photo' => null,
+            'documentation_photos' => null,
+            'interpretation_photos' => null,
         ];
     }
 }

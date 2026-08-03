@@ -40,7 +40,7 @@
                                 <p class="text-secondary small mb-0">{{ $news->slug }}</p>
                             </td>
                             <td>
-                                <span class="badge {{ $news->is_published ? 'bg-success' : 'bg-secondary' }}">
+                                <span class="badge text-white {{ $news->is_published ? 'bg-success' : 'bg-secondary' }}">
                                     {{ $news->is_published ? 'Terbit' : 'Draf' }}
                                 </span>
                             </td>
@@ -49,6 +49,14 @@
                             </td>
                             <td class="text-end">
                                 <div class="d-flex justify-content-end gap-1">
+                                    <form method="POST" action="{{ route('admin.berita.toggle', $news) }}">
+                                        @csrf
+                                        <button type="submit"
+                                            class="btn btn-icon {{ $news->is_published ? 'btn-outline-warning' : 'btn-outline-success' }}"
+                                            title="{{ $news->is_published ? 'Turunkan (unpublish)' : 'Terbitkan' }}">
+                                            <i class="ti {{ $news->is_published ? 'ti-eye-off' : 'ti-eye' }}"></i>
+                                        </button>
+                                    </form>
                                     <a href="{{ route('admin.berita.edit', $news) }}" class="btn btn-icon btn-outline-primary" title="Edit"><i class="ti ti-pencil"></i></a>
                                     <form method="POST" action="{{ route('admin.berita.destroy', $news) }}"
                                         onsubmit="return confirm('Hapus berita ini?');">

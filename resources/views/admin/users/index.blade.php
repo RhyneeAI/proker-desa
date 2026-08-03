@@ -38,7 +38,7 @@
                             <td class="text-secondary">{{ $user->username ?? '-' }}</td>
                             <td>
                                 @forelse ($user->roles as $role)
-                                    <span class="badge bg-primary">{{ $role->name }}</span>
+                                    <span class="badge bg-primary text-white">{{ $role->name }}</span>
                                 @empty
                                     <span class="badge bg-secondary-lt text-secondary">Tanpa peran</span>
                                 @endforelse
@@ -47,10 +47,10 @@
                                 <form method="POST" action="{{ route('admin.pengguna.update-role', $user) }}"
                                     class="d-inline-flex align-items-center gap-2">
                                     @csrf
-                                    <select name="role" class="form-select form-select-sm" {{ $user->is(auth()->user()) ? 'disabled' : '' }}>
-                                        <option value="">Tanpa peran</option>
+                                    <select name="role" class="form-select form-select-sm bg-body text-body" {{ $user->is(auth()->user()) ? 'disabled' : '' }}>
+                                        <option value="" class="text-body">Tanpa peran</option>
                                         @foreach ($roles as $role)
-                                            <option value="{{ $role }}" {{ $user->hasRole($role) ? 'selected' : '' }}>
+                                            <option value="{{ $role }}" class="text-body" {{ $user->hasRole($role) ? 'selected' : '' }}>
                                                 {{ $role }}
                                             </option>
                                         @endforeach

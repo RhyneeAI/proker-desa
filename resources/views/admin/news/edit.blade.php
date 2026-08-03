@@ -32,29 +32,12 @@
                     <h3 class="card-title">Thumbnail</h3>
                 </div>
                 <div class="card-body">
-                    @if ($news->thumbnail)
-                        <div class="mb-3">
-                            <small class="text-secondary d-block mb-2">Thumbnail saat ini:</small>
-                            <img src="{{ Storage::url($news->thumbnail) }}"
-                                alt="{{ $news->thumbnail_alt }}"
-                                class="img-fluid rounded mb-2">
-                        </div>
-                    @endif
-
-                    <div class="mb-3">
-                        <label class="form-label">Ganti Thumbnail</label>
-                        <input type="file" name="thumbnail" id="thumbnailInput" accept="image/*"
-                            class="form-control @error('thumbnail') is-invalid @enderror">
-                        <small class="form-hint">Kosongkan jika tidak ingin mengganti thumbnail.</small>
-                        <img id="thumbnailPreview"
-                            src="{{ $news->thumbnail && Storage::disk('public')->exists($news->thumbnail) ? Storage::url($news->thumbnail) : '' }}"
-                            alt="{{ $news->thumbnail_alt ?? 'Pratinjau thumbnail' }}"
-                            class="mt-3 img-fluid rounded border {{ $news->thumbnail ? '' : 'd-none' }}"
-                            style="max-height:220px;object-fit:cover">
-                        @error('thumbnail')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
+                    <x-file-upload
+                        name="thumbnail"
+                        label="Ganti Thumbnail"
+                        hint="Kosongkan jika tidak ingin mengganti thumbnail."
+                        :previews="$news->thumbnail && Storage::disk('public')->exists($news->thumbnail) ? [Storage::url($news->thumbnail)] : []"
+                    />
 
                     <x-form-input
                         label="Teks Alternatif Thumbnail"
@@ -92,16 +75,4 @@
             </div>
         </form>
     </div>
-
-    @push('scripts')
-        <script>
-            document.getElementById('thumbnailInput').addEventListener('change', function () {
-                const preview = document.getElementById('thumbnailPreview');
-                if (this.files && this.files[0]) {
-                    preview.src = URL.createObjectURL(this.files[0]);
-                    preview.classList.remove('d-none');
-                }
-            });
-        </script>
-    @endpush
 </x-layouts.admin>

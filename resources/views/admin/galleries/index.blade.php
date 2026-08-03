@@ -34,7 +34,7 @@
                                     class="rounded" style="width:72px;height:48px;object-fit:cover">
                             </td>
                             <td class="fw-medium text-body">{{ $gallery->title ?? 'Tanpa judul' }}</td>
-                            <td><span class="badge bg-secondary text-capitalize">{{ $gallery->category }}</span></td>
+                            <td><x-category-badge :category="$gallery->category" /></td>
                             <td class="text-secondary">{{ Str::limit($gallery->description, 60) }}</td>
                             <td class="text-end">
                                 <div class="d-flex justify-content-end gap-1">

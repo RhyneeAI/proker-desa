@@ -1,5 +1,11 @@
 <x-layouts.admin title="Dashboard">
 
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb mb-3">
+            <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
+        </ol>
+    </nav>
+
     {{-- Kartu Statistik --}}
     <div class="row g-3 mb-3">
         @foreach ([

@@ -30,20 +30,11 @@
                         required
                     />
 
-                    <div class="mb-3">
-                        <label class="form-label">
-                            Gambar
-                        </label>
-                        <div class="border rounded p-4 text-center bg-body-tertiary mb-2">
-                            <i class="ti ti-photo d-block mx-auto mb-2 text-secondary" style="font-size: 2rem;"></i>
-                            <p class="text-secondary mb-2">Klik untuk pilih gambar</p>
-                            <input type="file" name="image" accept="image/*" class="form-control @error('image') is-invalid @enderror">
-                            <small class="text-secondary mt-2">Format: JPG, PNG. Maks. 2MB.</small>
-                        </div>
-                        @error('image')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
+                    <x-file-upload
+                        name="image"
+                        label="Gambar"
+                        hint="Format: JPG, PNG. Maks. 2MB."
+                    />
 
                     <x-form-input label="Teks Alternatif" name="image_alt" placeholder="Deskripsi singkat gambar" />
 

@@ -34,3 +34,5 @@
         </div>
     @endif
 </div>
+
+<p class="text-center text-secondary opacity-50 small my-2">KKN Desa Cibulakan — Dikembangkan oleh Luhung Lugina, M. Hasby Ashidiqqie, Vinna Laila Luqiana</p>

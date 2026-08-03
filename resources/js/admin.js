@@ -14,6 +14,58 @@ util.external($);
 
 Alpine.start();
 
+// Drag & drop file upload (x-file-upload component)
+window.fileUpload = (existing = [], multiple = false) => ({
+    dragover: false,
+    previews: (existing || []).slice(),
+    error: '',
+    resetInput() {
+        this.$refs.input.value = '';
+    },
+    handleInput() {
+        this.setFiles(this.$refs.input.files);
+    },
+    handleDrop(e) {
+        this.setFiles(e.dataTransfer.files);
+    },
+    setFiles(files) {
+        this.error = '';
+        const list = Array.from(files).filter((f) => f.type.startsWith('image/'));
+        if (!list.length) {
+            this.error = 'File harus berupa gambar.';
+            return;
+        }
+        if (!multiple && list.length > 1) {
+            this.error = 'Hanya boleh memilih satu file.';
+            return;
+        }
+        const dt = new DataTransfer();
+        Array.from(this.$refs.input.files || []).forEach((f) => dt.items.add(f));
+        list.forEach((f) => dt.items.add(f));
+        this.$refs.input.files = dt.files;
+        this.renderPreviews();
+    },
+    renderPreviews() {
+        this.previews = (existing || []).slice();
+        Array.from(this.$refs.input.files || []).forEach((f) => {
+            this.previews.push(URL.createObjectURL(f));
+        });
+    },
+    remove(i) {
+        const newFiles = Array.from(this.$refs.input.files || []);
+        const newLen = newFiles.length;
+        const offset = this.previews.length - newLen;
+        const realIndex = i - offset;
+        if (realIndex >= 0) {
+            newFiles.splice(realIndex, 1);
+            const dt = new DataTransfer();
+            newFiles.forEach((f) => dt.items.add(f));
+            this.$refs.input.files = dt.files;
+        }
+        this.previews.splice(i, 1);
+    },
+});
+
 AOS.init({
     duration: 450,
     easing: 'ease-out-cubic',
