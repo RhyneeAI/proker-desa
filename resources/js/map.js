@@ -44,8 +44,9 @@ const inVillageArea = (lat, lng, center, filterSpan) =>
 
 const svgDataUrl = (svg) => 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
 
-// Basemap vector ala Google Maps (Carto Voyager GL, gratis tanpa API key).
-const VECTOR_STYLE = 'https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json';
+// Basemap: OpenFreeMap "bright" (vector, ala Google Maps) sebagai style utama.
+const OPENFREEMAP_STYLE = 'https://tiles.openfreemap.org/styles/bright';
+const CARTO_VECTOR_STYLE = 'https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json';
 
 const rasterStyle = (tiles, attribution) => ({
     version: 8,
@@ -96,7 +97,7 @@ export function initInteractiveMap(mapId, config) {
 
     const map = new Map({
         container: mapId,
-        style: VECTOR_STYLE,
+        style: OPENFREEMAP_STYLE,
         center: [centerLng, centerLat],
         zoom,
         minZoom,
@@ -109,20 +110,29 @@ export function initInteractiveMap(mapId, config) {
 
     map.addControl(new NavigationControl({ showCompass: false }), 'top-right');
 
-    // Fallback ke raster bila style vector gagal / tile error
+    // Rantai fallback: OpenFreeMap -> Carto vector -> Carto raster -> OSM raster
+    const STYLE_CHAIN = [OPENFREEMAP_STYLE, CARTO_VECTOR_STYLE, CARTO_RASTER, OSM_RASTER];
+    let styleIdx = 0;
     let tileErrors = 0;
     let styleSwapped = false;
+
+    const nextStyle = () => {
+        styleIdx += 1;
+        if (styleIdx >= STYLE_CHAIN.length) return;
+        styleSwapped = true;
+        tileErrors = 0;
+        map.setStyle(STYLE_CHAIN[styleIdx]);
+    };
+
     map.on('error', (e) => {
-        if (styleSwapped) return;
+        if (styleIdx >= STYLE_CHAIN.length) return;
         if (e.error?.message?.startsWith('Style')) {
-            styleSwapped = true;
-            map.setStyle(CARTO_RASTER);
+            nextStyle();
             return;
         }
         tileErrors += 1;
         if (tileErrors > 12) {
-            styleSwapped = true;
-            map.setStyle(OSM_RASTER);
+            nextStyle();
         }
     });
 
