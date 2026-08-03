@@ -44,9 +44,10 @@ const inVillageArea = (lat, lng, center, filterSpan) =>
 
 const svgDataUrl = (svg) => 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
 
-// Basemap: OpenFreeMap "bright" (vector, ala Google Maps) sebagai style utama.
-const OPENFREEMAP_STYLE = 'https://tiles.openfreemap.org/styles/bright';
+// Basemap: Carto Voyager RASTER sebagai utama — terverifikasi andal & selalu tampil.
+// (Style vector Carto GL / OpenFreeMap sempat gagal di-load di browser, jadi dinonaktifkan.)
 const CARTO_VECTOR_STYLE = 'https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json';
+const OPENFREEMAP_STYLE = 'https://tiles.openfreemap.org/styles/bright';
 
 const rasterStyle = (tiles, attribution) => ({
     version: 8,
@@ -97,7 +98,7 @@ export function initInteractiveMap(mapId, config) {
 
     const map = new Map({
         container: mapId,
-        style: OPENFREEMAP_STYLE,
+        style: CARTO_RASTER,
         center: [centerLng, centerLat],
         zoom,
         minZoom,
@@ -110,8 +111,8 @@ export function initInteractiveMap(mapId, config) {
 
     map.addControl(new NavigationControl({ showCompass: false }), 'top-right');
 
-    // Rantai fallback: OpenFreeMap -> Carto vector -> Carto raster -> OSM raster
-    const STYLE_CHAIN = [OPENFREEMAP_STYLE, CARTO_VECTOR_STYLE, CARTO_RASTER, OSM_RASTER];
+    // Rantai fallback: Carto raster -> OSM raster
+    const STYLE_CHAIN = [CARTO_RASTER, OSM_RASTER];
     let styleIdx = 0;
     let tileErrors = 0;
     let styleSwapped = false;
@@ -131,10 +132,17 @@ export function initInteractiveMap(mapId, config) {
             return;
         }
         tileErrors += 1;
-        if (tileErrors > 12) {
+        if (tileErrors > 3) {
             nextStyle();
         }
     });
+
+    // Watchdog: bila style tidak kunjung idle (tile gagal dimuat), paksa fallback.
+    setTimeout(() => {
+        if (styleIdx < STYLE_CHAIN.length && !map.loaded() && !styleSwapped) {
+            nextStyle();
+        }
+    }, 6000);
 
     const addPinImage = (id, svg) =>
         new Promise((resolve) => {
