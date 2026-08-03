@@ -1,4 +1,4 @@
-import { Map, Marker, Popup, NavigationControl, LngLatBounds } from 'maplibre-gl';
+import { Map, Popup, NavigationControl, LngLatBounds } from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 
 const escapeHtml = (value) =>
@@ -10,12 +10,12 @@ const escapeHtml = (value) =>
         "'": '&#39;',
     }[char]));
 
-const pinHtml = (color) =>
+const pinSvg = (color) =>
     '<svg width="30" height="38" viewBox="0 0 30 38" xmlns="http://www.w3.org/2000/svg">' +
     '<path d="M15 1C7.82 1 2 6.82 2 14c0 9.75 13 23 13 23s13-13.25 13-23C28 6.82 22.18 1 15 1z" fill="' + color + '" stroke="#ffffff" stroke-width="1.5"/>' +
     '<circle cx="15" cy="14" r="5.5" fill="#ffffff"/></svg>';
 
-const centerPinHtml = () =>
+const centerSvg = () =>
     '<svg width="38" height="46" viewBox="0 0 30 38" xmlns="http://www.w3.org/2000/svg">' +
     '<path d="M15 1C7.82 1 2 6.82 2 14c0 9.75 13 23 13 23s13-13.25 13-23C28 6.82 22.18 1 15 1z" fill="#192E03" stroke="#ffffff" stroke-width="2"/>' +
     '<path d="M6 14h18M15 5v18M9 11h12M9 17h12" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" transform="translate(0 -2)"/>' +
@@ -42,8 +42,11 @@ const popupHtml = (marker) => {
 const inVillageArea = (lat, lng, center, filterSpan) =>
     Math.abs(lat - center[0]) <= filterSpan && Math.abs(lng - center[1]) <= filterSpan;
 
-// Basemap raster andal (Carto Voyager, gaya ala Google Maps, gratis) dengan
-// fallback ke tile OpenStreetMap bila tile Carto gagal dimuat.
+const svgDataUrl = (svg) => 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+
+// Basemap vector ala Google Maps (Carto Voyager GL, gratis tanpa API key).
+const VECTOR_STYLE = 'https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json';
+
 const rasterStyle = (tiles, attribution) => ({
     version: 8,
     sources: {
@@ -52,7 +55,7 @@ const rasterStyle = (tiles, attribution) => ({
     layers: [{ id: 'base', type: 'raster', source: 'base' }],
 });
 
-const CARTO_STYLE = rasterStyle(
+const CARTO_RASTER = rasterStyle(
     [
         'https://a.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png',
         'https://b.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png',
@@ -62,7 +65,7 @@ const CARTO_STYLE = rasterStyle(
     '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'
 );
 
-const OSM_STYLE = rasterStyle(
+const OSM_RASTER = rasterStyle(
     [
         'https://a.tile.openstreetmap.org/{z}/{x}/{y}.png',
         'https://b.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -89,44 +92,56 @@ export function initInteractiveMap(mapId, config) {
     } = config;
 
     const [centerLat, centerLng] = center;
-    const mapBounds = [
-        [centerLng - lockMargin, centerLat - lockMargin],
-        [centerLng + lockMargin, centerLat + lockMargin],
-    ];
+    const colors = { umkm: '#059669', fasilitas: '#d97706', wisata: '#7c3aed', titikAir: '#2563eb' };
 
     const map = new Map({
         container: mapId,
-        style: CARTO_STYLE,
+        style: VECTOR_STYLE,
         center: [centerLng, centerLat],
         zoom,
         minZoom,
-        maxBounds: mapBounds,
+        maxBounds: [
+            [centerLng - lockMargin, centerLat - lockMargin],
+            [centerLng + lockMargin, centerLat + lockMargin],
+        ],
         scrollZoom: false,
     });
 
     map.addControl(new NavigationControl({ showCompass: false }), 'top-right');
 
+    // Fallback ke raster bila style vector gagal / tile error
     let tileErrors = 0;
-    let fellBack = false;
+    let styleSwapped = false;
     map.on('error', (e) => {
-        if (fellBack) return;
+        if (styleSwapped) return;
         if (e.error?.message?.startsWith('Style')) {
-            fellBack = true;
-            map.setStyle(OSM_STYLE);
+            styleSwapped = true;
+            map.setStyle(CARTO_RASTER);
             return;
         }
         tileErrors += 1;
-        if (tileErrors > 8) {
-            fellBack = true;
-            map.setStyle(OSM_STYLE);
+        if (tileErrors > 12) {
+            styleSwapped = true;
+            map.setStyle(OSM_RASTER);
         }
     });
 
-    map.on('load', () => {
-        fetch(VILLAGE_BOUNDARY_URL)
-            .then((r) => r.json())
-            .then((data) => {
-                if (!map.getSource('village-boundary')) {
+    const setupLayers = () => {
+        // Ikon pin sebagai image map
+        try { map.addImage('pin-umkm', { width: 30, height: 38, data: svgDataUrl(pinSvg(colors.umkm)) }); } catch (e) { /* sudah ada */ }
+        try { map.addImage('pin-fasilitas', { width: 30, height: 38, data: svgDataUrl(pinSvg(colors.fasilitas)) }); } catch (e) { }
+        try { map.addImage('pin-wisata', { width: 30, height: 38, data: svgDataUrl(pinSvg(colors.wisata)) }); } catch (e) { }
+        try { map.addImage('pin-titikAir', { width: 30, height: 38, data: svgDataUrl(pinSvg(colors.titikAir)) }); } catch (e) { }
+        if (centerLabel) {
+            try { map.addImage('pin-center', { width: 38, height: 46, data: svgDataUrl(centerSvg()) }); } catch (e) { }
+        }
+
+        // Batas desa (poligon)
+        if (!map.getSource('village-boundary')) {
+            fetch(VILLAGE_BOUNDARY_URL)
+                .then((r) => r.json())
+                .then((data) => {
+                    if (map.getSource('village-boundary')) return;
                     map.addSource('village-boundary', { type: 'geojson', data });
                     map.addLayer({
                         id: 'village-boundary-fill',
@@ -140,71 +155,120 @@ export function initInteractiveMap(mapId, config) {
                         source: 'village-boundary',
                         paint: { 'line-color': '#192E03', 'line-width': 2.5, 'line-dasharray': [2, 1.5] },
                     });
-                }
-            })
-            .catch(() => {});
-    });
+                })
+                .catch(() => {});
+        }
 
-    const colors = { umkm: '#059669', fasilitas: '#d97706', wisata: '#7c3aed', titikAir: '#2563eb' };
-    const groups = { umkm: [], fasilitas: [], wisata: [], titikAir: [] };
-    const coords = [];
+        const allCoords = [];
 
-    Object.keys(groups).forEach((layer) => {
-        (markers[layer] || []).forEach((marker) => {
-            if (!inVillageArea(marker.lat, marker.lng, center, filterSpan)) return;
+        // Trajectory titik air (garis Titik Awal -> Titik Akhir)
+        const lineFeats = (markers.titikAir || [])
+            .filter((m) => m.start_lat && m.start_lng && m.end_lat && m.end_lng)
+            .filter((m) => inVillageArea(m.start_lat, m.start_lng, center, filterSpan) || inVillageArea(m.recommend_lat, m.recommend_lng, center, filterSpan))
+            .map((m) => ({
+                type: 'Feature',
+                geometry: { type: 'LineString', coordinates: [[m.start_lng, m.start_lat], [m.end_lng, m.end_lat]] },
+                properties: {},
+            }));
 
-            const pinEl = document.createElement('div');
-            pinEl.innerHTML = pinHtml(colors[layer]);
+        if (lineFeats.length && !map.getSource('src-trajectory')) {
+            map.addSource('src-trajectory', { type: 'geojson', data: { type: 'FeatureCollection', features: lineFeats } });
+            map.addLayer({
+                id: 'layer-trajectory',
+                type: 'line',
+                source: 'src-trajectory',
+                paint: { 'line-color': '#2563eb', 'line-width': 2, 'line-dasharray': [3, 2], 'line-opacity': 0.7 },
+            });
+        }
 
-            const mk = new Marker({ element: pinEl.firstChild, anchor: 'bottom' })
-                .setLngLat([marker.lng, marker.lat])
-                .setPopup(new Popup({ offset: 30 }).setHTML(popupHtml(marker)))
-                .addTo(map);
+        // Layer titik per kelompok (GeoJSON Point -> symbol)
+        Object.keys(colors).forEach((layer) => {
+            const feats = (markers[layer] || [])
+                .filter((m) => inVillageArea(m.lat, m.lng, center, filterSpan))
+                .map((m) => {
+                    allCoords.push([m.lng, m.lat]);
+                    return {
+                        type: 'Feature',
+                        geometry: { type: 'Point', coordinates: [m.lng, m.lat] },
+                        properties: { name: m.name, category: m.category, address: m.address, url: m.url },
+                    };
+                });
 
-            groups[layer].push(mk);
-            coords.push([marker.lng, marker.lat]);
+            if (!feats.length || map.getSource('src-' + layer)) return;
+
+            map.addSource('src-' + layer, { type: 'geojson', data: { type: 'FeatureCollection', features: feats } });
+            map.addLayer({
+                id: 'layer-' + layer,
+                type: 'symbol',
+                source: 'src-' + layer,
+                layout: {
+                    'icon-image': 'pin-' + layer,
+                    'icon-anchor': 'bottom',
+                    'icon-allow-overlap': true,
+                    'icon-size': 1,
+                },
+            });
+
+            map.on('click', 'layer-' + layer, (e) => {
+                map.getCanvas().style.cursor = '';
+                const f = e.features[0];
+                new Popup({ offset: 30 }).setLngLat(e.lngLat).setHTML(popupHtml(f.properties)).addTo(map);
+            });
+            map.on('mouseenter', 'layer-' + layer, () => (map.getCanvas().style.cursor = 'pointer'));
+            map.on('mouseleave', 'layer-' + layer, () => (map.getCanvas().style.cursor = ''));
         });
-    });
 
-    if (centerLabel) {
-        const centerEl = document.createElement('div');
-        centerEl.innerHTML = centerPinHtml();
-
-        new Marker({ element: centerEl.firstChild, anchor: 'bottom' })
-            .setLngLat([centerLng, centerLat])
-            .setPopup(
-                new Popup({ offset: 35 }).setHTML(
+        // Pin pusat desa
+        if (centerLabel && !map.getSource('src-center')) {
+            map.addSource('src-center', {
+                type: 'geojson',
+                data: {
+                    type: 'FeatureCollection',
+                    features: [{ type: 'Feature', geometry: { type: 'Point', coordinates: [centerLng, centerLat] }, properties: {} }],
+                },
+            });
+            map.addLayer({
+                id: 'layer-center',
+                type: 'symbol',
+                source: 'src-center',
+                layout: { 'icon-image': 'pin-center', 'icon-anchor': 'bottom', 'icon-size': 1 },
+            });
+            map.on('click', 'layer-center', () =>
+                new Popup({ offset: 35 }).setLngLat([centerLng, centerLat]).setHTML(
                     '<div style="text-align:center;min-width:150px"><p style="font-weight:700;color:#0f172a;font-size:13px;margin:0">' +
                         escapeHtml(centerLabel) +
                         '</p><p style="color:#64748b;font-size:11px;margin:4px 0 0">Pusat Desa</p></div>'
-                )
-            )
-            .addTo(map);
-    }
-
-    if (coords.length) {
-        const bounds = coords.reduce(
-            (b, [lng, lat]) => b.extend([lng, lat]),
-            new LngLatBounds(coords[0], coords[0])
-        );
-        const { lat: south, lng: west } = bounds.getSouthWest();
-        const { lat: north, lng: east } = bounds.getNorthEast();
-
-        if (north - south < 0.05 && east - west < 0.05) {
-            map.fitBounds(bounds, { padding: 50, maxZoom: 16 });
+                ).addTo(map)
+            );
         }
-    }
 
+        // Fit bounds bila titik mengumpul
+        if (allCoords.length) {
+            const bounds = allCoords.reduce((b, c) => b.extend(c), new LngLatBounds(allCoords[0], allCoords[0]));
+            const { lat: south, lng: west } = bounds.getSouthWest();
+            const { lat: north, lng: east } = bounds.getNorthEast();
+
+            if (north - south < 0.05 && east - west < 0.05) {
+                map.fitBounds(bounds, { padding: 50, maxZoom: 16 });
+            }
+        }
+    };
+
+    map.on('load', setupLayers);
+    map.on('style.load', () => {
+        if (styleSwapped) setupLayers();
+    });
+
+    // Toggle layer
     el.parentElement.querySelectorAll('[data-map-layer]').forEach((btn) => {
         btn.addEventListener('click', () => {
             const layer = btn.getAttribute('data-map-layer');
-            const current = groups[layer] || [];
-            const visible = current.some((m) => m.getElement().style.display !== 'none');
-            const show = !visible;
+            const layerId = 'layer-' + layer;
+            if (!map.getLayer(layerId)) return;
 
-            current.forEach((m) => {
-                m.getElement().style.display = show ? '' : 'none';
-            });
+            const current = map.getLayoutProperty(layerId, 'visibility') || 'visible';
+            const show = current === 'none';
+            map.setLayoutProperty(layerId, 'visibility', show ? 'visible' : 'none');
             btn.classList.toggle('opacity-50', !show);
         });
     });

@@ -29,14 +29,6 @@
                         :rows="8"
                         required
                     />
-
-                    <x-form-input
-                        label="Tenggat Waktu (opsional)"
-                        name="deadline"
-                        type="date"
-                        :value="$announcement->deadline?->format('Y-m-d')"
-                        hint="Kosongkan jika pengumuman tidak memiliki batas waktu berlaku."
-                    />
                 </div>
             </div>
 

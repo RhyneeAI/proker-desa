@@ -17,13 +17,10 @@ return new class extends Migration
             $table->string('title');
             $table->string('slug')->unique();
             $table->longText('content');
-            $table->date('deadline')->nullable();
             $table->boolean('is_published')->default(true);
             $table->timestamp('published_at')->nullable();
             $table->timestamps();
             $table->softDeletes();
-
-            $table->index('deadline');
         });
     }
 

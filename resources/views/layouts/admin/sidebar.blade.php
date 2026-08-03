@@ -58,7 +58,6 @@
                     <div x-show="open" x-cloak class="nav-submenu">
                         <a href="{{ route('admin.umkm.index') }}" class="d-flex align-items-center gap-2 py-2 ps-5 pe-3 small rounded {{ request()->routeIs('admin.umkm.*') ? 'text-white bg-white bg-opacity-10' : 'text-secondary' }}"><i class="ti ti-shopping-bag" style="width:1.25rem"></i> UMKM</a>
                         <a href="{{ route('admin.wisata.index') }}" class="d-flex align-items-center gap-2 py-2 ps-5 pe-3 small rounded {{ request()->routeIs('admin.wisata.*') ? 'text-white bg-white bg-opacity-10' : 'text-secondary' }}"><i class="ti ti-map-pin-cog" style="width:1.25rem"></i> Wisata</a>
-                        <a href="{{ route('admin.potensi.index') }}" class="d-flex align-items-center gap-2 py-2 ps-5 pe-3 small rounded {{ request()->routeIs('admin.potensi.*') ? 'text-white bg-white bg-opacity-10' : 'text-secondary' }}"><i class="ti ti-tools-kitchen-2" style="width:1.25rem"></i> Potensi & Produk</a>
                     </div>
                 </li>
 
@@ -72,7 +71,6 @@
                     <div x-show="open" x-cloak class="nav-submenu">
                         <a href="{{ route('admin.fasilitas.index') }}" class="d-flex align-items-center gap-2 py-2 ps-5 pe-3 small rounded {{ request()->routeIs('admin.fasilitas.*') ? 'text-white bg-white bg-opacity-10' : 'text-secondary' }}"><i class="ti ti-building-community" style="width:1.25rem"></i> Fasilitas Umum</a>
                         <a href="{{ route('admin.titik-air.index') }}" class="d-flex align-items-center gap-2 py-2 ps-5 pe-3 small rounded {{ request()->routeIs('admin.titik-air.*') ? 'text-white bg-white bg-opacity-10' : 'text-secondary' }}"><i class="ti ti-droplet" style="width:1.25rem"></i> Titik Air</a>
-                        <a href="{{ route('admin.potensi-desa.index') }}" class="d-flex align-items-center gap-2 py-2 ps-5 pe-3 small rounded {{ request()->routeIs('admin.potensi-desa.*') ? 'text-white bg-white bg-opacity-10' : 'text-secondary' }}"><i class="ti ti-mountain" style="width:1.25rem"></i> Potensi Desa</a>
                     </div>
                 </li>
 

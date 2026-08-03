@@ -104,19 +104,19 @@
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
             <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
                 <div>
-                    <p class="text-3xl sm:text-4xl font-extrabold">{{ $profile?->population ? number_format($profile->population, 0, ',', '.') : '-' }}</p>
+                    <p x-data="countUp({{ $profile?->population ?: 0 }})" x-text="formatted" class="text-3xl sm:text-4xl font-extrabold">0</p>
                     <p class="text-white/80 text-sm mt-1">Jumlah Penduduk</p>
                 </div>
                 <div>
-                    <p class="text-3xl sm:text-4xl font-extrabold">{{ $profile?->area_size ? number_format($profile->area_size, 2, ',', '.') : '-' }}</p>
+                    <p x-data="countUp({{ $profile?->area_size ?: 0 }}, { decimals: 2 })" x-text="formatted" class="text-3xl sm:text-4xl font-extrabold">0</p>
                     <p class="text-white/80 text-sm mt-1">Luas Wilayah (km²)</p>
                 </div>
                 <div>
-                    <p class="text-3xl sm:text-4xl font-extrabold">{{ number_format($todayVisitors, 0, ',', '.') }}</p>
+                    <p x-data="countUp({{ $todayVisitors }})" x-text="formatted" class="text-3xl sm:text-4xl font-extrabold">0</p>
                     <p class="text-white/80 text-sm mt-1">Pengunjung Hari Ini</p>
                 </div>
                 <div>
-                    <p class="text-3xl sm:text-4xl font-extrabold">{{ number_format($totalVisitors, 0, ',', '.') }}</p>
+                    <p x-data="countUp({{ $totalVisitors }})" x-text="formatted" class="text-3xl sm:text-4xl font-extrabold">0</p>
                     <p class="text-white/80 text-sm mt-1">Total Pengunjung</p>
                 </div>
             </div>
@@ -161,12 +161,6 @@
                                         {{ $announcement->published_at?->translatedFormat('d F Y') }}
                                     </span>
                                 </div>
-                                @if ($announcement->deadline)
-                                    <span class="flex-shrink-0 text-[11px] px-2.5 py-1 rounded-full font-semibold
-                                        {{ $announcement->deadline->isPast() ? 'bg-slate-100 text-slate-500' : 'bg-amber-100 text-amber-700' }}">
-                                        {{ $announcement->deadline->isPast() ? 'Kedaluwarsa' : 'Tenggat ' . $announcement->deadline->translatedFormat('d M') }}
-                                    </span>
-                                @endif
                             </div>
 
                             <h3 class="mt-4 font-bold text-lg text-[#192E03] leading-snug line-clamp-2 group-hover:text-[#192E03] transition">{{ $announcement->title }}</h3>
@@ -215,39 +209,56 @@
             @if ($latestNews->isEmpty())
                 <p class="text-slate-500 text-sm text-center">Belum ada berita yang diterbitkan.</p>
             @else
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                    @foreach ($latestNews as $news)
-                        <a href="{{ route('berita.show', $news->slug) }}"
-                            class="group bg-white rounded-2xl border border-slate-200 overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col">
-                            <div class="relative overflow-hidden aspect-video">
-                                @php
-                                    $newsImg = $news->thumbnail && Storage::disk('public')->exists($news->thumbnail)
-                                        ? Storage::url($news->thumbnail)
-                                        : 'https://picsum.photos/seed/news-' . $news->id . '/800/450';
-                                @endphp
-                                <img src="{{ $newsImg }}"
-                                    alt="{{ $news->thumbnail_alt ?? $news->title }}"
-                                    loading="lazy"
-                                    class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
-                                <span class="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-[#192E03] text-white text-[11px] font-semibold shadow-sm">Berita</span>
-                            </div>
-                            <div class="p-5 flex flex-col flex-1">
-                                <p class="text-xs text-[#192E03]/70 inline-flex items-center gap-1.5">
-                                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-                                    </svg>
-                                    {{ $news->published_at?->translatedFormat('d F Y') }}
-                                </p>
-                                <h3 class="font-bold text-[#192E03] mt-2 line-clamp-2 leading-snug group-hover:text-[#192E03] transition">{{ $news->title }}</h3>
-                                <span class="mt-auto pt-4 text-sm font-semibold text-[#192E03] group-hover:text-[#192E03] inline-flex items-center gap-1.5 transition">
-                                    Baca Selengkapnya
-                                    <svg class="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                                    </svg>
-                                </span>
-                            </div>
-                        </a>
-                    @endforeach
+                <div class="relative" x-data="newsSlider()"
+                    @mouseenter="pause()" @mouseleave="play()"
+                    x-init="$el.querySelector('.news-track')?.scrollLeft || true">
+                    <div x-ref="track"
+                        class="news-track flex gap-6 overflow-x-auto snap-x snap-mandatory scroll-smooth pb-4"
+                        style="scrollbar-width:none;-ms-overflow-style:none">
+                        @foreach ($latestNews as $news)
+                            <a href="{{ route('berita.show', $news->slug) }}"
+                                class="news-slide snap-start shrink-0 w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] group bg-white rounded-2xl border border-slate-200 overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col">
+                                <div class="relative overflow-hidden aspect-video">
+                                    @php
+                                        $newsImg = $news->thumbnail && Storage::disk('public')->exists($news->thumbnail)
+                                            ? Storage::url($news->thumbnail)
+                                            : 'https://picsum.photos/seed/news-' . $news->id . '/800/450';
+                                    @endphp
+                                    <img src="{{ $newsImg }}"
+                                        alt="{{ $news->thumbnail_alt ?? $news->title }}"
+                                        loading="lazy"
+                                        class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                                    <span class="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-[#192E03] text-white text-[11px] font-semibold shadow-sm">Berita</span>
+                                </div>
+                                <div class="p-5 flex flex-col flex-1">
+                                    <p class="text-xs text-[#192E03]/70 inline-flex items-center gap-1.5">
+                                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                        </svg>
+                                        {{ $news->published_at?->translatedFormat('d F Y') }}
+                                    </p>
+                                    <h3 class="font-bold text-[#192E03] mt-2 line-clamp-2 leading-snug group-hover:text-[#192E03] transition">{{ $news->title }}</h3>
+                                    <span class="mt-auto pt-4 text-sm font-semibold text-[#192E03] group-hover:text-[#192E03] inline-flex items-center gap-1.5 transition">
+                                        Baca Selengkapnya
+                                        <svg class="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                                        </svg>
+                                    </span>
+                                </div>
+                            </a>
+                        @endforeach
+                    </div>
+
+                    @if ($latestNews->count() > 3)
+                        <button @click="prev()" aria-label="Berita sebelumnya"
+                            class="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white shadow-md border border-slate-200 text-slate-600 rounded-full p-2 hover:bg-[#192E03] hover:text-white transition">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+                        </button>
+                        <button @click="next()" aria-label="Berita berikutnya"
+                            class="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white shadow-md border border-slate-200 text-slate-600 rounded-full p-2 hover:bg-[#192E03] hover:text-white transition">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                        </button>
+                    @endif
                 </div>
             @endif
 

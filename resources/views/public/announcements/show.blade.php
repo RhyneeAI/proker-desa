@@ -18,13 +18,6 @@
                     </svg>
                     {{ $announcement->published_at?->translatedFormat('d F Y') }}
                 </span>
-                @if ($announcement->deadline)
-                    <span class="text-xs px-3 py-1.5 rounded-full font-medium
-                        {{ $announcement->deadline->isPast() ? 'bg-slate-100 text-slate-600' : 'bg-amber-100 text-amber-700' }}">
-                        Berlaku hingga {{ $announcement->deadline->translatedFormat('d F Y') }}
-                        {{ $announcement->deadline->isPast() ? '(Kedaluwarsa)' : '' }}
-                    </span>
-                @endif
             </div>
 
             <div class="mt-6 pt-6 border-t border-slate-100 text-slate-700 leading-relaxed whitespace-pre-line text-base">

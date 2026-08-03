@@ -68,7 +68,6 @@
                     <li><a href="{{ route('peta-desa.show') }}" class="hover:text-[#3A5C0A] transition inline-flex items-center gap-2"><span class="w-1 h-1 rounded-full bg-[#3A5C0A]"></span>Peta Desa</a></li>
                     <li><a href="{{ route('berita.index') }}" class="hover:text-[#3A5C0A] transition inline-flex items-center gap-2"><span class="w-1 h-1 rounded-full bg-[#3A5C0A]"></span>Berita</a></li>
                     <li><a href="{{ route('pengumuman.index') }}" class="hover:text-[#3A5C0A] transition inline-flex items-center gap-2"><span class="w-1 h-1 rounded-full bg-[#3A5C0A]"></span>Pengumuman</a></li>
-                    <li><a href="{{ route('potensi.index') }}" class="hover:text-[#3A5C0A] transition inline-flex items-center gap-2"><span class="w-1 h-1 rounded-full bg-[#3A5C0A]"></span>Potensi Desa</a></li>
                 </ul>
             </div>
 

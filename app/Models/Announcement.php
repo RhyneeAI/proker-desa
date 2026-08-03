@@ -16,7 +16,6 @@ class Announcement extends Model
         'title',
         'slug',
         'content',
-        'deadline',
         'is_published',
         'published_at',
     ];
@@ -24,7 +23,6 @@ class Announcement extends Model
     protected function casts(): array
     {
         return [
-            'deadline' => 'date',
             'is_published' => 'boolean',
             'published_at' => 'datetime',
         ];

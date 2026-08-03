@@ -72,14 +72,7 @@
                     @forelse ($latestAnnouncements as $announcement)
                         <div class="list-group-item">
                             <p class="text-body fw-medium text-truncate mb-1">{{ $announcement->title }}</p>
-                            <div class="d-flex align-items-center gap-3">
-                                <span class="text-secondary small">{{ $announcement->published_at?->translatedFormat('d F Y') }}</span>
-                                @if ($announcement->deadline)
-                                    <span class="badge {{ $announcement->deadline->isPast() ? 'bg-danger' : 'bg-warning' }}">
-                                        Tenggat {{ $announcement->deadline->translatedFormat('d F Y') }}
-                                    </span>
-                                @endif
-                            </div>
+                            <span class="text-secondary small">{{ $announcement->published_at?->translatedFormat('d F Y') }}</span>
                         </div>
                     @empty
                         <div class="list-group-item text-center text-secondary py-4">Belum ada pengumuman yang diterbitkan.</div>

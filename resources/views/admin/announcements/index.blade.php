@@ -16,7 +16,6 @@
                     <tr>
                         <th>Judul</th>
                         <th>Status</th>
-                        <th>Tenggat Waktu</th>
                         <th>Tanggal Terbit</th>
                         <th class="text-end">Aksi</th>
                     </tr>
@@ -32,16 +31,6 @@
                                 <span class="badge {{ $announcement->is_published ? 'bg-success' : 'bg-secondary' }}">
                                     {{ $announcement->is_published ? 'Terbit' : 'Draf' }}
                                 </span>
-                            </td>
-                            <td>
-                                @if ($announcement->deadline)
-                                    <span class="small {{ $announcement->deadline->isPast() ? 'text-danger' : 'text-warning' }}">
-                                        {{ $announcement->deadline->translatedFormat('d F Y') }}
-                                        {{ $announcement->deadline->isPast() ? '(Kedaluwarsa)' : '' }}
-                                    </span>
-                                @else
-                                    <span class="small text-secondary">Tanpa batas waktu</span>
-                                @endif
                             </td>
                             <td class="text-secondary text-nowrap small">
                                 {{ $announcement->published_at?->translatedFormat('d F Y') ?? '-' }}
