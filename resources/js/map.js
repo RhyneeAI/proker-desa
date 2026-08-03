@@ -126,15 +126,31 @@ export function initInteractiveMap(mapId, config) {
         }
     });
 
-    const setupLayers = () => {
-        // Ikon pin sebagai image map
-        try { map.addImage('pin-umkm', { width: 30, height: 38, data: svgDataUrl(pinSvg(colors.umkm)) }); } catch (e) { /* sudah ada */ }
-        try { map.addImage('pin-fasilitas', { width: 30, height: 38, data: svgDataUrl(pinSvg(colors.fasilitas)) }); } catch (e) { }
-        try { map.addImage('pin-wisata', { width: 30, height: 38, data: svgDataUrl(pinSvg(colors.wisata)) }); } catch (e) { }
-        try { map.addImage('pin-titikAir', { width: 30, height: 38, data: svgDataUrl(pinSvg(colors.titikAir)) }); } catch (e) { }
-        if (centerLabel) {
-            try { map.addImage('pin-center', { width: 38, height: 46, data: svgDataUrl(centerSvg()) }); } catch (e) { }
-        }
+    const addPinImage = (id, svg) =>
+        new Promise((resolve) => {
+            const img = new Image();
+            img.onload = () => {
+                try {
+                    if (!map.hasImage(id)) map.addImage(id, img, { pixelRatio: 1 });
+                } catch (e) {
+                    /* image sudah ada / gagal */
+                }
+                resolve();
+            };
+            img.onerror = () => resolve();
+            img.src = svgDataUrl(svg);
+        });
+
+    const setupLayers = async () => {
+        try {
+            // Ikon pin sebagai image map (harus HTMLImageElement di MapLibre v6)
+            await Promise.all([
+                addPinImage('pin-umkm', pinSvg(colors.umkm)),
+                addPinImage('pin-fasilitas', pinSvg(colors.fasilitas)),
+                addPinImage('pin-wisata', pinSvg(colors.wisata)),
+                addPinImage('pin-titikAir', pinSvg(colors.titikAir)),
+                ...(centerLabel ? [addPinImage('pin-center', centerSvg())] : []),
+            ]);
 
         // Batas desa (poligon)
         if (!map.getSource('village-boundary')) {
@@ -251,6 +267,9 @@ export function initInteractiveMap(mapId, config) {
             if (north - south < 0.05 && east - west < 0.05) {
                 map.fitBounds(bounds, { padding: 50, maxZoom: 16 });
             }
+        }
+        } catch (e) {
+            console.error('Map setup error:', e);
         }
     };
 
