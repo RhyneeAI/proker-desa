@@ -90,11 +90,11 @@
                 <div class="mb-3">
                     <x-file-upload
                         name="cover_image"
-                        label="Gambar Cover"
-                        hint="Maks. 4MB. Ukuran ideal 1920×480px."
+                        label="Foto Sejarah Desa"
+                        hint="Maks. 4MB. Ditampilkan pada bagian Sejarah di halaman Profil Desa."
                         :previews="$profile->cover_image ? [Storage::url($profile->cover_image)] : []"
                     />
-                    <x-form-input label="Teks Alternatif Cover" name="cover_image_alt" :value="$profile->cover_image_alt" placeholder="Deskripsi singkat gambar cover"/>
+                    <x-form-input label="Teks Alternatif Foto" name="cover_image_alt" :value="$profile->cover_image_alt" placeholder="Deskripsi singkat foto sejarah desa"/>
                 </div>
             </div>
         </div>

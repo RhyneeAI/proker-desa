@@ -199,13 +199,15 @@
                             {!! $profile->map_embed !!}
                         </div>
                     @else
-                        <div class="h-80 rounded-2xl bg-slate-100 border border-slate-200 flex flex-col items-center justify-center text-center px-6">
-                            <svg class="w-14 h-14 text-slate-300 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
-                            </svg>
-                            <p class="text-sm font-medium text-slate-500">Peta belum tersedia</p>
+                        <div class="rounded-2xl overflow-hidden border border-slate-200 shadow-sm h-80">
+                            <iframe
+                                src="https://maps.google.com/maps?q=Indonesia&z=5&output=embed"
+                                class="w-full h-full border-0"
+                                loading="lazy"
+                                referrerpolicy="no-referrer-when-downgrade"
+                                title="Peta Lokasi Desa"></iframe>
                         </div>
+                        <p class="mt-2 text-xs text-slate-500 text-center">Default Google Maps — sesuaikan lewat menu Kelola Profil Desa di dashboard admin.</p>
                     @endif
                 </div>
             </div>
