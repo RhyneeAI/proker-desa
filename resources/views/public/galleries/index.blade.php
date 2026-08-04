@@ -34,15 +34,15 @@
                         $galleryCaption = ($gallery->title ?? 'Galeri Desa') . ' · ' . ($gallery->created_at?->translatedFormat('d F Y') ?? '-');
                     @endphp
                     <a href="{{ $galleryImg }}" data-lightbox="{{ $galleryImg }}" data-caption="{{ $galleryCaption }}"
-                        class="break-inside-avoid relative group rounded-2xl overflow-hidden border border-slate-200 shadow-sm cursor-zoom-in bg-slate-200 animate-pulse min-h-44 block no-underline"
-                        x-data="{ loaded: false }">
+                        class="break-inside-avoid relative group rounded-2xl overflow-hidden border border-slate-200 shadow-sm cursor-zoom-in bg-slate-200 min-h-44 block no-underline"
+                        x-data="{ loaded: false }" :class="!loaded && 'animate-pulse'">
                         <img src="{{ $galleryImg }}"
                             alt="{{ $gallery->image_alt ?? $gallery->title }}"
-                            x-on:load="loaded = true; $el.closest('[x-data]')?.classList.remove('animate-pulse')"
-                            x-on:error="loaded = true; $el.closest('[x-data]')?.classList.remove('animate-pulse')"
+                            x-on:load="loaded = true"
+                            x-on:error="loaded = true"
                             :class="loaded ? 'opacity-100' : 'opacity-0'"
                             class="w-full object-cover group-hover:scale-105 transition duration-300"
-                            style="transition:opacity .5s"
+                            style="transition:opacity .5s, transform .3s"
                             loading="lazy">
                         <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/10 to-transparent opacity-0 group-hover:opacity-100 transition duration-300 flex flex-col justify-end p-4">
                             @if ($gallery->title)

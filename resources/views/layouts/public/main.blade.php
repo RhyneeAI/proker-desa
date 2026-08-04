@@ -4,7 +4,7 @@
 
 {{-- Lightbox Publik --}}
 <div id="public-lightbox"
-    class="fixed inset-0 z-[200] hidden items-center justify-center bg-black/90 p-4 sm:p-8"
+    class="fixed inset-0 z-[200] hidden flex-col items-center justify-center bg-black/90 p-4 sm:p-8"
     role="dialog" aria-modal="true" aria-label="Pratinjau gambar">
     <button type="button" id="public-lightbox-close"
         class="absolute top-4 right-4 text-white/80 hover:text-white" aria-label="Tutup">

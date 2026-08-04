@@ -48,7 +48,7 @@
                 x-transition:leave-start="opacity-100"
                 x-transition:leave-end="opacity-0">
                 <img :src="slide.src" :alt="slide.alt" loading="eager" fetchpriority="high"
-                    @load="loaded = true" @error="loaded = true"
+                    x-on:load="loaded = true" x-on:error="loaded = true"
                     :class="loaded ? 'opacity-100' : 'opacity-0'"
                     class="w-full h-full object-cover object-center transition-opacity duration-500">
             </div>
@@ -231,7 +231,7 @@
                                     <img src="{{ $newsImg }}"
                                         alt="{{ $news->thumbnail_alt ?? $news->title }}"
                                         loading="lazy"
-                                        @load="loaded = true" @error="loaded = true"
+                                        x-on:load="loaded = true" x-on:error="loaded = true"
                                         :class="loaded ? 'opacity-100' : 'opacity-0'"
                                         class="w-full h-full object-cover group-hover:scale-105 transition duration-300"
                                         style="transition:opacity .5s, transform .3s">
@@ -324,7 +324,7 @@
                             <img src="{{ $galleryImg }}"
                                 alt="{{ $gallery->image_alt ?? $gallery->title }}"
                                 loading="lazy"
-                                @load="loaded = true" @error="loaded = true"
+                                x-on:load="loaded = true" x-on:error="loaded = true"
                                 :class="loaded ? 'opacity-100' : 'opacity-0'"
                                 class="w-full h-full object-cover transition-opacity duration-500">
                             <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
