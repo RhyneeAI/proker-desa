@@ -6,7 +6,7 @@
 
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
 
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
+        <div class="max-w-3xl mx-auto space-y-4">
 
             {{-- Info Kontak --}}
             <div class="space-y-4">
@@ -130,7 +130,7 @@
 
             {{-- Peta --}}
             @if ($contact->map_embed)
-                <div class="rounded-2xl overflow-hidden border border-slate-200 shadow-sm h-80 lg:h-full min-h-80">
+                <div class="rounded-2xl overflow-hidden border border-slate-200 shadow-sm h-80 mt-4">
                     {!! $contact->map_embed !!}
                 </div>
             @endif

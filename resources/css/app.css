@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+img {
+    cursor: pointer;
+}
+
 [x-cloak] {
     display: none !important;
 }
