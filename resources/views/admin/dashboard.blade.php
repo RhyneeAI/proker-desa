@@ -56,7 +56,7 @@
                     <h3 class="card-title">Kunjungan 30 Hari Terakhir</h3>
                 </div>
                 <div class="card-body">
-                    <canvas id="chartVisits" height="220"></canvas>
+                    <canvas id="chartVisits" height="150"></canvas>
                 </div>
             </div>
         </div>

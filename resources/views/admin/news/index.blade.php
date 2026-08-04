@@ -22,7 +22,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse ($newsList as $news)
+                    @foreach ($newsList as $news)
                         <tr>
                             <td>
                                 @if ($news->thumbnail)
@@ -67,11 +67,7 @@
                                 </div>
                             </td>
                         </tr>
-                    @empty
-                        <tr>
-                            <td colspan="5" class="text-center text-secondary py-5">Belum ada berita.</td>
-                        </tr>
-                    @endforelse
+                    @endforeach
                 </tbody>
             </table>
         </div>

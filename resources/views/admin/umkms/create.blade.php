@@ -15,7 +15,6 @@
                 </div>
                 <div class="card-body">
                     <x-form-input label="Nama Usaha" name="name" required />
-                    <x-form-input label="Nama Pemilik" name="owner_name" required />
 
                     <div class="mb-3">
                         <label class="form-label">Kategori</label>

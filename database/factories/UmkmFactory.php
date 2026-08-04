@@ -10,7 +10,6 @@ class UmkmFactory extends Factory
     {
         return [
             'name' => fake('id_ID')->company(),
-            'owner_name' => fake('id_ID')->name(),
             'category' => fake()->randomElement(['Kuliner', 'Kerajinan', 'Jasa', 'Pertanian']),
             'description' => fake('id_ID')->paragraph(),
             'phone' => fake('id_ID')->phoneNumber(),

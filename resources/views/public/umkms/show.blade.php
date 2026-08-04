@@ -36,9 +36,6 @@
                 @endif
 
                 <h1 class="text-2xl sm:text-3xl font-extrabold text-[#192E03] mt-3">{{ $umkm->name }}</h1>
-                @if ($umkm->owner_name)
-                    <p class="text-slate-500 mt-1">Pemilik: <span class="text-slate-700 font-medium">{{ $umkm->owner_name }}</span></p>
-                @endif
 
                 @if ($umkm->description)
                     <div class="mt-6 bg-white border border-slate-200 rounded-2xl p-6">

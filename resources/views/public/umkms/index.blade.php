@@ -52,9 +52,6 @@
                         </div>
                         <div class="p-5 flex flex-col flex-1">
                             <h3 class="font-bold text-[#192E03] group-hover:text-[#192E03] transition">{{ $umkm->name }}</h3>
-                            @if ($umkm->owner_name)
-                                <p class="text-sm text-slate-500 mt-1">Pemilik: {{ $umkm->owner_name }}</p>
-                            @endif
                             @if ($umkm->phone)
                                 <p class="text-xs text-slate-500 mt-3 inline-flex items-center gap-1.5">
                                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

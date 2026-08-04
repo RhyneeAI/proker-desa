@@ -23,7 +23,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse ($waterPoints as $waterPoint)
+                    @foreach ($waterPoints as $waterPoint)
                         @php $docPhotos = $waterPoint->documentation_photos ?? []; @endphp
                         <tr>
                             <td>{{ $loop->iteration }}</td>
@@ -55,14 +55,7 @@
                                 </div>
                             </td>
                         </tr>
-                    @empty
-                        <tr>
-                            <td colspan="6" class="text-center text-secondary py-5">
-                                <i class="ti ti-inbox text-secondary mb-2" style="font-size:2rem"></i>
-                                <div>Belum ada data titik air.</div>
-                            </td>
-                        </tr>
-                    @endforelse
+                    @endforeach
                 </tbody>
             </table>
         </div>

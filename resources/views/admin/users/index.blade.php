@@ -20,7 +20,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse ($users as $user)
+                    @foreach ($users as $user)
                         <tr>
                             <td class="text-secondary">{{ $loop->iteration }}</td>
                             <td class="fw-medium text-body">
@@ -37,11 +37,9 @@
                             <td class="text-secondary">{{ $user->email }}</td>
                             <td class="text-secondary">{{ $user->username ?? '-' }}</td>
                             <td>
-                                @forelse ($user->roles as $role)
+                                @foreach ($user->roles as $role)
                                     <span class="badge bg-primary text-white">{{ $role->name }}</span>
-                                @empty
-                                    <span class="badge bg-secondary-lt text-secondary">Tanpa peran</span>
-                                @endforelse
+                                @endforeach
                             </td>
                             <td class="text-end">
                                 <form method="POST" action="{{ route('admin.pengguna.update-role', $user) }}"
@@ -61,11 +59,7 @@
                                 </form>
                             </td>
                         </tr>
-                    @empty
-                        <tr>
-                            <td colspan="6" class="text-center text-secondary py-5">Belum ada pengguna.</td>
-                        </tr>
-                    @endforelse
+                    @endforeach
                 </tbody>
             </table>
         </div>

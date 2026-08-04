@@ -15,7 +15,6 @@ class UmkmRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:255'],
-            'owner_name' => ['required', 'string', 'max:255'],
             'category' => ['nullable', 'string', 'max:100'],
             'description' => ['nullable', 'string'],
             'phone' => ['nullable', 'string', 'max:20'],
@@ -33,7 +32,6 @@ class UmkmRequest extends FormRequest
     {
         return [
             'name.required' => 'Nama usaha wajib diisi.',
-            'owner_name.required' => 'Nama pemilik wajib diisi.',
             'latitude.between' => 'Latitude harus dalam wilayah Indonesia.',
             'longitude.between' => 'Longitude harus dalam wilayah Indonesia.',
         ];

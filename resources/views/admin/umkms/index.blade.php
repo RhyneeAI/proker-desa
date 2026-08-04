@@ -16,14 +16,13 @@
                     <tr>
                         <th>Foto</th>
                         <th>Nama Usaha</th>
-                        <th>Pemilik</th>
                         <th>Kategori</th>
                         <th>Koordinat</th>
                         <th class="text-end">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse ($umkms as $umkm)
+                    @foreach ($umkms as $umkm)
                         <tr>
                             <td>
                                 @if ($umkm->photo)
@@ -39,7 +38,6 @@
                             <td>
                                 <p class="fw-medium text-body mb-0">{{ $umkm->name }}</p>
                             </td>
-                            <td class="text-secondary">{{ $umkm->owner_name }}</td>
                             <td>
                                 @if ($umkm->category)
                                     <x-category-badge :category="$umkm->category" />
@@ -70,14 +68,7 @@
                                 </div>
                             </td>
                         </tr>
-                    @empty
-                        <tr>
-                            <td colspan="6" class="text-center text-secondary py-5">
-                                <i class="ti ti-inbox text-secondary mb-2" style="font-size:2rem"></i>
-                                <div>Belum ada data UMKM.</div>
-                            </td>
-                        </tr>
-                    @endforelse
+                    @endforeach
                 </tbody>
             </table>
         </div>

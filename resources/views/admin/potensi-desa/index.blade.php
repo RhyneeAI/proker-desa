@@ -20,7 +20,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse ($potensiDesa as $item)
+                    @foreach ($potensiDesa as $item)
                         <tr>
                             <td>
                                 <div class="d-flex align-items-center gap-3">
@@ -56,14 +56,7 @@
                                 </div>
                             </td>
                         </tr>
-                    @empty
-                        <tr>
-                            <td colspan="3" class="text-center text-secondary py-5">
-                                <i class="ti ti-inbox text-secondary mb-2" style="font-size:2rem"></i>
-                                <div>Belum ada potensi desa.</div>
-                            </td>
-                        </tr>
-                    @endforelse
+                    @endforeach
                 </tbody>
             </table>
         </div>

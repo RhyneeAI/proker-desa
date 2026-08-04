@@ -104,6 +104,7 @@
             $airItems = $waterPoints->map(fn ($p) => [
                 'name' => $p->name,
                 'col1' => $p->direction ?? '-',
+                'col2' => $p->recommend_depth ?? '-',
                 'desc' => $p->description,
                 'address' => $p->address,
                 'coord' => $p->recommend_latitude . ', ' . $p->recommend_longitude,
@@ -130,7 +131,7 @@
                 'col2' => $p->phone ?? '-',
                 'desc' => $p->description,
                 'address' => $p->address,
-                'extra' => $p->owner_name ?? '-',
+                'extra' => $p->phone ?? '-',
                 'coord' => $p->latitude . ', ' . $p->longitude,
                 'photo' => $imgUrl($p->photo, 'umkm-' . $p->id),
                 'alt' => $p->photo_alt ?? $p->name,
@@ -187,16 +188,17 @@
                         </div>
                     </div>
 
-                    <div class="hidden md:grid grid-cols-[3rem_1fr_10rem_5rem] gap-2 px-5 py-2.5 border-t border-slate-200 text-xs font-semibold uppercase tracking-wide text-slate-500">
-                        <span>No</span><span>Nama Titik</span><span>Arah Lintasan</span><span class="text-right">Detail</span>
+                    <div class="hidden md:grid grid-cols-[3rem_1fr_9rem_7rem_4rem] gap-2 px-5 py-2.5 border-t border-slate-200 text-xs font-semibold uppercase tracking-wide text-slate-500">
+                        <span>No</span><span>Nama Titik</span><span>Arah</span><span>Kedalaman Rekomendasi</span><span class="text-right">Detail</span>
                     </div>
                     <div class="divide-y divide-slate-100">
                         <template x-for="(row, i) in rows" :key="row.name + i">
                             <a :href="row.url"
-                                class="px-5 py-3 grid grid-cols-1 md:grid-cols-[3rem_1fr_10rem_5rem] md:gap-2 gap-1 items-center hover:bg-slate-50 transition no-underline">
+                                class="px-5 py-3 grid grid-cols-1 md:grid-cols-[3rem_1fr_9rem_7rem_4rem] md:gap-2 gap-1 items-center hover:bg-slate-50 transition no-underline">
                                 <span class="text-xs text-slate-400 md:block hidden" x-text="(page - 1) * per + i + 1"></span>
                                 <p class="font-medium text-slate-800" x-text="row.name"></p>
                                 <p class="text-sm text-slate-600" x-text="row.col1"></p>
+                                <p class="text-sm text-slate-600" x-text="row.col2"></p>
                                 <span class="text-right inline-flex items-center justify-end gap-1 text-[#192E03] font-semibold text-xs">
                                     Detail
                                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
@@ -360,7 +362,7 @@
                                         <div class="space-y-2 text-sm">
                                             <p class="text-slate-600 leading-relaxed" x-show="row.desc" x-text="row.desc"></p>
                                             <p class="text-slate-500"><span class="font-semibold text-slate-700">Alamat:</span> <span x-text="row.address ?? '-'"></span></p>
-                                            <p class="text-slate-500"><span class="font-semibold text-slate-700">Pemilik:</span> <span x-text="row.extra"></span></p>
+                                            <p class="text-slate-500"><span class="font-semibold text-slate-700">Telepon:</span> <span x-text="row.extra"></span></p>
                                             <p class="text-slate-500"><span class="font-semibold text-slate-700">Koordinat:</span> <span x-text="row.coord"></span></p>
                                         </div>
                                     </div>

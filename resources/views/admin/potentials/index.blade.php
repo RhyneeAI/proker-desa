@@ -21,7 +21,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse ($potentials as $potential)
+                    @foreach ($potentials as $potential)
                         <tr>
                             <td>
                                 @if ($potential->photo)
@@ -59,14 +59,7 @@
                                 </div>
                             </td>
                         </tr>
-                    @empty
-                        <tr>
-                            <td colspan="4" class="text-center text-secondary py-5">
-                                <i class="ti ti-inbox text-secondary mb-2" style="font-size:2rem"></i>
-                                <div>Belum ada data potensi desa.</div>
-                            </td>
-                        </tr>
-                    @endforelse
+                    @endforeach
                 </tbody>
             </table>
         </div>

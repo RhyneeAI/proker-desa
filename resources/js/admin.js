@@ -12,8 +12,6 @@ window.Chart = Chart;
 
 util.external($);
 
-Alpine.start();
-
 // Count-up (sama dengan public): angka 0 -> target saat terlihat
 Alpine.data('countUp', (target, { duration = 1200, decimals = 0 } = {}) => ({
     value: 0,
@@ -83,6 +81,9 @@ window.fileUpload = (existing = [], multiple = false) => ({
         Array.from(this.$refs.input.files || []).forEach((f) => {
             this.previews.push(URL.createObjectURL(f));
         });
+
+Alpine.start();
+
     },
     remove(i) {
         const newFiles = Array.from(this.$refs.input.files || []);

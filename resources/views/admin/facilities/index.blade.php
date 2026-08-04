@@ -22,7 +22,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse ($facilities as $facility)
+                    @foreach ($facilities as $facility)
                         <tr>
                             <td>
                                 @if ($facility->photo)
@@ -62,14 +62,7 @@
                                 </div>
                             </td>
                         </tr>
-                    @empty
-                        <tr>
-                            <td colspan="5" class="text-center text-secondary py-5">
-                                <i class="ti ti-inbox text-secondary mb-2" style="font-size:2rem"></i>
-                                <div>Belum ada data fasilitas.</div>
-                            </td>
-                        </tr>
-                    @endforelse
+                    @endforeach
                 </tbody>
             </table>
         </div>
