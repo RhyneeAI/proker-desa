@@ -14,6 +14,7 @@ class DatabaseSeeder extends Seeder
             ContactSeeder::class,
             PotentialSeeder::class,
             RolesAndPermissionsSeeder::class,
+            OfficialDataSeeder::class,
             UmkmDataSeeder::class,
             FacilityDataSeeder::class,
             WaterPointDataSeeder::class,
