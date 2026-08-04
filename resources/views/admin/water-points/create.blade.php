@@ -58,6 +58,13 @@
                     @endforeach
 
                     <x-form-input
+                        label="Kedalaman Rekomendasi"
+                        name="recommend_depth"
+                        placeholder="mis. 20 - 50 meter"
+                        hint="Kedalaman yang direkomendasikan untuk pengeboran/pengambilan air."
+                    />
+
+                    <x-form-input
                         label="Arah Lintasan"
                         name="direction"
                         placeholder="mis. Utara → Selatan"

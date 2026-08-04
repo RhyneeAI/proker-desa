@@ -23,6 +23,7 @@ class WaterPointRequest extends FormRequest
             'end_longitude' => ['nullable', 'numeric', 'between:95,141'],
             'recommend_latitude' => ['nullable', 'numeric', 'between:-11,6'],
             'recommend_longitude' => ['nullable', 'numeric', 'between:95,141'],
+            'recommend_depth' => ['nullable', 'string', 'max:50'],
             'direction' => ['nullable', 'string', 'max:100'],
             'debit' => ['nullable', 'string', 'max:50'],
             'documentation_photos' => ['nullable', 'array'],

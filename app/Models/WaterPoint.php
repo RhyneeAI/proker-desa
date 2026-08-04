@@ -2,16 +2,18 @@
 
 namespace App\Models;
 
+use App\Traits\HasUniqueSlug;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class WaterPoint extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, HasUniqueSlug;
 
     protected $fillable = [
         'name',
+        'slug',
         'description',
         'address',
         'start_latitude',
@@ -20,6 +22,7 @@ class WaterPoint extends Model
         'end_longitude',
         'recommend_latitude',
         'recommend_longitude',
+        'recommend_depth',
         'direction',
         'debit',
         'documentation_photos',

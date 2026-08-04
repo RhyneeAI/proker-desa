@@ -53,6 +53,7 @@
             'end_lng' => $wp->end_longitude ? (float) $wp->end_longitude : null,
             'category' => $wp->direction,
             'address' => $wp->address,
+            'url' => route('titik-air.show', $wp->slug),
         ])->values(),
     ];
 

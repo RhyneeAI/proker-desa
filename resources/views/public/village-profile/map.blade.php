@@ -108,6 +108,7 @@
                 'coord' => $p->recommend_latitude . ', ' . $p->recommend_longitude,
                 'photo' => $imgUrl(is_array($p->documentation_photos) ? ($p->documentation_photos[0] ?? null) : null, 'titik-air-' . $p->id),
                 'alt' => $p->name,
+                'url' => route('titik-air.show', $p->slug),
             ])->values()->toArray();
 
             $wisataItems = $wisatas->map(fn ($p) => [
@@ -185,34 +186,21 @@
                         </div>
                     </div>
 
-                    <div class="hidden md:grid grid-cols-[3rem_1fr_10rem_2rem] gap-2 px-5 py-2.5 border-t border-slate-200 text-xs font-semibold uppercase tracking-wide text-slate-500">
-                        <span>No</span><span>Nama Titik</span><span>Arah Lintasan</span><span></span>
+                    <div class="hidden md:grid grid-cols-[3rem_1fr_10rem_5rem] gap-2 px-5 py-2.5 border-t border-slate-200 text-xs font-semibold uppercase tracking-wide text-slate-500">
+                        <span>No</span><span>Nama Titik</span><span>Arah Lintasan</span><span class="text-right">Detail</span>
                     </div>
                     <div class="divide-y divide-slate-100">
                         <template x-for="(row, i) in rows" :key="row.name + i">
-                            <div>
-                                <div @click="detail = detail === i ? null : i"
-                                    class="px-5 py-3 grid grid-cols-1 md:grid-cols-[3rem_1fr_10rem_2rem] md:gap-2 gap-1 items-center cursor-pointer hover:bg-slate-50 transition">
-                                    <span class="text-xs text-slate-400 md:block hidden" x-text="(page - 1) * per + i + 1"></span>
-                                    <p class="font-medium text-slate-800" x-text="row.name"></p>
-                                    <p class="text-sm text-slate-600" x-text="row.col1"></p>
-                                    <span class="text-right text-slate-400">
-                                        <svg x-show="detail !== i" class="w-4 h-4 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-                                        <svg x-show="detail === i" class="w-4 h-4 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"/></svg>
-                                    </span>
-                                </div>
-                                <div x-show="detail === i" x-cloak class="px-5 py-4 bg-slate-50/70 border-t border-slate-100">
-                                    <div class="grid grid-cols-1 sm:grid-cols-[176px_1fr] gap-4">
-                                        <img :src="row.photo" :alt="row.alt" loading="lazy"
-                                            class="w-full sm:w-44 h-28 sm:h-32 object-cover rounded-lg border border-slate-200">
-                                        <div class="space-y-2 text-sm">
-                                            <p class="text-slate-600 leading-relaxed" x-show="row.desc" x-text="row.desc"></p>
-                                            <p class="text-slate-500"><span class="font-semibold text-slate-700">Alamat:</span> <span x-text="row.address ?? '-'"></span></p>
-                                            <p class="text-slate-500"><span class="font-semibold text-slate-700">Koordinat:</span> <span x-text="row.coord"></span></p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            <a :href="row.url"
+                                class="px-5 py-3 grid grid-cols-1 md:grid-cols-[3rem_1fr_10rem_5rem] md:gap-2 gap-1 items-center hover:bg-slate-50 transition no-underline">
+                                <span class="text-xs text-slate-400 md:block hidden" x-text="(page - 1) * per + i + 1"></span>
+                                <p class="font-medium text-slate-800" x-text="row.name"></p>
+                                <p class="text-sm text-slate-600" x-text="row.col1"></p>
+                                <span class="text-right inline-flex items-center justify-end gap-1 text-[#192E03] font-semibold text-xs">
+                                    Detail
+                                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                                </span>
+                            </a>
                         </template>
                         <p x-show="!items.length" class="px-5 py-8 text-center text-sm text-slate-500">Belum ada data.</p>
                     </div>

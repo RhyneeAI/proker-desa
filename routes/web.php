@@ -26,6 +26,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SitemapController;
 use App\Http\Controllers\UmkmController;
 use App\Http\Controllers\VillageProfileController;
+use App\Http\Controllers\WaterPointController;
 use App\Http\Controllers\WisataController;
 use Illuminate\Support\Facades\Route;
 
@@ -49,6 +50,8 @@ Route::get('/potensi-desa', [PotentialController::class, 'index'])->name('potens
 Route::get('/potensi-desa/{potential}', [PotentialController::class, 'show'])->name('potensi.show');
 Route::get('/wisata', [WisataController::class, 'index'])->name('wisata.index');
 Route::get('/wisata/{wisata}', [WisataController::class, 'show'])->name('wisata.show');
+
+Route::get('/titik-air/{waterPoint:slug}', [WaterPointController::class, 'show'])->name('titik-air.show');
 
 Route::get('/admin/login', fn () => redirect()->route('login'))->name('admin.login');
 
@@ -78,97 +81,21 @@ Route::middleware('auth')->group(function () {
         Route::get('/kontak/edit', [AdminContactController::class, 'edit'])->middleware('can:manage kontak')->name('kontak.edit');
         Route::put('/kontak', [AdminContactController::class, 'update'])->middleware('can:manage kontak')->name('kontak.update');
 
-        Route::prefix('aparatur')->name('aparatur.')->middleware('can:manage aparatur')->group(function () {
-            Route::get('/', [AdminOfficialController::class, 'index'])->name('index');
-            Route::get('/tambah', [AdminOfficialController::class, 'create'])->name('create');
-            Route::post('/', [AdminOfficialController::class, 'store'])->name('store');
-            Route::get('/{aparatur}/edit', [AdminOfficialController::class, 'edit'])->name('edit');
-            Route::put('/{aparatur}', [AdminOfficialController::class, 'update'])->name('update');
-            Route::delete('/{aparatur}', [AdminOfficialController::class, 'destroy'])->name('destroy');
-        });
+        Route::middleware('can:manage aparatur')->resource('aparatur', AdminOfficialController::class)->except('show');
 
-        Route::prefix('berita')->name('berita.')->middleware('can:manage berita')->group(function () {
-            Route::get('/', [AdminNewsController::class, 'index'])->name('index');
-            Route::get('/tambah', [AdminNewsController::class, 'create'])->name('create');
-            Route::post('/', [AdminNewsController::class, 'store'])->name('store');
-            Route::get('/{berita}/edit', [AdminNewsController::class, 'edit'])->name('edit');
-            Route::put('/{berita}', [AdminNewsController::class, 'update'])->name('update');
-            Route::post('/{berita}/toggle', [AdminNewsController::class, 'togglePublish'])->name('toggle');
-            Route::delete('/{berita}', [AdminNewsController::class, 'destroy'])->name('destroy');
-        });
+        Route::middleware('can:manage berita')->resource('berita', AdminNewsController::class)->except('show')->parameters(['berita' => 'berita']);
+        Route::middleware('can:manage berita')->post('berita/{berita}/toggle', [AdminNewsController::class, 'togglePublish'])->name('berita.toggle');
 
-        Route::prefix('pengumuman')->name('pengumuman.')->middleware('can:manage pengumuman')->group(function () {
-            Route::get('/', [AdminAnnouncementController::class, 'index'])->name('index');
-            Route::get('/tambah', [AdminAnnouncementController::class, 'create'])->name('create');
-            Route::post('/', [AdminAnnouncementController::class, 'store'])->name('store');
-            Route::get('/{pengumuman}/edit', [AdminAnnouncementController::class, 'edit'])->name('edit');
-            Route::put('/{pengumuman}', [AdminAnnouncementController::class, 'update'])->name('update');
-            Route::post('/{pengumuman}/toggle', [AdminAnnouncementController::class, 'togglePublish'])->name('toggle');
-            Route::delete('/{pengumuman}', [AdminAnnouncementController::class, 'destroy'])->name('destroy');
-        });
+        Route::middleware('can:manage pengumuman')->resource('pengumuman', AdminAnnouncementController::class)->except('show');
+        Route::middleware('can:manage pengumuman')->post('pengumuman/{pengumuman}/toggle', [AdminAnnouncementController::class, 'togglePublish'])->name('pengumuman.toggle');
 
-        Route::prefix('umkm')->name('umkm.')->middleware('can:manage umkm')->group(function () {
-            Route::get('/', [AdminUmkmController::class, 'index'])->name('index');
-            Route::get('/tambah', [AdminUmkmController::class, 'create'])->name('create');
-            Route::post('/', [AdminUmkmController::class, 'store'])->name('store');
-            Route::get('/{umkm}/edit', [AdminUmkmController::class, 'edit'])->name('edit');
-            Route::put('/{umkm}', [AdminUmkmController::class, 'update'])->name('update');
-            Route::delete('/{umkm}', [AdminUmkmController::class, 'destroy'])->name('destroy');
-        });
-
-        Route::prefix('fasilitas')->name('fasilitas.')->middleware('can:manage fasilitas')->group(function () {
-            Route::get('/', [AdminFacilityController::class, 'index'])->name('index');
-            Route::get('/tambah', [AdminFacilityController::class, 'create'])->name('create');
-            Route::post('/', [AdminFacilityController::class, 'store'])->name('store');
-            Route::get('/{fasilita}/edit', [AdminFacilityController::class, 'edit'])->name('edit');
-            Route::put('/{fasilita}', [AdminFacilityController::class, 'update'])->name('update');
-            Route::delete('/{fasilita}', [AdminFacilityController::class, 'destroy'])->name('destroy');
-        });
-
-        Route::prefix('galeri')->name('galeri.')->middleware('can:manage galeri')->group(function () {
-            Route::get('/', [AdminGalleryController::class, 'index'])->name('index');
-            Route::get('/tambah', [AdminGalleryController::class, 'create'])->name('create');
-            Route::post('/', [AdminGalleryController::class, 'store'])->name('store');
-            Route::get('/{galeri}/edit', [AdminGalleryController::class, 'edit'])->name('edit');
-            Route::put('/{galeri}', [AdminGalleryController::class, 'update'])->name('update');
-            Route::delete('/{galeri}', [AdminGalleryController::class, 'destroy'])->name('destroy');
-        });
-
-        Route::prefix('potensi-desa')->name('potensi-desa.')->middleware('can:manage potensi-desa')->group(function () {
-            Route::get('/', [AdminPotensiDesaController::class, 'index'])->name('index');
-            Route::get('/tambah', [AdminPotensiDesaController::class, 'create'])->name('create');
-            Route::post('/', [AdminPotensiDesaController::class, 'store'])->name('store');
-            Route::get('/{potensiDesa}/edit', [AdminPotensiDesaController::class, 'edit'])->name('edit');
-            Route::put('/{potensiDesa}', [AdminPotensiDesaController::class, 'update'])->name('update');
-            Route::delete('/{potensiDesa}', [AdminPotensiDesaController::class, 'destroy'])->name('destroy');
-        });
-
-        Route::prefix('potensi')->name('potensi.')->middleware('can:manage potensi')->group(function () {
-            Route::get('/', [AdminPotentialController::class, 'index'])->name('index');
-            Route::get('/tambah', [AdminPotentialController::class, 'create'])->name('create');
-            Route::post('/', [AdminPotentialController::class, 'store'])->name('store');
-            Route::get('/{potential}/edit', [AdminPotentialController::class, 'edit'])->name('edit');
-            Route::put('/{potential}', [AdminPotentialController::class, 'update'])->name('update');
-            Route::delete('/{potential}', [AdminPotentialController::class, 'destroy'])->name('destroy');
-        });
-
-        Route::prefix('titik-air')->name('titik-air.')->middleware('can:manage titik air')->group(function () {
-            Route::get('/', [AdminWaterPointController::class, 'index'])->name('index');
-            Route::get('/tambah', [AdminWaterPointController::class, 'create'])->name('create');
-            Route::post('/', [AdminWaterPointController::class, 'store'])->name('store');
-            Route::get('/{titikAir}/edit', [AdminWaterPointController::class, 'edit'])->name('edit');
-            Route::put('/{titikAir}', [AdminWaterPointController::class, 'update'])->name('update');
-            Route::delete('/{titikAir}', [AdminWaterPointController::class, 'destroy'])->name('destroy');
-        });
-
-        Route::prefix('wisata')->name('wisata.')->middleware('can:manage wisata')->group(function () {
-            Route::get('/', [AdminWisataController::class, 'index'])->name('index');
-            Route::get('/tambah', [AdminWisataController::class, 'create'])->name('create');
-            Route::post('/', [AdminWisataController::class, 'store'])->name('store');
-            Route::get('/{wisata}/edit', [AdminWisataController::class, 'edit'])->name('edit');
-            Route::put('/{wisata}', [AdminWisataController::class, 'update'])->name('update');
-            Route::delete('/{wisata}', [AdminWisataController::class, 'destroy'])->name('destroy');
-        });
+        Route::middleware('can:manage umkm')->resource('umkm', AdminUmkmController::class)->except('show');
+        Route::middleware('can:manage fasilitas')->resource('fasilitas', AdminFacilityController::class)->except('show');
+        Route::middleware('can:manage galeri')->resource('galeri', AdminGalleryController::class)->except('show');
+        Route::middleware('can:manage potensi')->resource('potensi', AdminPotentialController::class)->except('show')->parameters(['potensi' => 'potential']);
+        Route::middleware('can:manage potensi-desa')->resource('potensi-desa', AdminPotensiDesaController::class)->except('show')->parameters(['potensi-desa' => 'potensiDesa']);
+        Route::middleware('can:manage titik air')->resource('titik-air', AdminWaterPointController::class)->except('show')->parameters(['titik-air' => 'waterPoint']);
+        Route::middleware('can:manage wisata')->resource('wisata', AdminWisataController::class)->except('show')->parameters(['wisata' => 'wisata']);
 
         Route::prefix('pengguna')->name('pengguna.')->middleware('can:manage pengguna')->group(function () {
             Route::get('/', [AdminUserController::class, 'index'])->name('index');

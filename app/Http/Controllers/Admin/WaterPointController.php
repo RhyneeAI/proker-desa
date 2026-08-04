@@ -5,12 +5,14 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\WaterPointRequest;
 use App\Models\WaterPoint;
+use App\Traits\HasUniqueSlug;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
 class WaterPointController extends Controller
 {
+    use HasUniqueSlug;
     public function index(): View
     {
         $waterPoints = WaterPoint::latest()->get();
@@ -26,6 +28,7 @@ class WaterPointController extends Controller
     public function store(WaterPointRequest $request): RedirectResponse
     {
         $validated = $request->validated();
+        $validated['slug'] = $this->generateUniqueSlug(WaterPoint::class, $validated['name']);
 
         if ($request->hasFile('documentation_photos')) {
             $validated['documentation_photos'] = collect($request->file('documentation_photos'))
@@ -56,6 +59,10 @@ class WaterPointController extends Controller
     public function update(WaterPointRequest $request, WaterPoint $waterPoint): RedirectResponse
     {
         $validated = $request->validated();
+
+        if ($waterPoint->name !== $validated['name']) {
+            $validated['slug'] = $this->generateUniqueSlug(WaterPoint::class, $validated['name'], $waterPoint->id);
+        }
 
         if ($request->hasFile('documentation_photos')) {
             collect($waterPoint->documentation_photos ?? [])->each(fn ($path) => Storage::disk('public')->delete($path));
