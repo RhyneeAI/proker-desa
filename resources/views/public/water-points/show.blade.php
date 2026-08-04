@@ -24,33 +24,27 @@
                 <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm" data-aos="fade-up">
                     <h2 class="text-lg font-bold text-[#192E03] mb-4">Informasi Titik Air</h2>
                     <dl class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
-                        @if ($waterPoint->debit)
-                            <div>
-                                <dt class="text-xs font-semibold uppercase tracking-wide text-slate-500">Debit Air</dt>
-                                <dd class="mt-1 text-slate-800">{{ $waterPoint->debit }}</dd>
-                            </div>
-                        @endif
-                        @if ($waterPoint->direction)
-                            <div>
-                                <dt class="text-xs font-semibold uppercase tracking-wide text-slate-500">Arah Lintasan</dt>
-                                <dd class="mt-1 text-slate-800">{{ $waterPoint->direction }}</dd>
-                            </div>
-                        @endif
-                        @if ($waterPoint->recommend_depth)
-                            <div>
-                                <dt class="text-xs font-semibold uppercase tracking-wide text-slate-500">Kedalaman Rekomendasi</dt>
-                                <dd class="mt-1 text-slate-800">{{ $waterPoint->recommend_depth }}</dd>
-                            </div>
-                        @endif
-                        @if ($waterPoint->address)
-                            <div>
-                                <dt class="text-xs font-semibold uppercase tracking-wide text-slate-500">Alamat</dt>
-                                <dd class="mt-1 text-slate-800">{{ $waterPoint->address }}</dd>
-                            </div>
-                        @endif
+                        <div>
+                            <dt class="text-xs font-semibold uppercase tracking-wide text-slate-500">Debit Air</dt>
+                            <dd class="mt-1 text-slate-800">{{ $waterPoint->debit ?? '-' }}</dd>
+                        </div>
+                        <div>
+                            <dt class="text-xs font-semibold uppercase tracking-wide text-slate-500">Arah Lintasan</dt>
+                            <dd class="mt-1 text-slate-800">{{ $waterPoint->direction ?? '-' }}</dd>
+                        </div>
+                        <div>
+                            <dt class="text-xs font-semibold uppercase tracking-wide text-slate-500">Kedalaman Rekomendasi</dt>
+                            <dd class="mt-1 text-slate-800">{{ $waterPoint->recommend_depth ?? '-' }}</dd>
+                        </div>
+                        <div>
+                            <dt class="text-xs font-semibold uppercase tracking-wide text-slate-500">Alamat</dt>
+                            <dd class="mt-1 text-slate-800">{{ $waterPoint->address ?? '-' }}</dd>
+                        </div>
                     </dl>
                     @if ($waterPoint->description)
                         <p class="mt-4 text-slate-600 leading-relaxed text-sm">{{ $waterPoint->description }}</p>
+                    @else
+                        <p class="mt-4 text-slate-400 italic text-sm">Belum ada deskripsi untuk titik air ini.</p>
                     @endif
                 </div>
 
@@ -83,6 +77,15 @@
                                 loading="lazy" class="w-full rounded-xl border border-slate-200">
                         </a>
                     </div>
+                @else
+                    <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm" data-aos="fade-up">
+                        <h2 class="text-lg font-bold text-[#192E03] mb-1">Plot Interpretasi Geolistrik</h2>
+                        <p class="text-xs text-slate-500 mb-4">Hasil survei alat AIDU — Konfigurasi 0.</p>
+                        <div class="rounded-xl border-2 border-dashed border-slate-200 h-40 flex flex-col items-center justify-center text-center px-4">
+                            <i class="ti ti-photo-off text-slate-300" style="font-size:2rem"></i>
+                            <p class="text-sm text-slate-400 mt-2">Plot interpretasi belum diunggah.</p>
+                        </div>
+                    </div>
                 @endif
 
                 @if ($plotOthers->isNotEmpty())
@@ -111,6 +114,29 @@
                         <li class="flex gap-2"><span class="text-[#3A5C0A] font-bold flex-shrink-0">•</span>Zona transisi (hijau–kuning) berpotensi menyimpan air terbatas, perlu verifikasi lanjut.</li>
                         <li class="flex gap-2"><span class="text-[#3A5C0A] font-bold flex-shrink-0">•</span>Resistivitas rendah tidak selalu berarti air produktif (lempung jenuh air juga rendah); direkomendasikan verifikasi dengan data geologi atau uji bor.</li>
                     </ul>
+
+                    <h4 class="font-bold text-xs uppercase tracking-wider mt-5 mb-2 text-white/70">Legenda Warna Penampang (skala 6–50 Ωm)</h4>
+                    <div class="grid grid-cols-1 gap-1.5 text-xs text-white/80">
+                        @foreach ([
+                            ['c' => '#4a1a7a', 'n' => 'Ungu tua', 'r' => '6–10 Ωm', 'm' => 'Paling jenuh air — kandidat akuifer'],
+                            ['c' => '#1e3a8a', 'n' => 'Biru tua', 'r' => '10–14 Ωm', 'm' => 'Jenuh air kuat, akuifer dangkal'],
+                            ['c' => '#3b82f6', 'n' => 'Biru muda', 'r' => '14–18 Ωm', 'm' => 'Basah, transisi zona air'],
+                            ['c' => '#06b6d4', 'n' => 'Cyan', 'r' => '18–22 Ωm', 'm' => 'Cukup lembab, air mulai menurun'],
+                            ['c' => '#16a34a', 'n' => 'Hijau tua', 'r' => '22–26 Ωm', 'm' => 'Lembab, campuran pasir-lempung'],
+                            ['c' => '#84cc16', 'n' => 'Hijau muda', 'r' => '26–30 Ωm', 'm' => 'Sedang'],
+                            ['c' => '#eab308', 'n' => 'Kuning', 'r' => '30–34 Ωm', 'm' => 'Mulai mengering, air terbatas'],
+                            ['c' => '#f59e0b', 'n' => 'Oranye', 'r' => '34–42 Ωm', 'm' => 'Kering, pasir/kerikil tak jenuh'],
+                            ['c' => '#dc2626', 'n' => 'Merah tua', 'r' => '42–50 Ωm', 'm' => 'Paling resistif — batuan keras/bedrock'],
+                        ] as $w)
+                            <div class="flex items-center gap-2">
+                                <span class="inline-block w-6 h-4 rounded-sm flex-shrink-0" style="background:{{ $w['c'] }}"></span>
+                                <span class="font-semibold w-20 flex-shrink-0">{{ $w['n'] }}</span>
+                                <span class="text-white/60 w-16 flex-shrink-0">{{ $w['r'] }}</span>
+                                <span class="text-white/75">{{ $w['m'] }}</span>
+                            </div>
+                        @endforeach
+                    </div>
+                    <p class="text-[11px] text-white/50 mt-3 leading-relaxed">Catatan: warna ungu–biru (6–18 Ωm) = kandidat zona air tanah; cyan–kuning = zona transisi; oranye–merah = kering/batuan, kurang prospektif.</p>
                 </div>
             </div>
         </div>
