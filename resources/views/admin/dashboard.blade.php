@@ -1,11 +1,5 @@
 <x-layouts.admin title="Dashboard">
 
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb mb-3">
-            <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
-        </ol>
-    </nav>
-
     {{-- Kartu Statistik --}}
     <div class="row g-3 mb-3">
         @foreach ([
@@ -21,7 +15,9 @@
                             <i class="ti {{ $card['icon'] }}"></i>
                         </span>
                         <div>
-                            <div class="fs-2 fw-bold text-primary">{{ $card['value'] }}</div>
+                            <div class="fs-2 fw-bold text-primary">
+                                <span x-data="countUp({{ $card['value'] }})" x-text="formatted">0</span>
+                            </div>
                             <div class="text-secondary small fw-medium">{{ $card['label'] }}</div>
                         </div>
                     </div>
@@ -40,15 +36,15 @@
                 <div class="card-body d-flex flex-column justify-content-center gap-3">
                     <div class="d-flex justify-content-between align-items-center">
                         <span class="text-secondary">Hari Ini</span>
-                        <span class="fs-3 fw-bold">{{ number_format($todayVisits, 0, ',', '.') }}</span>
+                        <span class="fs-3 fw-bold"><span x-data="countUp({{ $todayVisits }})" x-text="formatted">0</span></span>
                     </div>
                     <div class="d-flex justify-content-between align-items-center">
                         <span class="text-secondary">Pengunjung Unik Hari Ini</span>
-                        <span class="fs-3 fw-bold">{{ number_format($todayUnique, 0, ',', '.') }}</span>
+                        <span class="fs-3 fw-bold"><span x-data="countUp({{ $todayUnique }})" x-text="formatted">0</span></span>
                     </div>
                     <div class="d-flex justify-content-between align-items-center">
                         <span class="text-secondary">Total Pengunjung</span>
-                        <span class="fs-3 fw-bold">{{ number_format($totalVisits, 0, ',', '.') }}</span>
+                        <span class="fs-3 fw-bold"><span x-data="countUp({{ $totalVisits }})" x-text="formatted">0</span></span>
                     </div>
                 </div>
             </div>
@@ -114,34 +110,36 @@
 
     @push('scripts')
         <script>
-            window.Chart && (function () {
-                const canvas = document.getElementById('chartVisits');
-                if (!canvas) return;
-                new Chart(canvas, {
-                    type: 'line',
-                    data: {
-                        labels: @json($chartLabels),
-                        datasets: [{
-                            label: 'Kunjungan',
-                            data: @json($chartData),
-                            borderColor: '#192E03',
-                            backgroundColor: 'rgba(25, 46, 3, 0.12)',
-                            fill: true,
-                            tension: 0.35,
-                            pointRadius: 3,
-                            borderWidth: 2,
-                        }],
-                    },
-                    options: {
-                        responsive: true,
-                        plugins: { legend: { display: false } },
-                        scales: {
-                            y: { beginAtZero: true, ticks: { precision: 0 } },
-                            x: { ticks: { maxTicksLimit: 10 } },
+            window.addEventListener('DOMContentLoaded', function () {
+                window.Chart && (function () {
+                    const canvas = document.getElementById('chartVisits');
+                    if (!canvas) return;
+                    new Chart(canvas, {
+                        type: 'line',
+                        data: {
+                            labels: @json($chartLabels),
+                            datasets: [{
+                                label: 'Kunjungan',
+                                data: @json($chartData),
+                                borderColor: '#192E03',
+                                backgroundColor: 'rgba(25, 46, 3, 0.12)',
+                                fill: true,
+                                tension: 0.35,
+                                pointRadius: 3,
+                                borderWidth: 2,
+                            }],
                         },
-                    },
-                });
-            })();
+                        options: {
+                            responsive: true,
+                            plugins: { legend: { display: false } },
+                            scales: {
+                                y: { beginAtZero: true, ticks: { precision: 0 } },
+                                x: { ticks: { maxTicksLimit: 10 } },
+                            },
+                            },
+                    });
+                })();
+            });
         </script>
     @endpush
 </x-layouts.admin>

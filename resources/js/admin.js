@@ -14,6 +14,39 @@ util.external($);
 
 Alpine.start();
 
+// Count-up (sama dengan public): angka 0 -> target saat terlihat
+Alpine.data('countUp', (target, { duration = 1200, decimals = 0 } = {}) => ({
+    value: 0,
+    started: false,
+    init() {
+        const observer = new IntersectionObserver((entries) => {
+            if (entries[0].isIntersecting && !this.started) {
+                this.started = true;
+                this.animate();
+                observer.disconnect();
+            }
+        }, { threshold: 0.3 });
+        observer.observe(this.$el);
+    },
+    animate() {
+        const start = performance.now();
+        const step = (now) => {
+            const p = Math.min((now - start) / duration, 1);
+            const eased = 1 - Math.pow(1 - p, 3);
+            this.value = target * eased;
+            if (p < 1) requestAnimationFrame(step);
+            else this.value = target;
+        };
+        requestAnimationFrame(step);
+    },
+    get formatted() {
+        return this.value.toLocaleString('id-ID', {
+            minimumFractionDigits: decimals,
+            maximumFractionDigits: decimals,
+        });
+    },
+}));
+
 // Drag & drop file upload (x-file-upload component)
 window.fileUpload = (existing = [], multiple = false) => ({
     dragover: false,

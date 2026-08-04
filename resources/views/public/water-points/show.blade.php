@@ -71,7 +71,6 @@
                 @if ($plot0 && $imgUrl($plot0))
                     <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm" data-aos="fade-up">
                         <h2 class="text-lg font-bold text-[#192E03] mb-1">Plot Interpretasi Geolistrik</h2>
-                        <p class="text-xs text-slate-500 mb-4">Hasil survei alat AIDU — Konfigurasi 0.</p>
                         <a href="{{ $imgUrl($plot0) }}" data-lightbox="plots-{{ $waterPoint->id }}">
                             <img src="{{ $imgUrl($plot0) }}" alt="Plot interpretasi Konfigurasi 0"
                                 loading="lazy" class="w-full rounded-xl border border-slate-200">
@@ -80,7 +79,6 @@
                 @else
                     <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm" data-aos="fade-up">
                         <h2 class="text-lg font-bold text-[#192E03] mb-1">Plot Interpretasi Geolistrik</h2>
-                        <p class="text-xs text-slate-500 mb-4">Hasil survei alat AIDU — Konfigurasi 0.</p>
                         <div class="rounded-xl border-2 border-dashed border-slate-200 h-40 flex flex-col items-center justify-center text-center px-4">
                             <i class="ti ti-photo-off text-slate-300" style="font-size:2rem"></i>
                             <p class="text-sm text-slate-400 mt-2">Plot interpretasi belum diunggah.</p>

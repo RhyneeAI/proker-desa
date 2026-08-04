@@ -1,4 +1,13 @@
 <div class="page-body container-fluid py-3">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb mb-3">
+            <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}" class="text-decoration-none">Dashboard</a></li>
+            @if (! request()->routeIs('admin.dashboard'))
+                <li class="breadcrumb-item active" aria-current="page">{{ $title }}</li>
+            @endif
+        </ol>
+    </nav>
+
     {{ $content }}
 </div>
 

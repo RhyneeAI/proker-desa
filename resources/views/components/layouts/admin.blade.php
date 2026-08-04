@@ -11,7 +11,7 @@
     {{-- Area Konten --}}
     <div class="page-wrapper">
         @include('layouts.admin.navbar', ['title' => $title ?? 'Dashboard'])
-        @include('layouts.admin.main', ['content' => $slot])
+        @include('layouts.admin.main', ['content' => $slot, 'title' => $title ?? 'Dashboard'])
         @include('layouts.admin.footer')
     </div>
 
