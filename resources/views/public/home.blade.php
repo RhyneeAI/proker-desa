@@ -39,18 +39,14 @@
 
         {{-- Slide --}}
         <template x-for="(slide, i) in slides" :key="i">
-            <div x-show="aktif === i" x-data="{ loaded: false }" class="absolute inset-0"
-                :class="!loaded && 'bg-slate-300 animate-pulse'"
+            <div x-show="aktif === i" class="absolute inset-0"
                 x-transition:enter="transition-opacity duration-700"
                 x-transition:enter-start="opacity-0"
                 x-transition:enter-end="opacity-100"
                 x-transition:leave="transition-opacity duration-700"
                 x-transition:leave-start="opacity-100"
                 x-transition:leave-end="opacity-0">
-                <img :src="slide.src" :alt="slide.alt" loading="eager" fetchpriority="high"
-                    x-on:load="loaded = true" x-on:error="loaded = true"
-                    :class="loaded ? 'opacity-100' : 'opacity-0'"
-                    class="w-full h-full object-cover object-center transition-opacity duration-500">
+                <img :src="slide.src" :alt="slide.alt" loading="eager" fetchpriority="high" class="w-full h-full object-cover object-center">
             </div>
         </template>
 
@@ -222,7 +218,7 @@
                         @foreach ($latestNews as $news)
                             <a href="{{ route('berita.show', $news->slug) }}"
                                 class="news-slide snap-start shrink-0 w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] group bg-white rounded-2xl border border-slate-200 overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col">
-                                <div class="relative overflow-hidden aspect-video" x-data="{ loaded: false }" :class="!loaded && 'bg-slate-200 animate-pulse'">
+                                <div class="relative overflow-hidden aspect-video">
                                     @php
                                         $newsImg = $news->thumbnail && Storage::disk('public')->exists($news->thumbnail)
                                             ? Storage::url($news->thumbnail)
@@ -231,10 +227,7 @@
                                     <img src="{{ $newsImg }}"
                                         alt="{{ $news->thumbnail_alt ?? $news->title }}"
                                         loading="lazy"
-                                        x-on:load="loaded = true" x-on:error="loaded = true"
-                                        :class="loaded ? 'opacity-100' : 'opacity-0'"
-                                        class="w-full h-full object-cover group-hover:scale-105 transition duration-300"
-                                        style="transition:opacity .5s, transform .3s">
+                                        class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
                                     <span class="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-[#192E03] text-white text-[11px] font-semibold shadow-sm">Berita</span>
                                 </div>
                                 <div class="p-5 flex flex-col flex-1">
@@ -316,17 +309,14 @@
                                 ? Storage::url($gallery->image)
                                 : 'https://picsum.photos/seed/gallery-' . $gallery->id . '/1600/900';
                         @endphp
-                        <div x-show="aktif === {{ $i }}" x-data="{ loaded: false }" class="relative h-[420px] lg:h-[520px]"
-                            :class="!loaded && 'bg-slate-300 animate-pulse'"
+                        <div x-show="aktif === {{ $i }}" class="relative h-[420px] lg:h-[520px]"
                             x-transition:enter="transition-opacity duration-700"
                             x-transition:enter-start="opacity-0"
                             x-transition:enter-end="opacity-100">
                             <img src="{{ $galleryImg }}"
                                 alt="{{ $gallery->image_alt ?? $gallery->title }}"
                                 loading="lazy"
-                                x-on:load="loaded = true" x-on:error="loaded = true"
-                                :class="loaded ? 'opacity-100' : 'opacity-0'"
-                                class="w-full h-full object-cover transition-opacity duration-500">
+                                class="w-full h-full object-cover">
                             <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
                             <div class="absolute bottom-0 inset-x-0 p-6 sm:p-8">
                                 @if ($gallery->category)
