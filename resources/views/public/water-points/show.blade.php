@@ -108,11 +108,11 @@
                 <div class="bg-[#192E03] text-white rounded-2xl p-6 shadow-sm" data-aos="fade-up">
                     <h3 class="font-bold text-sm uppercase tracking-wider mb-3">Ringkasan Interpretasi Geolistrik</h3>
                     <ul class="space-y-2.5 text-sm text-white/85">
-                        <li class="flex gap-2"><span class="text-[#3A5C0A] font-bold flex-shrink-0">•</span>Metode <em>Electrical Resistivity Tomography</em>: material jenuh air memiliki resistivitas rendah (warna biru–ungu), batuan kering/bedrock resistivitas tinggi (oranye–merah).</li>
-                        <li class="flex gap-2"><span class="text-[#3A5C0A] font-bold flex-shrink-0">•</span>Zona paling prospektif berada pada <strong>jarak 10–40 m</strong> dari titik awal lintasan, pada <strong>kedalaman ±20–50 m</strong> (resistivitas rendah &amp; konsisten).</li>
-                        <li class="flex gap-2"><span class="text-[#3A5C0A] font-bold flex-shrink-0">•</span>Sisi kanan lintasan (jarak 60–100 m) cenderung resistif tinggi → kurang prospektif untuk sumur bor.</li>
-                        <li class="flex gap-2"><span class="text-[#3A5C0A] font-bold flex-shrink-0">•</span>Zona transisi (hijau–kuning) berpotensi menyimpan air terbatas, perlu verifikasi lanjut.</li>
-                        <li class="flex gap-2"><span class="text-[#3A5C0A] font-bold flex-shrink-0">•</span>Resistivitas rendah tidak selalu berarti air produktif (lempung jenuh air juga rendah); direkomendasikan verifikasi dengan data geologi atau uji bor.</li>
+                        <li class="flex gap-2 items-start"><span class="text-[#3A5C0A] font-bold flex-shrink-0">•</span><span class="flex-1 min-w-0">Metode <em>Electrical Resistivity Tomography</em>: material jenuh air memiliki resistivitas rendah (warna biru–ungu), batuan kering/bedrock resistivitas tinggi (oranye–merah).</span></li>
+                        <li class="flex gap-2 items-start"><span class="text-[#3A5C0A] font-bold flex-shrink-0">•</span><span class="flex-1 min-w-0">Zona paling prospektif berada pada <strong>jarak 10–40 m</strong> dari titik awal lintasan, pada <strong>kedalaman ±20–50 m</strong> (resistivitas rendah &amp; konsisten).</span></li>
+                        <li class="flex gap-2 items-start"><span class="text-[#3A5C0A] font-bold flex-shrink-0">•</span><span class="flex-1 min-w-0">Sisi kanan lintasan (jarak 60–100 m) cenderung resistif tinggi → kurang prospektif untuk sumur bor.</span></li>
+                        <li class="flex gap-2 items-start"><span class="text-[#3A5C0A] font-bold flex-shrink-0">•</span><span class="flex-1 min-w-0">Zona transisi (hijau–kuning) berpotensi menyimpan air terbatas, perlu verifikasi lanjut.</span></li>
+                        <li class="flex gap-2 items-start"><span class="text-[#3A5C0A] font-bold flex-shrink-0">•</span><span class="flex-1 min-w-0">Resistivitas rendah tidak selalu berarti air produktif (lempung jenuh air juga rendah); direkomendasikan verifikasi dengan data geologi atau uji bor.</span></li>
                     </ul>
 
                     <h4 class="font-bold text-xs uppercase tracking-wider mt-5 mb-2 text-white/70">Legenda Warna Penampang (skala 6–50 Ωm)</h4>
