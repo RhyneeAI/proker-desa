@@ -6,6 +6,10 @@
     display: none !important;
 }
 
+img {
+    cursor: pointer;
+}
+
 .nav-submenu a {
     transition: color 0.15s, background-color 0.15s;
 }
