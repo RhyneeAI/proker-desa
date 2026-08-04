@@ -17,7 +17,6 @@ class AnnouncementFactory extends Factory
             'title' => $title,
             'slug' => Str::slug($title).'-'.fake()->unique()->numberBetween(1, 99999),
             'content' => fake('id_ID')->paragraphs(2, true),
-            'deadline' => fake()->dateTimeBetween('now', '+1 month'),
             'is_published' => true,
             'published_at' => fake()->dateTimeBetween('-1 month', 'now'),
         ];
