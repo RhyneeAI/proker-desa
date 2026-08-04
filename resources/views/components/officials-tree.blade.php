@@ -1,11 +1,33 @@
 @props(['officials'])
 
 @php
-    $kades  = $officials->first(fn ($o) => str_contains($o->position, 'Kepala Desa'));
-    $sekdes = $officials->first(fn ($o) => str_contains($o->position, 'Sekretaris'));
-    $kasi   = $officials->filter(fn ($o) => str_contains($o->position, 'Kasi'))->sortBy('display_order');
-    $kaur   = $officials->filter(fn ($o) => str_contains($o->position, 'Kaur'))->sortBy('display_order');
-    $kadus  = $officials->filter(fn ($o) => str_contains($o->position, 'Kepala Dusun'))->sortBy('display_order');
+    $byParent = [];
+    foreach ($officials as $official) {
+        $key = $official->parent_id === null ? 'root' : (string) $official->parent_id;
+        $byParent[$key][] = $official;
+    }
+
+    $build = function ($items) use (&$build, $byParent) {
+        $nodes = collect($items)->sortBy([
+            ['display_order', 'asc'],
+            ['id', 'asc'],
+        ]);
+
+        $html = '<ul>';
+        foreach ($nodes as $node) {
+            $html .= '<li>';
+            $html .= view('components.official-card', ['official' => $node])->render();
+            if (! empty($byParent[(string) $node->id] ?? [])) {
+                $html .= $build($byParent[(string) $node->id]);
+            }
+            $html .= '</li>';
+        }
+        $html .= '</ul>';
+
+        return $html;
+    };
+
+    $roots = $byParent['root'] ?? [];
 @endphp
 
 @if ($officials->isEmpty())
@@ -13,49 +35,7 @@
 @else
     <div class="overflow-x-auto pb-2">
         <div class="text-center">
-            <ul class="org-tree">
-                @if ($kades)
-                    <li>
-                        <x-official-card :official="$kades" />
-                        @if ($sekdes || $kasi->isNotEmpty() || $kadus->isNotEmpty())
-                            <ul>
-                                @if ($sekdes)
-                                    <li>
-                                        <x-official-card :official="$sekdes" />
-                                        @if ($kaur->isNotEmpty())
-                                            <ul>
-                                                @foreach ($kaur as $official)
-                                                    <li>
-                                                        <x-official-card :official="$official" />
-                                                    </li>
-                                                @endforeach
-                                            </ul>
-                                        @endif
-                                    </li>
-                                @endif
-
-                                @foreach ($kasi as $official)
-                                    <li>
-                                        <x-official-card :official="$official" />
-                                    </li>
-                                @endforeach
-
-                                @foreach ($kadus as $official)
-                                    <li>
-                                        <x-official-card :official="$official" />
-                                    </li>
-                                @endforeach
-                            </ul>
-                        @endif
-                    </li>
-                @else
-                    @foreach ($officials as $official)
-                        <li>
-                            <x-official-card :official="$official" />
-                        </li>
-                    @endforeach
-                @endif
-            </ul>
+            {!! $build($roots) !!}
         </div>
     </div>
 @endif

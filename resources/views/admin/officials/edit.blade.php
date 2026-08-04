@@ -17,12 +17,18 @@
                 <div class="card-body">
                     <x-form-input label="Nama Lengkap" name="name" :value="$official->name" required />
                     <x-form-input label="Jabatan" name="position" :value="$official->position" required />
+                    <x-form-select
+                        label="Hierarki Penempatan"
+                        name="parent_id"
+                        :options="['' => '— Paling Atas (tanpa atasan) —'] + $parents->mapWithKeys(fn ($o) => [$o->id => $o->position . ' — ' . $o->name])->all()"
+                        :selected="$official->parent_id"
+                    />
                     <x-form-input
-                        label="Urutan Tampil"
+                        label="Urutan"
                         name="display_order"
                         type="number"
                         :value="$official->display_order"
-                        hint="Angka lebih kecil tampil lebih dulu."
+                        hint="Urutan tampil antar saudara satu level. Angka lebih kecil tampil lebih dulu."
                         required
                     />
                 </div>
