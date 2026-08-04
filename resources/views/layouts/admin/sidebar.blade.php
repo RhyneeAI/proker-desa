@@ -21,7 +21,7 @@
                 if (request()->routeIs('admin.berita.*') || request()->routeIs('admin.pengumuman.*') || request()->routeIs('admin.galeri.*')) $activeGroup = 'konten';
                 if (request()->routeIs('admin.umkm.*') || request()->routeIs('admin.wisata.*') || request()->routeIs('admin.potensi.*')) $activeGroup = 'ekonomi';
                 if (request()->routeIs('admin.fasilitas.*') || request()->routeIs('admin.titik-air.*') || request()->routeIs('admin.potensi-desa.*')) $activeGroup = 'wilayah';
-                if (request()->routeIs('admin.profil-desa.*') || request()->routeIs('admin.kontak.*') || request()->routeIs('admin.pengguna.*')) $activeGroup = 'pengaturan';
+                if (request()->routeIs('admin.profil-desa.*') || request()->routeIs('admin.aparatur.*') || request()->routeIs('admin.kontak.*') || request()->routeIs('admin.pengguna.*')) $activeGroup = 'pengaturan';
             @endphp
 
             <ul class="navbar-nav pt-lg-3">
@@ -83,8 +83,8 @@
                     </button>
                     <div x-show="open" x-cloak class="nav-submenu">
                         <a href="{{ route('admin.profil-desa.edit') }}" class="d-flex align-items-center gap-2 py-2 ps-5 pe-3 small rounded {{ request()->routeIs('admin.profil-desa.*') ? 'text-white bg-white bg-opacity-10' : 'text-secondary' }}"><i class="ti ti-building" style="width:1.25rem"></i> Profil Desa</a>
+                        <a href="{{ route('admin.aparatur.index') }}" class="d-flex align-items-center gap-2 py-2 ps-5 pe-3 small rounded {{ request()->routeIs('admin.aparatur.*') ? 'text-white bg-white bg-opacity-10' : 'text-secondary' }}"><i class="ti ti-users-group" style="width:1.25rem"></i> Aparatur</a>
                         <a href="{{ route('admin.kontak.edit') }}" class="d-flex align-items-center gap-2 py-2 ps-5 pe-3 small rounded {{ request()->routeIs('admin.kontak.*') ? 'text-white bg-white bg-opacity-10' : 'text-secondary' }}"><i class="ti ti-phone" style="width:1.25rem"></i> Kontak</a>
-                        <a href="{{ route('admin.pengguna.index') }}" class="d-flex align-items-center gap-2 py-2 ps-5 pe-3 small rounded {{ request()->routeIs('admin.pengguna.*') ? 'text-white bg-white bg-opacity-10' : 'text-secondary' }}"><i class="ti ti-users" style="width:1.25rem"></i> Pengguna</a>
                     </div>
                 </li>
             </ul>
