@@ -149,58 +149,6 @@
             </div>
         </section>
 
-        {{-- ================= POTENSI DESA ================= --}}
-        <section data-aos="fade-up">
-            <h2 class="text-2xl font-bold text-[#192E03]">Potensi Desa</h2>
-            <p class="mt-1 text-sm text-[#192E03] opacity-80">Kekayaan dan potensi unggulan {{ $profile->village_name }}</p>
-
-            @if ($potentials->isEmpty())
-                <p class="mt-6 text-slate-500">Belum ada data potensi desa.</p>
-            @else
-                <div class="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                    @foreach ($potentials as $potential)
-                        <a href="{{ route('potensi.show', $potential) }}"
-                            class="group rounded-2xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-md transition flex flex-col">
-                            <div class="relative">
-                                @if ($potential->photo)
-                                    <img src="{{ Storage::url($potential->photo) }}"
-                                        alt="{{ $potential->photo_alt ?? $potential->name }}"
-                                        class="w-full h-44 object-cover">
-                                @else
-                                    <div class="w-full h-44 bg-gradient-to-br from-[#192E03]/10 to-slate-100 flex items-center justify-center">
-                                        <svg class="w-12 h-12 text-[#3A5C0A]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15l4-8 4 8m-7 3h14"/>
-                                        </svg>
-                                    </div>
-                                @endif
-                                @if ($potential->category)
-                                    <span class="absolute top-3 left-3 bg-[#192E03] text-white text-xs px-2 py-0.5 rounded-full shadow-sm">
-                                        {{ $potential->category }}
-                                    </span>
-                                @endif
-                            </div>
-                            <div class="p-5 flex flex-col flex-1">
-                                <h3 class="font-semibold text-[#192E03]">{{ $potential->name }}</h3>
-                                @if ($potential->description)
-                                    <p class="mt-2 text-sm text-slate-600 line-clamp-2 leading-relaxed">{{ $potential->description }}</p>
-                                @endif
-                            </div>
-                        </a>
-                    @endforeach
-                </div>
-
-                <div class="mt-4 flex justify-end">
-                    <a href="{{ route('potensi.index') }}"
-                        class="text-sm text-[#192E03] font-medium hover:underline flex items-center gap-1 transition">
-                        Lihat Semua Potensi
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                        </svg>
-                    </a>
-                </div>
-            @endif
-        </section>
-
         {{-- ================= PETA LOKASI DESA ================= --}}
         <section data-aos="fade-down">
             <h2 class="text-2xl font-bold text-[#192E03]">Peta Lokasi Desa</h2>

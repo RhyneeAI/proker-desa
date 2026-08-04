@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Facility;
 use App\Models\Official;
-use App\Models\Potential;
 use App\Models\Umkm;
 use App\Models\VillageProfile;
 use App\Models\WaterPoint;
@@ -22,9 +21,7 @@ class VillageProfileController extends Controller
             ->take(4)
             ->get();
 
-        $potentials = Potential::latest()->take(3)->get();
-
-        return view('public.village-profile.show', compact('profile', 'officials', 'potentials'));
+        return view('public.village-profile.show', compact('profile', 'officials'));
     }
 
     public function map(): View
