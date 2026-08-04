@@ -31,8 +31,10 @@
                         $galleryImg = $gallery->image && Storage::disk('public')->exists($gallery->image)
                             ? Storage::url($gallery->image)
                             : 'https://picsum.photos/seed/gallery-' . $gallery->id . '/600/400';
+                        $galleryCaption = ($gallery->title ?? 'Galeri Desa') . ' · ' . ($gallery->created_at?->translatedFormat('d F Y') ?? '-');
                     @endphp
-                    <div class="break-inside-avoid relative group rounded-2xl overflow-hidden border border-slate-200 shadow-sm cursor-zoom-in bg-slate-200 animate-pulse min-h-44"
+                    <a href="{{ $galleryImg }}" data-lightbox="{{ $galleryImg }}" data-caption="{{ $galleryCaption }}"
+                        class="break-inside-avoid relative group rounded-2xl overflow-hidden border border-slate-200 shadow-sm cursor-zoom-in bg-slate-200 animate-pulse min-h-44 block no-underline"
                         x-data="{ loaded: false }">
                         <img src="{{ $galleryImg }}"
                             alt="{{ $gallery->image_alt ?? $gallery->title }}"
@@ -50,7 +52,7 @@
                                 <span class="text-[#3A5C0A] text-xs font-medium mt-1 uppercase tracking-wide">{{ $gallery->category }}</span>
                             @endif
                         </div>
-                    </div>
+                    </a>
                 @endforeach
             </div>
 

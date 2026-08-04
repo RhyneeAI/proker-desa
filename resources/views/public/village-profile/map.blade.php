@@ -32,7 +32,7 @@
             <div class="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm" data-aos="fade-up" data-aos-delay="50">
                 <p class="text-[11px] font-semibold uppercase tracking-widest text-slate-500">Luas Wilayah</p>
                 <p class="mt-1 text-lg font-bold text-[#192E03]">
-                    {{ $profile->area_size ? number_format($profile->area_size, 2, ',', '.') . ' km²' : '-' }}
+                    <span x-data="countUp({{ $profile->area_size ?: 0 }}, { decimals: 2 })" x-text="formatted">0</span> km²
                 </p>
                 <p class="text-xs text-slate-500 mt-1">Batas: {{ collect([$profile->border_north, $profile->border_south, $profile->border_east, $profile->border_west])->filter()->implode(', ') ?: '-' }}</p>
             </div>
@@ -40,7 +40,7 @@
             <div class="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm" data-aos="fade-up" data-aos-delay="100">
                 <p class="text-[11px] font-semibold uppercase tracking-widest text-slate-500">Jumlah Penduduk</p>
                 <p class="mt-1 text-lg font-bold text-[#192E03]">
-                    {{ $profile->population ? number_format($profile->population, 0, ',', '.') . ' jiwa' : '-' }}
+                    <span x-data="countUp({{ $profile->population ?: 0 }})" x-text="formatted">0</span> jiwa
                 </p>
                 <p class="text-xs text-slate-500 mt-1">Data profil desa</p>
             </div>
@@ -48,7 +48,7 @@
             <div class="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm" data-aos="fade-up" data-aos-delay="150">
                 <p class="text-[11px] font-semibold uppercase tracking-widest text-slate-500">Titik pada Peta</p>
                 <p class="mt-1 text-lg font-bold text-[#192E03]">
-                    {{ $mapUmkms->count() + $mapFacilities->count() + $mapWisatas->count() + $mapWaterPoints->count() }}
+                    <span x-data="countUp({{ $mapUmkms->count() + $mapFacilities->count() + $mapWisatas->count() + $mapWaterPoints->count() }})" x-text="formatted">0</span>
                 </p>
                 <div class="flex flex-wrap gap-1.5 mt-1.5">
                     @foreach ([
@@ -59,7 +59,8 @@
                     ] as $t)
                         <span class="inline-flex items-center gap-1 text-[11px] font-medium text-slate-600">
                             <span class="w-2 h-2 rounded-full" style="background:{{ $t['c'] }}"></span>
-                            {{ $t['label'] }} {{ $t['n'] }}
+                            {{ $t['label'] }}
+                            <span x-data="countUp({{ $t['n'] }})" x-text="formatted">0</span>
                         </span>
                     @endforeach
                 </div>

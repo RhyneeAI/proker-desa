@@ -80,6 +80,46 @@ Alpine.data('newsSlider', () => ({
 
 Alpine.start();
 
+// Lightbox publik: klik elemen [data-lightbox] -> tampilkan gambar + caption
+(function () {
+    const overlay = document.getElementById('public-lightbox');
+    const img = document.getElementById('public-lightbox-img');
+    const cap = document.getElementById('public-lightbox-caption');
+    const closeBtn = document.getElementById('public-lightbox-close');
+    if (!overlay || !img || !cap || !closeBtn) return;
+
+    const open = (src, alt, caption) => {
+        img.src = src;
+        img.alt = alt || '';
+        cap.textContent = caption || '';
+        cap.style.display = caption ? '' : 'none';
+        overlay.classList.remove('hidden');
+        overlay.classList.add('flex');
+        document.body.style.overflow = 'hidden';
+    };
+    const close = () => {
+        overlay.classList.add('hidden');
+        overlay.classList.remove('flex');
+        img.src = '';
+        document.body.style.overflow = '';
+    };
+
+    document.addEventListener('click', (e) => {
+        const t = e.target.closest('[data-lightbox]');
+        if (!t) return;
+        e.preventDefault();
+        open(t.dataset.lightbox, t.getAttribute('alt') || '', t.dataset.caption || '');
+    });
+
+    closeBtn.addEventListener('click', close);
+    overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) close();
+    });
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') close();
+    });
+})();
+
 AOS.init({
     duration: 600,
     easing: 'ease-out-cubic',
