@@ -12,7 +12,7 @@ window.Chart = Chart;
 
 util.external($);
 
-// Count-up (sama dengan public): angka 0 -> target saat terlihat
+// Count-up: angka 0 -> target saat terlihat
 Alpine.data('countUp', (target, { duration = 1200, decimals = 0 } = {}) => ({
     value: 0,
     started: false,
@@ -81,9 +81,6 @@ window.fileUpload = (existing = [], multiple = false) => ({
         Array.from(this.$refs.input.files || []).forEach((f) => {
             this.previews.push(URL.createObjectURL(f));
         });
-
-Alpine.start();
-
     },
     remove(i) {
         const newFiles = Array.from(this.$refs.input.files || []);
@@ -99,6 +96,8 @@ Alpine.start();
         this.previews.splice(i, 1);
     },
 });
+
+Alpine.start();
 
 AOS.init({
     duration: 450,
