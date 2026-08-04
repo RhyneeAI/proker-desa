@@ -40,7 +40,7 @@
                             </td>
                             <td class="text-secondary">{{ $official->position }}</td>
                             <td class="text-center">
-                                <span class="badge bg-secondary">{{ $official->display_order }}</span>
+                                <span class="fw-semibold text-secondary">{{ $official->display_order }}</span>
                             </td>
                             <td class="text-end">
                                 <div class="d-flex justify-content-end gap-1">
