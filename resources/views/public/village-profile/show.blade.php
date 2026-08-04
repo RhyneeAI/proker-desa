@@ -50,9 +50,9 @@
                     @if ($profile->org_chart_image)
                         <img src="{{ Storage::url($profile->org_chart_image) }}"
                             alt="Bagan struktur organisasi pemerintahan desa"
-                            class="w-full rounded-lg border border-slate-200">
+                            class="w-full h-[400px] object-contain bg-slate-50 rounded-lg border border-slate-200">
                     @else
-                        <div class="w-full h-64 bg-slate-100 rounded-lg border border-slate-200 flex flex-col items-center justify-center text-center px-6">
+                        <div class="w-full h-[400px] bg-slate-100 rounded-lg border border-slate-200 flex flex-col items-center justify-center text-center px-6">
                             <svg class="w-12 h-12 text-slate-300 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15l4-8 4 8m-7 3h14"/>
                             </svg>
@@ -67,9 +67,9 @@
                     @if ($profile->bpd_chart_image)
                         <img src="{{ Storage::url($profile->bpd_chart_image) }}"
                             alt="Bagan BPD"
-                            class="w-full rounded-lg border border-slate-200">
+                            class="w-full h-[400px] object-contain bg-slate-50 rounded-lg border border-slate-200">
                     @else
-                        <div class="w-full h-64 bg-slate-100 rounded-lg border border-slate-200 flex flex-col items-center justify-center text-center px-6">
+                        <div class="w-full h-[400px] bg-slate-100 rounded-lg border border-slate-200 flex flex-col items-center justify-center text-center px-6">
                             <svg class="w-12 h-12 text-slate-300 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15l4-8 4 8m-7 3h14"/>
                             </svg>
