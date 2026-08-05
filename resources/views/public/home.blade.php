@@ -1,18 +1,34 @@
 <x-layouts.public title="Beranda">
 
     {{-- ================= HERO SLIDER ================= --}}
+    @php
+        $heroSlidesData = $heroSlides->map(function ($slide) {
+            return [
+                'src' => $slide->image && Storage::disk('public')->exists($slide->image)
+                    ? Storage::url($slide->image)
+                    : 'https://picsum.photos/seed/hero-' . $slide->id . '/1920/1080',
+                'alt' => $slide->image_alt ?? ($slide->title ?: 'Slide'),
+                'title' => $slide->title,
+                'subtitle' => $slide->subtitle,
+            ];
+        })->values()->toArray();
+
+        if (empty($heroSlidesData)) {
+            $heroSlidesData = [
+                ['src' => 'https://picsum.photos/seed/village1/1920/1080', 'alt' => 'Slide 1', 'title' => null, 'subtitle' => null],
+                ['src' => 'https://picsum.photos/seed/village2/1920/1080', 'alt' => 'Slide 2', 'title' => null, 'subtitle' => null],
+                ['src' => 'https://picsum.photos/seed/village3/1920/1080', 'alt' => 'Slide 3', 'title' => null, 'subtitle' => null],
+                ['src' => 'https://picsum.photos/seed/village4/1920/1080', 'alt' => 'Slide 4', 'title' => null, 'subtitle' => null],
+                ['src' => 'https://picsum.photos/seed/village5/1920/1080', 'alt' => 'Slide 5', 'title' => null, 'subtitle' => null],
+            ];
+        }
+    @endphp
     <section class="relative w-full h-screen overflow-hidden"
         x-data="{
             aktif: 0,
-            total: 5,
+            total: {{ count($heroSlidesData) }},
             interval: null,
-            slides: [
-                { src: 'https://picsum.photos/seed/village1/1920/1080', alt: 'Slide 1' },
-                { src: 'https://picsum.photos/seed/village2/1920/1080', alt: 'Slide 2' },
-                { src: 'https://picsum.photos/seed/village3/1920/1080', alt: 'Slide 3' },
-                { src: 'https://picsum.photos/seed/village4/1920/1080', alt: 'Slide 4' },
-                { src: 'https://picsum.photos/seed/village5/1920/1080', alt: 'Slide 5' },
-            ],
+            slides: @json($heroSlidesData),
             prefersReducedMotion() {
                 return window.matchMedia('(prefers-reduced-motion: reduce)').matches
             },
@@ -59,7 +75,8 @@
                 Selamat datang di
                 <span class="block">{{ strtoupper($profile?->village_name ?? 'DESA CIBULAKAN') }}</span>
             </h1>
-            <p class="mt-5 text-white text-lg sm:text-xl font-medium max-w-2xl drop-shadow">
+            <p class="mt-5 text-white text-lg sm:text-xl font-medium max-w-2xl drop-shadow"
+                x-text="slides[aktif]?.subtitle || 'Sumber informasi resmi tentang pemerintahan dan pelayanan desa'">
                 Sumber informasi resmi tentang pemerintahan dan pelayanan desa
             </p>
 

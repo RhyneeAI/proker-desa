@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Announcement;
 use App\Models\Facility;
 use App\Models\Gallery;
+use App\Models\HeroSlide;
 use App\Models\News;
 use App\Models\PageVisit;
 use App\Models\Umkm;
@@ -51,6 +52,11 @@ class HomeController extends Controller
 
         $galleries = Gallery::latest()->take(8)->get();
 
+        $heroSlides = HeroSlide::where('active', true)
+            ->orderBy('sort_order')
+            ->orderBy('id')
+            ->get();
+
         $todayVisitors = PageVisit::whereDate('created_at', today())->count();
         $totalVisitors = PageVisit::count();
 
@@ -63,6 +69,7 @@ class HomeController extends Controller
             'waterPoints',
             'wisatas',
             'galleries',
+            'heroSlides',
             'todayVisitors',
             'totalVisitors',
         ));

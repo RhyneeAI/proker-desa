@@ -18,7 +18,7 @@
         <div class="collapse navbar-collapse" id="sidebar-menu">
             @php
                 $activeGroup = null;
-                if (request()->routeIs('admin.berita.*') || request()->routeIs('admin.pengumuman.*') || request()->routeIs('admin.galeri.*')) $activeGroup = 'konten';
+                if (request()->routeIs('admin.berita.*') || request()->routeIs('admin.pengumuman.*') || request()->routeIs('admin.galeri.*') || request()->routeIs('admin.hero.*')) $activeGroup = 'konten';
                 if (request()->routeIs('admin.umkm.*') || request()->routeIs('admin.wisata.*') || request()->routeIs('admin.potensi.*')) $activeGroup = 'ekonomi';
                 if (request()->routeIs('admin.fasilitas.*') || request()->routeIs('admin.titik-air.*') || request()->routeIs('admin.potensi-desa.*')) $activeGroup = 'wilayah';
                 if (request()->routeIs('admin.profil-desa.*') || request()->routeIs('admin.aparatur.*') || request()->routeIs('admin.kontak.*') || request()->routeIs('admin.pengguna.*')) $activeGroup = 'pengaturan';
@@ -45,6 +45,7 @@
                         <a href="{{ route('admin.berita.index') }}" class="d-flex align-items-center gap-2 py-2 ps-5 pe-3 small rounded {{ request()->routeIs('admin.berita.*') ? 'text-white bg-white bg-opacity-10' : 'text-secondary' }}"><i class="ti ti-news" style="width:1.25rem"></i> Berita</a>
                         <a href="{{ route('admin.pengumuman.index') }}" class="d-flex align-items-center gap-2 py-2 ps-5 pe-3 small rounded {{ request()->routeIs('admin.pengumuman.*') ? 'text-white bg-white bg-opacity-10' : 'text-secondary' }}"><i class="ti ti-speakerphone" style="width:1.25rem"></i> Pengumuman</a>
                         <a href="{{ route('admin.galeri.index') }}" class="d-flex align-items-center gap-2 py-2 ps-5 pe-3 small rounded {{ request()->routeIs('admin.galeri.*') ? 'text-white bg-white bg-opacity-10' : 'text-secondary' }}"><i class="ti ti-photo" style="width:1.25rem"></i> Galeri</a>
+                        <a href="{{ route('admin.hero.index') }}" class="d-flex align-items-center gap-2 py-2 ps-5 pe-3 small rounded {{ request()->routeIs('admin.hero.*') ? 'text-white bg-white bg-opacity-10' : 'text-secondary' }}"><i class="ti ti-presentation" style="width:1.25rem"></i> Hero Slider</a>
                     </div>
                 </li>
 

@@ -41,7 +41,7 @@ class WaterPointDataSeeder extends Seeder
         foreach ($data as $item) {
             $slug = Str::slug($item['name']);
             if (in_array($slug, $used)) {
-                $slug .= '-' . (count($used) + 1);
+                $slug .= '-'.(count($used) + 1);
             }
             $used[] = $slug;
             $item['slug'] = $slug;

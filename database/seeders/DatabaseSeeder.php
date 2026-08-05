@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             UmkmDataSeeder::class,
             FacilityDataSeeder::class,
             WaterPointDataSeeder::class,
+            HeroSlideSeeder::class,
         ]);
     }
 }

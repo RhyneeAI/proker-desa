@@ -19,6 +19,7 @@ class RolesAndPermissionsSeeder extends Seeder
         'manage umkm',
         'manage fasilitas',
         'manage galeri',
+        'manage hero',
         'manage potensi',
         'manage potensi-desa',
         'manage titik air',

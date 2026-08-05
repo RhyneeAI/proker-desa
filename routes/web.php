@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\ContactController as AdminContactController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\FacilityController as AdminFacilityController;
 use App\Http\Controllers\Admin\GalleryController as AdminGalleryController;
+use App\Http\Controllers\Admin\HeroSlideController as AdminHeroSlideController;
 use App\Http\Controllers\Admin\NewsController as AdminNewsController;
 use App\Http\Controllers\Admin\OfficialController as AdminOfficialController;
 use App\Http\Controllers\Admin\PotensiDesaController as AdminPotensiDesaController;
@@ -58,7 +59,7 @@ Route::get('/admin/login', fn () => redirect()->route('login'))->name('admin.log
 Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
 
 Route::get('/robots.txt', function () {
-    $content = "User-agent: *\nAllow: /\nDisallow: /admin\nDisallow: /login\n\nSitemap: " . route('sitemap');
+    $content = "User-agent: *\nAllow: /\nDisallow: /admin\nDisallow: /login\n\nSitemap: ".route('sitemap');
 
     return response($content)->header('Content-Type', 'text/plain');
 })->name('robots');
@@ -92,6 +93,7 @@ Route::middleware('auth')->group(function () {
         Route::middleware('can:manage umkm')->resource('umkm', AdminUmkmController::class)->except('show');
         Route::middleware('can:manage fasilitas')->resource('fasilitas', AdminFacilityController::class)->except('show');
         Route::middleware('can:manage galeri')->resource('galeri', AdminGalleryController::class)->except('show');
+        Route::middleware('can:manage hero')->resource('hero', AdminHeroSlideController::class)->except('show')->parameters(['hero' => 'heroSlide']);
         Route::middleware('can:manage potensi')->resource('potensi', AdminPotentialController::class)->except('show')->parameters(['potensi' => 'potential']);
         Route::middleware('can:manage potensi-desa')->resource('potensi-desa', AdminPotensiDesaController::class)->except('show')->parameters(['potensi-desa' => 'potensiDesa']);
         Route::middleware('can:manage titik air')->resource('titik-air', AdminWaterPointController::class)->except('show')->parameters(['titik-air' => 'waterPoint']);

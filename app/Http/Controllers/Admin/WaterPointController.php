@@ -13,6 +13,7 @@ use Illuminate\View\View;
 class WaterPointController extends Controller
 {
     use HasUniqueSlug;
+
     public function index(): View
     {
         $waterPoints = WaterPoint::latest()->get();

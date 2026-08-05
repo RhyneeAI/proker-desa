@@ -10,7 +10,7 @@ class WaterPointFactory extends Factory
     {
         return [
             'name' => fake('id_ID')->sentence(3),
-            'slug' => 'titik-air-' . fake()->unique()->numberBetween(1000, 999999),
+            'slug' => 'titik-air-'.fake()->unique()->numberBetween(1000, 999999),
             'description' => fake('id_ID')->paragraph(),
             'address' => fake('id_ID')->address(),
             'start_latitude' => fake()->latitude(-6.832, -6.818),

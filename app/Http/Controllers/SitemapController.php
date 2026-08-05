@@ -21,7 +21,7 @@ class SitemapController extends Controller
 
         $content = view('sitemap', compact('news', 'announcements', 'umkms', 'potentials', 'wisatas'))->render();
 
-        return response('<?xml version="1.0" encoding="UTF-8"?>' . $content)
+        return response('<?xml version="1.0" encoding="UTF-8"?>'.$content)
             ->header('Content-Type', 'application/xml');
     }
 }

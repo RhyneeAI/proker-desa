@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class WaterPoint extends Model
 {
-    use HasFactory, SoftDeletes, HasUniqueSlug;
+    use HasFactory, HasUniqueSlug, SoftDeletes;
 
     protected $fillable = [
         'name',
