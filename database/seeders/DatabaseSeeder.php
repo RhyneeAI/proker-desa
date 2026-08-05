@@ -19,6 +19,10 @@ class DatabaseSeeder extends Seeder
             FacilityDataSeeder::class,
             WaterPointDataSeeder::class,
             HeroSlideSeeder::class,
+            NewsSeeder::class,
+            AnnouncementSeeder::class,
+            GallerySeeder::class,
+            WisataDataSeeder::class,
         ]);
     }
 }
