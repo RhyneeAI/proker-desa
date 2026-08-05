@@ -28,7 +28,7 @@
             aktif: 0,
             total: {{ count($heroSlidesData) }},
             interval: null,
-            slides: @json($heroSlidesData),
+            slides: @js($heroSlidesData),
             prefersReducedMotion() {
                 return window.matchMedia('(prefers-reduced-motion: reduce)').matches
             },

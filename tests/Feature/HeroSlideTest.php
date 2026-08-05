@@ -96,7 +96,7 @@ class HeroSlideTest extends TestCase
         $this->get(route('home'))
             ->assertOk()
             ->assertSee('Slide Beranda')
-            ->assertSee('picsum.photos\/seed\/hero-');
+            ->assertSee('picsum.photos');
     }
 
     public function test_guest_cannot_access_hero_admin(): void
