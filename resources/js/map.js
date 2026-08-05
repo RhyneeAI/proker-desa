@@ -15,10 +15,33 @@ const escapeHtml = (value) =>
         "'": '&#39;',
     }[char]));
 
-const pinSvg = (color) =>
+const pinSvg = (color, glyph = '') =>
     '<svg width="30" height="38" viewBox="0 0 30 38" xmlns="http://www.w3.org/2000/svg">' +
     '<path d="M15 1C7.82 1 2 6.82 2 14c0 9.75 13 23 13 23s13-13.25 13-23C28 6.82 22.18 1 15 1z" fill="' + color + '" stroke="#ffffff" stroke-width="1.5"/>' +
-    '<circle cx="15" cy="14" r="5.5" fill="#ffffff"/></svg>';
+    '<circle cx="15" cy="14" r="7" fill="#ffffff"/>' +
+    glyph +
+    '</svg>';
+
+// Ikon khas per jenis titik (digambar di dalam badge putih pada pin).
+const glyphSvg = (layer, color) => {
+    const paths = {
+        umkm:
+            '<path d="M8.5 16h13l-.6 5.5h-11.8L8.5 16z" fill="none" stroke="' + color + '" stroke-width="1.6" stroke-linejoin="round"/>' +
+            '<path d="M11.5 21.5v-4h7v4" fill="none" stroke="' + color + '" stroke-width="1.6" stroke-linejoin="round"/>' +
+            '<path d="M6.5 16L15 10l8.5 6" fill="none" stroke="' + color + '" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>',
+        fasilitas:
+            '<path d="M8.5 22v-8.5l6.5-5 6.5 5V22" fill="none" stroke="' + color + '" stroke-width="1.6" stroke-linejoin="round"/>' +
+            '<path d="M7 22h16" stroke="' + color + '" stroke-width="1.6" stroke-linecap="round"/>' +
+            '<path d="M12.5 22v-4h5v4" fill="none" stroke="' + color + '" stroke-width="1.6" stroke-linejoin="round"/>',
+        wisata:
+            '<path d="M7 20.5L15 9l8 11.5z" fill="none" stroke="' + color + '" stroke-width="1.6" stroke-linejoin="round"/>' +
+            '<path d="M13 20.5L15 16l2 4.5" fill="none" stroke="' + color + '" stroke-width="1.1" stroke-linejoin="round" opacity=".6"/>',
+        titikAir:
+            '<path d="M15 6.5c3.2 3.4 5 6.1 5 8.6a5 5 0 01-10 0c0-2.5 1.8-5.2 5-8.6z" fill="' + color + '" stroke="#ffffff" stroke-width="0.6"/>',
+    };
+
+    return paths[layer] || '';
+};
 
 const centerSvg = () =>
     '<svg width="38" height="46" viewBox="0 0 30 38" xmlns="http://www.w3.org/2000/svg">' +
@@ -167,10 +190,10 @@ export function initInteractiveMap(mapId, config) {
         try {
             // Ikon pin sebagai image map (harus HTMLImageElement di MapLibre v6)
             await Promise.all([
-                addPinImage('pin-umkm', pinSvg(colors.umkm)),
-                addPinImage('pin-fasilitas', pinSvg(colors.fasilitas)),
-                addPinImage('pin-wisata', pinSvg(colors.wisata)),
-                addPinImage('pin-titikAir', pinSvg(colors.titikAir)),
+                addPinImage('pin-umkm', pinSvg(colors.umkm, glyphSvg('umkm', colors.umkm))),
+                addPinImage('pin-fasilitas', pinSvg(colors.fasilitas, glyphSvg('fasilitas', colors.fasilitas))),
+                addPinImage('pin-wisata', pinSvg(colors.wisata, glyphSvg('wisata', colors.wisata))),
+                addPinImage('pin-titikAir', pinSvg(colors.titikAir, glyphSvg('titikAir', colors.titikAir))),
                 ...(centerLabel ? [addPinImage('pin-center', centerSvg())] : []),
             ]);
 
