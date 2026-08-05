@@ -40,7 +40,8 @@
                                 <p class="text-secondary small mb-0">{{ $news->slug }}</p>
                             </td>
                             <td>
-                                <span class="badge text-white {{ $news->is_published ? 'bg-success' : 'bg-secondary' }}">
+                                <span class="badge text-white shadow-sm {{ $news->is_published ? 'bg-success' : 'bg-warning' }}">
+                                    <span class="status-dot me-1"></span>
                                     {{ $news->is_published ? 'Terbit' : 'Draf' }}
                                 </span>
                             </td>

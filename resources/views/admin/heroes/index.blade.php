@@ -43,9 +43,9 @@
                             </td>
                             <td class="text-center">
                                 @if ($heroSlide->active)
-                                    <span class="badge bg-success">Aktif</span>
+                                    <span class="badge text-white shadow-sm bg-success"><span class="status-dot me-1"></span>Aktif</span>
                                 @else
-                                    <span class="badge bg-secondary">Nonaktif</span>
+                                    <span class="badge text-white shadow-sm bg-warning"><span class="status-dot me-1"></span>Nonaktif</span>
                                 @endif
                             </td>
                             <td class="text-end">

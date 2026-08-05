@@ -98,7 +98,7 @@
     <div class="border-t border-white/10">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col sm:flex-row justify-between items-center gap-3 text-xs text-white/50">
             <p>&copy; {{ date('Y') }} Pemerintah Desa Cibulakan. Seluruh hak cipta dilindungi.</p>
-            <span class="text-white/30 text-[11px] tracking-widest uppercase">KKN Desa Cibulakan</span>
+            <span class="text-white/30 text-[11px] tracking-widest uppercase">Cibulakan Aruna, Uhuyyyy ~</span>
             <a href="{{ route('login') }}" class="inline-flex items-center gap-1.5 hover:text-[#3A5C0A] transition font-medium">
                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"/>

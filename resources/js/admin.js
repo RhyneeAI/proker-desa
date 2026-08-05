@@ -1,7 +1,7 @@
 import $ from 'jquery';
 import Alpine from 'alpinejs';
-import AOS from 'aos';
 import 'aos/dist/aos.css';
+import initAosReveal from './aos-reveal';
 import Chart from 'chart.js/auto';
 import DataTable, { util } from 'datatables.net-bs5';
 import '@tabler/core/dist/js/tabler.min.js';
@@ -99,13 +99,7 @@ window.fileUpload = (existing = [], multiple = false) => ({
 
 Alpine.start();
 
-AOS.init({
-    duration: 450,
-    easing: 'ease-out-cubic',
-    once: true,
-    offset: 40,
-    disable: () => window.matchMedia('(prefers-reduced-motion: reduce)').matches,
-});
+initAosReveal({ duration: 450, easing: 'ease-out-cubic' });
 
 // Lightbox: zoom gambar di halaman admin
 (function () {
