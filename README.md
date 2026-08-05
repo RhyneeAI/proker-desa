@@ -1,59 +1,80 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Website Desa Cibulakan
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Website resmi Desa Cibulakan — portal informasi pemerintahan, pelayanan, dan potensi desa.
 
-## About Laravel
+## Fitur
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- **Beranda** — hero slider (dikelola lewat CRUD), statistik pengunjung, pengumuman & berita terbaru, galeri foto, peta interaktif, dan layanan desa.
+- **Konten** — berita, pengumuman, galeri foto, hero slider.
+- **Profil Desa** — profil, sejarah, bagan struktur, aparatur desa, dan peta.
+- **Ekonomi & Wisata** — UMKM, wisata, potensi desa.
+- **Wilayah & Infrastruktur** — fasilitas umum, titik air (data GIS/trajectory).
+- **Peta Desa** — peta interaktif dengan batas wilayah desa, tanpa API key.
+- **Kontak** — alamat, telepon, dan media sosial.
+- **Admin panel** — dashboard, manajemen konten, dan pengguna.
+- **Mode gelap**, animasi, dan desain responsif untuk pengunjung.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Persyaratan
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- PHP 8.2+
+- Composer
+- Node.js + npm
+- MySQL / MariaDB (sqlite cukup untuk testing)
 
-## Learning Laravel
+## Instalasi
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+```bash
+git clone <repo-url> proker-desa
+cd proker-desa
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+# Bootstrap penuh (dependensi, .env, key, migrate, npm, build)
+composer run setup
+```
 
-## Laravel Sponsors
+Siapkan penyimpanan file publik:
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+```bash
+php artisan storage:link
+```
 
-### Premium Partners
+Seed data contoh (akun admin & konten awal):
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+```bash
+php artisan migrate --seed
+```
 
-## Contributing
+> Catatan: `.env` tidak masuk git. Salin dari `.env.example` bila perlu dan sesuaikan kredensial database lokal. Tests memakai sqlite in-memory dan tidak butuh database nyata.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## Menjalankan saat pengembangan
 
-## Code of Conduct
+```bash
+composer run dev
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Menjalankan server, queue worker (wajib aktif), dan Vite secara paralel.
 
-## Security Vulnerabilities
+## Akun default
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+| Kolom | Nilai |
+| --- | --- |
+| email | `admin@desa.test` |
+| username | `admin` |
+| password | `password` |
 
-## License
+Login memakai satu field `identifier` yang mendeteksi email vs username secara otomatis.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+> Website ini admin-only: pendaftaran publik sengaja dihapus.
+
+## Testing
+
+```bash
+composer test
+```
+
+## Deployment (Docker)
+
+```bash
+docker compose up -d --build
+```
+
+Saat pertama kali dijalankan, proses otomatis: generate `APP_KEY`, menunggu database siap, `migrate --force`, seed data (hanya bila tabel user kosong), `storage:link`, dan cache view.
