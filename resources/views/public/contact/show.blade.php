@@ -45,7 +45,7 @@
                         </div>
                         <div>
                             <p class="text-xs text-slate-500 font-semibold uppercase tracking-wide">WhatsApp</p>
-                            <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $contact->whatsapp) }}"
+                            <a href="https://wa.me/{{ \App\Support\PhoneNumber::waNumber($contact->whatsapp) }}"
                                 target="_blank"
                                 class="text-slate-800 mt-1 text-sm block hover:text-[#192E03] transition">
                                 {{ $contact->whatsapp }}

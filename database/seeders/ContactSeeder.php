@@ -14,7 +14,7 @@ class ContactSeeder extends Seeder
             [
                 'address' => 'Desa Cibulakan, Kecamatan Cugenang, Kabupaten Cianjur, Jawa Barat 43252',
                 'phone' => '0263123456',
-                'whatsapp' => '081234567890',
+                'whatsapp' => '0878-9147-2177',
                 'email' => 'desacibulakan@example.com',
                 'office_hours' => 'Senin–Jumat, 08:00–15:00 WIB',
             ]
