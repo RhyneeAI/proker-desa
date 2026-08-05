@@ -2,7 +2,6 @@
     'umkms' => null,
     'facilities' => null,
     'waterPoints' => null,
-    'wisatas' => null,
     'height' => 'h-96 lg:h-[500px]',
     'showToggle' => true,
     'centerLabel' => null,
@@ -17,7 +16,6 @@
     $umkms = $umkms ?? collect();
     $facilities = $facilities ?? collect();
     $waterPoints = $waterPoints ?? collect();
-    $wisatas = $wisatas ?? collect();
     $mapId = 'map-' . \Illuminate\Support\Str::random(10);
 
     $markers = [
@@ -34,14 +32,6 @@
             'lat' => (float) $f->latitude,
             'lng' => (float) $f->longitude,
             'address' => $f->address,
-        ])->values(),
-        'wisata' => $wisatas->filter(fn ($w) => $w->latitude && $w->longitude)->map(fn ($w) => [
-            'name' => $w->name,
-            'lat' => (float) $w->latitude,
-            'lng' => (float) $w->longitude,
-            'category' => $w->category,
-            'address' => $w->address,
-            'url' => route('wisata.show', $w->id),
         ])->values(),
         'titikAir' => $waterPoints->filter(fn ($wp) => $wp->recommend_latitude && $wp->recommend_longitude)->map(fn ($wp) => [
             'name' => $wp->name,
@@ -84,11 +74,6 @@
                 class="map-layer-btn inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/95 backdrop-blur-sm border border-slate-200 text-xs font-semibold text-slate-700 shadow-sm hover:shadow transition">
                 <span class="w-2.5 h-2.5 rounded-full flex-shrink-0" style="background-color:#d97706"></span>
                 Fasilitas Umum
-            </button>
-            <button type="button" data-map-layer="wisata"
-                class="map-layer-btn inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/95 backdrop-blur-sm border border-slate-200 text-xs font-semibold text-slate-700 shadow-sm hover:shadow transition">
-                <span class="w-2.5 h-2.5 rounded-full flex-shrink-0" style="background-color:#7c3aed"></span>
-                Wisata
             </button>
             <button type="button" data-map-layer="titikAir"
                 class="map-layer-btn inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/95 backdrop-blur-sm border border-slate-200 text-xs font-semibold text-slate-700 shadow-sm hover:shadow transition">

@@ -402,9 +402,11 @@
                 <p class="mt-3 text-[#192E03] opacity-80 max-w-xl mx-auto">Lihat lokasi dan wilayah {{ $profile?->village_name ?? 'Desa' }} pada peta interaktif.</p>
             </div>
 
+            <x-map-legend class="mb-5" />
+
             <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
-                @if ($umkms->isNotEmpty() || $facilities->isNotEmpty() || $wisatas->isNotEmpty() || $waterPoints->isNotEmpty())
-                    <x-interactive-map :umkms="$umkms" :facilities="$facilities" :wisatas="$wisatas" :water-points="$waterPoints" center-label="{{ $profile?->village_name ?? 'Desa' }}" height="h-96 lg:h-[450px]" />
+                @if ($umkms->isNotEmpty() || $facilities->isNotEmpty() || $waterPoints->isNotEmpty())
+                    <x-interactive-map :umkms="$umkms" :facilities="$facilities" :water-points="$waterPoints" center-label="{{ $profile?->village_name ?? 'Desa' }}" height="h-96 lg:h-[450px]" />
                 @else
                     <div class="h-96 lg:h-[450px] bg-slate-50 flex flex-col items-center justify-center text-center px-6">
                         <svg class="w-16 h-16 text-slate-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

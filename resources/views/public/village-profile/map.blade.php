@@ -9,7 +9,6 @@
     @php
         $mapUmkms = $umkms->filter(fn ($u) => $u->latitude && $u->longitude);
         $mapFacilities = $facilities->filter(fn ($f) => $f->latitude && $f->longitude);
-        $mapWisatas = $wisatas->filter(fn ($w) => $w->latitude && $w->longitude);
         $mapWaterPoints = $waterPoints->filter(fn ($wp) => $wp->recommend_latitude && $wp->recommend_longitude);
 
         $imgUrl = function (?string $file, string $seed) {
@@ -48,13 +47,12 @@
             <div class="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm" data-aos="fade-up" data-aos-delay="150">
                 <p class="text-[11px] font-semibold uppercase tracking-widest text-slate-500">Titik pada Peta</p>
                 <p class="mt-1 text-lg font-bold text-[#192E03]">
-                    <span x-data="countUp({{ $mapUmkms->count() + $mapFacilities->count() + $mapWisatas->count() + $mapWaterPoints->count() }})" x-text="formatted">0</span>
+                    <span x-data="countUp({{ $mapUmkms->count() + $mapFacilities->count() + $mapWaterPoints->count() }})" x-text="formatted">0</span>
                 </p>
                 <div class="flex flex-wrap gap-1.5 mt-1.5">
                     @foreach ([
                         ['label' => 'UMKM', 'n' => $mapUmkms->count(), 'c' => '#059669'],
                         ['label' => 'Fasilitas', 'n' => $mapFacilities->count(), 'c' => '#d97706'],
-                        ['label' => 'Wisata', 'n' => $mapWisatas->count(), 'c' => '#7c3aed'],
                         ['label' => 'Titik Air', 'n' => $mapWaterPoints->count(), 'c' => '#2563eb'],
                     ] as $t)
                         <span class="inline-flex items-center gap-1 text-[11px] font-medium text-slate-600">
@@ -74,8 +72,10 @@
                 <span class="hidden sm:block text-xs text-slate-500">Geser peta atau klik titik untuk melihat detail</span>
             </div>
 
-            @if ($mapUmkms->isNotEmpty() || $mapFacilities->isNotEmpty() || $mapWisatas->isNotEmpty() || $mapWaterPoints->isNotEmpty())
-                <x-interactive-map :umkms="$umkms" :facilities="$facilities" :wisatas="$wisatas" :water-points="$waterPoints" center-label="{{ $profile->village_name }}" height="h-[480px] lg:h-[600px]" />
+            <x-map-legend class="py-3 px-5 border-b border-slate-200 bg-slate-50/70" />
+
+            @if ($mapUmkms->isNotEmpty() || $mapFacilities->isNotEmpty() || $mapWaterPoints->isNotEmpty())
+                <x-interactive-map :umkms="$umkms" :facilities="$facilities" :water-points="$waterPoints" center-label="{{ $profile->village_name }}" height="h-[480px] lg:h-[600px]" />
             @else
                 <div class="h-[480px] lg:h-[600px] bg-slate-50 flex flex-col items-center justify-center text-center px-6">
                     <svg class="w-16 h-16 text-slate-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
