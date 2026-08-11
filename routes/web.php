@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\NewsController as AdminNewsController;
 use App\Http\Controllers\Admin\OfficialController as AdminOfficialController;
 use App\Http\Controllers\Admin\PotensiDesaController as AdminPotensiDesaController;
 use App\Http\Controllers\Admin\PotentialController as AdminPotentialController;
+use App\Http\Controllers\Admin\ProfileController as AdminProfileController;
 use App\Http\Controllers\Admin\UmkmController as AdminUmkmController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Admin\VillageProfileController as AdminVillageProfileController;
@@ -75,6 +76,10 @@ Route::middleware('auth')->group(function () {
     Route::prefix('admin')->name('admin.')->group(function () {
 
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+        Route::get('/profile', [AdminProfileController::class, 'edit'])->name('profile');
+        Route::patch('/profile', [AdminProfileController::class, 'update'])->name('profile.update');
+        Route::put('/profile/password', [AdminProfileController::class, 'updatePassword'])->name('profile.password');
 
         Route::get('/profil-desa/edit', [AdminVillageProfileController::class, 'edit'])->middleware('can:manage profil desa')->name('profil-desa.edit');
         Route::put('/profil-desa', [AdminVillageProfileController::class, 'update'])->middleware('can:manage profil desa')->name('profil-desa.update');

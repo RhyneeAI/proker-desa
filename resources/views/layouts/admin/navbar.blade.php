@@ -28,6 +28,10 @@
                     </div>
                 </a>
                 <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                    <a href="{{ route('admin.profile') }}" class="dropdown-item">
+                        <i class="ti ti-user me-2 text-secondary"></i>
+                        Profil
+                    </a>
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
                         <button type="submit" class="dropdown-item">
