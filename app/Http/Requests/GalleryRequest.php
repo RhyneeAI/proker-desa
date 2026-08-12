@@ -15,7 +15,7 @@ class GalleryRequest extends FormRequest
     {
         return [
             'title' => ['nullable', 'string', 'max:255'],
-            'image' => [$this->isMethod('put') ? 'nullable' : 'required', 'image', 'max:2048'],
+            'image' => [$this->isMethod('put') ? 'nullable' : 'required', 'image', 'max:5120'],
             'image_alt' => ['nullable', 'string', 'max:255'],
             'category' => ['required', 'in:kegiatan,fasilitas,umkm,lainnya'],
             'description' => ['nullable', 'string'],
@@ -27,7 +27,7 @@ class GalleryRequest extends FormRequest
         return [
             'image.required' => 'Foto wajib diunggah.',
             'image.image' => 'File harus berupa gambar.',
-            'image.max' => 'Ukuran foto maksimal 2MB.',
+            'image.max' => 'Ukuran foto maksimal 5MB.',
             'category.required' => 'Kategori wajib dipilih.',
             'category.in' => 'Kategori tidak valid.',
         ];

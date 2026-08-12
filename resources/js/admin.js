@@ -130,6 +130,44 @@ window.fileUpload = (existing = [], multiple = false) => ({
 
 Alpine.start();
 
+// Validasi ukuran file di sisi klien (x-file-upload): maks. 5MB per file
+window.fileUploadGuard = (multiple = false, maxBytes = 5 * 1024 * 1024) => ({
+    files: [],
+    error: '',
+    get selected() {
+        if (!this.files.length) return '';
+        return this.files.map((f) => `${f.name} (${this.humanSize(f.size)})`).join(', ');
+    },
+    humanSize(bytes) {
+        if (bytes >= 1048576) return (bytes / 1048576).toFixed(1) + ' MB';
+        return Math.round(bytes / 1024) + ' KB';
+    },
+    onChange() {
+        const input = this.$refs.input;
+        const all = Array.from(input.files || []);
+        const oversized = all.filter((f) => f.size > maxBytes);
+        const valid = all.filter((f) => f.size <= maxBytes);
+
+        if (!multiple && oversized.length) {
+            input.value = '';
+            this.files = [];
+            this.error = `Ukuran file melebihi ${this.humanSize(maxBytes)}. Pilih file lain.`;
+            return;
+        }
+
+        if (oversized.length) {
+            const dt = new DataTransfer();
+            valid.forEach((f) => dt.items.add(f));
+            input.files = dt.files;
+            this.error = `${oversized.length} file melebihi ${this.humanSize(maxBytes)} dan tidak disertakan.`;
+        } else {
+            this.error = '';
+        }
+
+        this.files = valid;
+    },
+});
+
 initAosReveal({ duration: 450, easing: 'ease-out-cubic' });
 
 // Lightbox: zoom gambar di halaman admin

@@ -33,7 +33,7 @@
                     <x-file-upload
                         name="thumbnail"
                         label="Gambar Thumbnail"
-                        hint="Format: JPG, PNG. Maks. 2MB. Ukuran ideal: 800×450px."
+                        hint="Format: JPG, PNG. Ukuran ideal: 800×450px."
                     />
 
                     <x-form-input

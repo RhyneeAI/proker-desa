@@ -35,7 +35,7 @@
                     <x-file-upload
                         name="photo"
                         label="Foto Aparatur"
-                        hint="Format: JPG, PNG. Maks. 2MB."
+                        hint="Format: JPG, PNG."
                     />
 
                     <x-form-input

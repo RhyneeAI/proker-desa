@@ -22,7 +22,7 @@ class WisataRequest extends FormRequest
             'ticket_price' => ['nullable', 'string', 'max:100'],
             'latitude' => ['nullable', 'numeric', 'between:-11,6'],
             'longitude' => ['nullable', 'numeric', 'between:95,141'],
-            'photo' => ['nullable', 'image', 'max:2048'],
+            'photo' => ['nullable', 'image', 'max:5120'],
             'photo_alt' => ['nullable', 'string', 'max:255'],
         ];
     }

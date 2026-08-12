@@ -33,7 +33,7 @@
                     <x-file-upload
                         name="image"
                         label="Gambar"
-                        hint="Format: JPG, PNG. Maks. 2MB."
+                        hint="Format: JPG, PNG."
                     />
 
                     <x-form-input label="Teks Alternatif" name="image_alt" placeholder="Deskripsi singkat gambar" />

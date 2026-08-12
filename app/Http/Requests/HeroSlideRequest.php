@@ -16,7 +16,7 @@ class HeroSlideRequest extends FormRequest
         return [
             'title' => ['nullable', 'string', 'max:255'],
             'subtitle' => ['nullable', 'string', 'max:255'],
-            'image' => ['nullable', 'image', 'max:2048'],
+            'image' => ['nullable', 'image', 'max:5120'],
             'image_alt' => ['nullable', 'string', 'max:255'],
             'active' => ['sometimes', 'boolean'],
             'sort_order' => ['nullable', 'integer', 'min:0'],
@@ -27,7 +27,7 @@ class HeroSlideRequest extends FormRequest
     {
         return [
             'image.image' => 'File harus berupa gambar.',
-            'image.max' => 'Ukuran foto maksimal 2MB.',
+            'image.max' => 'Ukuran foto maksimal 5MB.',
             'sort_order.min' => 'Urutan tidak boleh negatif.',
         ];
     }

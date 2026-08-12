@@ -46,7 +46,7 @@
                     <x-file-upload
                         name="photo"
                         label="Foto Fasilitas"
-                        hint="Format: JPG, PNG. Maks. 2MB."
+                        hint="Format: JPG, PNG."
                     />
 
                     <x-form-input label="Teks Alternatif Foto" name="photo_alt" placeholder="Deskripsi singkat foto" />

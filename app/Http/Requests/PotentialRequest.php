@@ -17,7 +17,7 @@ class PotentialRequest extends FormRequest
             'name' => ['required', 'string', 'max:255'],
             'category' => ['nullable', 'string', 'max:100'],
             'description' => ['nullable', 'string'],
-            'photo' => ['nullable', 'image', 'max:2048'],
+            'photo' => ['nullable', 'image', 'max:5120'],
             'photo_alt' => ['nullable', 'string', 'max:255'],
         ];
     }
@@ -29,7 +29,7 @@ class PotentialRequest extends FormRequest
             'name.max' => 'Nama potensi maksimal 255 karakter.',
             'category.max' => 'Kategori maksimal 100 karakter.',
             'photo.image' => 'File harus berupa gambar.',
-            'photo.max' => 'Ukuran foto maksimal 2MB.',
+            'photo.max' => 'Ukuran foto maksimal 5MB.',
             'photo_alt.max' => 'Teks alternatif maksimal 255 karakter.',
         ];
     }

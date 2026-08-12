@@ -16,7 +16,7 @@ class NewsRequest extends FormRequest
         return [
             'title' => ['required', 'string', 'max:255'],
             'content' => ['required', 'string'],
-            'thumbnail' => ['nullable', 'image', 'max:2048'],
+            'thumbnail' => ['nullable', 'image', 'max:5120'],
             'thumbnail_alt' => ['nullable', 'string', 'max:255'],
             'is_published' => ['nullable', 'boolean'],
         ];
@@ -28,7 +28,7 @@ class NewsRequest extends FormRequest
             'title.required' => 'Judul berita wajib diisi.',
             'content.required' => 'Isi berita wajib diisi.',
             'thumbnail.image' => 'File harus berupa gambar.',
-            'thumbnail.max' => 'Ukuran thumbnail maksimal 2MB.',
+            'thumbnail.max' => 'Ukuran thumbnail maksimal 5MB.',
         ];
     }
 }

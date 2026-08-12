@@ -16,7 +16,7 @@ class OfficialRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'max:255'],
             'position' => ['required', 'string', 'max:255'],
-            'photo' => ['nullable', 'image', 'max:2048'],
+            'photo' => ['nullable', 'image', 'max:5120'],
             'photo_alt' => ['nullable', 'string', 'max:255'],
             'display_order' => ['required', 'integer', 'min:1'],
         ];
@@ -28,7 +28,7 @@ class OfficialRequest extends FormRequest
             'name.required' => 'Nama wajib diisi.',
             'position.required' => 'Jabatan wajib diisi.',
             'photo.image' => 'File harus berupa gambar.',
-            'photo.max' => 'Ukuran foto maksimal 2MB.',
+            'photo.max' => 'Ukuran foto maksimal 5MB.',
             'display_order.required' => 'Urutan wajib diisi.',
             'display_order.integer' => 'Urutan harus berupa angka.',
             'display_order.min' => 'Urutan minimal 1.',

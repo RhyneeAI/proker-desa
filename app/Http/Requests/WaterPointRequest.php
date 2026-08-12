@@ -29,7 +29,7 @@ class WaterPointRequest extends FormRequest
             'documentation_photos' => ['nullable', 'array'],
             'documentation_photos.*' => ['image', 'max:5120'],
             'interpretation_photos' => ['nullable', 'array'],
-            'interpretation_photos.*' => ['image'],
+            'interpretation_photos.*' => ['image', 'max:5120'],
         ];
     }
 

@@ -20,7 +20,7 @@
                     <x-file-upload
                         name="image"
                         label="Gambar Background"
-                        hint="Format: JPG, PNG. Maks. 2MB. Kosongkan untuk memakai gambar acak otomatis."
+                        hint="Format: JPG, PNG. Kosongkan untuk memakai gambar acak otomatis."
                     />
 
                     <x-form-input

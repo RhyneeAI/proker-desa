@@ -26,7 +26,7 @@
                     <x-file-upload
                         name="image"
                         label="Foto"
-                        hint="Format: JPG, PNG. Maks. 2MB."
+                        hint="Format: JPG, PNG."
                         required
                     />
 
