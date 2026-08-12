@@ -46,7 +46,7 @@
                                 <div class="d-flex justify-content-end gap-1">
                                     <a href="{{ route('admin.aparatur.edit', $official) }}" class="btn btn-icon btn-outline-primary" title="Edit"><i class="ti ti-pencil"></i></a>
                                     <form method="POST" action="{{ route('admin.aparatur.destroy', $official) }}"
-                                        onsubmit="return confirm('Hapus data aparatur ini?');">
+                                        data-confirm="Hapus data aparatur ini?" data-item="data aparatur ini">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-icon btn-outline-danger" title="Hapus"><i class="ti ti-trash"></i></button>

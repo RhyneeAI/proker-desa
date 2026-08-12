@@ -47,7 +47,7 @@
                                 <div class="d-flex justify-content-end gap-1">
                                     <a href="{{ route('admin.titik-air.edit', $waterPoint) }}" class="btn btn-icon btn-outline-primary" title="Edit"><i class="ti ti-pencil"></i></a>
                                     <form method="POST" action="{{ route('admin.titik-air.destroy', $waterPoint) }}"
-                                        onsubmit="return confirm('Hapus data titik air ini?');">
+                                        data-confirm="Hapus data titik air ini?" data-item="data titik air ini">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-icon btn-outline-danger" title="Hapus"><i class="ti ti-trash"></i></button>

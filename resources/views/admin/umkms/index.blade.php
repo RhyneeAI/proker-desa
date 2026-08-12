@@ -60,7 +60,7 @@
                                 <div class="d-flex justify-content-end gap-1">
                                     <a href="{{ route('admin.umkm.edit', $umkm) }}" class="btn btn-icon btn-outline-primary" title="Edit"><i class="ti ti-pencil"></i></a>
                                     <form method="POST" action="{{ route('admin.umkm.destroy', $umkm) }}"
-                                        onsubmit="return confirm('Hapus data UMKM ini?');">
+                                        data-confirm="Hapus data UMKM ini?" data-item="data UMKM ini">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-icon btn-outline-danger" title="Hapus"><i class="ti ti-trash"></i></button>

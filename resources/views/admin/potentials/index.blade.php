@@ -51,7 +51,7 @@
                                 <div class="d-flex justify-content-end align-items-center gap-1">
                                     <a href="{{ route('admin.potensi.edit', $potential) }}" class="btn btn-icon btn-outline-primary" title="Edit"><i class="ti ti-pencil"></i></a>
                                     <form method="POST" action="{{ route('admin.potensi.destroy', $potential) }}"
-                                        onsubmit="return confirm('Hapus potensi ini?');">
+                                        data-confirm="Hapus potensi ini?" data-item="potensi ini">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-icon btn-outline-danger" title="Hapus"><i class="ti ti-trash"></i></button>

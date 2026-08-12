@@ -5,12 +5,43 @@ import initAosReveal from './aos-reveal';
 import Chart from 'chart.js/auto';
 import DataTable, { util } from 'datatables.net-bs5';
 import '@tabler/core/dist/js/tabler.min.js';
+import { Notyf } from 'notyf';
+import 'notyf/notyf.min.css';
+import Swal from 'sweetalert2';
 
 window.jQuery = window.$ = $;
 window.Alpine = Alpine;
 window.Chart = Chart;
+window.Swal = Swal;
 
 util.external($);
+
+const notyf = new Notyf({
+    duration: 3500,
+    position: { x: 'right', y: 'top' },
+    dismissible: true,
+    types: [
+        {
+            type: 'success',
+            className: 'notyf__toast--success',
+            background: '#2FB344',
+            icon: {
+                className: 'ti ti-circle-check',
+                tagName: 'i',
+            },
+        },
+        {
+            type: 'error',
+            className: 'notyf__toast--error',
+            background: '#D63939',
+            icon: {
+                className: 'ti ti-alert-triangle',
+                tagName: 'i',
+            },
+        },
+    ],
+});
+window.notyf = notyf;
 
 // Count-up: angka 0 -> target saat terlihat
 Alpine.data('countUp', (target, { duration = 1200, decimals = 0 } = {}) => ({
@@ -136,16 +167,39 @@ initAosReveal({ duration: 450, easing: 'ease-out-cubic' });
     });
 })();
 
-$(function () {
-    $('.toast').each(function () {
-        const $t = $(this);
-        setTimeout(() => $t.addClass('show'), 50);
-        setTimeout(() => {
-            $t.removeClass('show');
-            setTimeout(() => $t.remove(), 300);
-        }, 3500);
-    });
+// Notifikasi flash (dari session) via Notyf
+(function () {
+    const el = document.getElementById('admin-flash');
+    if (!el) return;
+    if (el.dataset.success) notyf.success(el.dataset.success);
+    if (el.dataset.error) notyf.error(el.dataset.error);
+})();
 
+// Konfirmasi hapus via SweetAlert2 (form[data-confirm])
+document.addEventListener('submit', (e) => {
+    const form = e.target.closest('form[data-confirm]');
+    if (!form) return;
+
+    e.preventDefault();
+    const message = form.dataset.confirm || 'Hapus data ini?';
+    const item = form.dataset.item || 'data ini';
+
+    Swal.fire({
+        title: message,
+        text: `Tindakan ini akan menghapus ${item} secara permanen.`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Ya, hapus',
+        cancelButtonText: 'Batal',
+        confirmButtonColor: '#D63939',
+        cancelButtonColor: '#6c757d',
+        reverseButtons: true,
+    }).then((result) => {
+        if (result.isConfirmed) form.submit();
+    });
+});
+
+$(function () {
     $('.datatable').DataTable({
         pageLength: 10,
         lengthMenu: [[5, 10, 25, 50, -1], [5, 10, 25, 50, 'Semua']],

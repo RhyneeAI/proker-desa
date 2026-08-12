@@ -48,7 +48,7 @@
                                     </form>
                                     <a href="{{ route('admin.pengumuman.edit', $announcement) }}" class="btn btn-icon btn-outline-primary" title="Edit"><i class="ti ti-pencil"></i></a>
                                     <form method="POST" action="{{ route('admin.pengumuman.destroy', $announcement) }}"
-                                        onsubmit="return confirm('Hapus pengumuman ini?');">
+                                        data-confirm="Hapus pengumuman ini?" data-item="pengumuman ini">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-icon btn-outline-danger" title="Hapus"><i class="ti ti-trash"></i></button>
