@@ -35,6 +35,12 @@ if [ "$HAS_USER" = "0" ]; then
     php artisan db:seed --force
 fi
 
+# ---------- PERMISSION VOLUME STORAGE ----------
+# Volume named (storage_public/storage_framework) dibuat sebagai root,
+# jadi www-data perlu diberi hak tulis setiap container start.
+chown -R www-data:www-data storage/app/public storage/framework
+chmod -R 775 storage/app/public storage/framework
+
 # ---------- STORAGE LINK ----------
 [ -L public/storage ] || ln -sfn storage/app/public /var/www/html/public/storage
 
