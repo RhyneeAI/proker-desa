@@ -36,7 +36,7 @@
                                 {{ $news->published_at?->translatedFormat('d F Y') }}
                             </p>
                             <h3 class="font-bold text-[#192E03] mt-2 line-clamp-2 leading-snug group-hover:text-[#192E03] transition">{{ $news->title }}</h3>
-                            <span class="mt-auto pt-4 text-sm font-semibold text-[#192E03] inline-flex items-center gap-1 opacity-0 group-hover:opacity-100 transition">
+                            <span class="mt-auto pt-4 text-sm font-semibold text-[#192E03] inline-flex items-center gap-1">
                                 Baca Selengkapnya
                                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>

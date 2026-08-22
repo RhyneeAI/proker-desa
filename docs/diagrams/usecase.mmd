@@ -1,0 +1,51 @@
+flowchart LR
+    pengunjung((Pengunjung))
+    admin((Admin))
+
+    subgraph publik ["Situs publik"]
+        ucHome([Melihat beranda])
+        ucProfil([Melihat profil dan aparatur])
+        ucPeta([Menjelajah peta desa])
+        ucBerita([Membaca berita dan pengumuman])
+        ucEkonomi([Melihat UMKM wisata potensi])
+        ucGaleri([Melihat galeri dan fasilitas])
+        ucKontak([Melihat kontak])
+        ucTema([Mengganti tema])
+    end
+
+    subgraph backoffice ["Panel admin"]
+        ucLogin([Login dan logout])
+        ucDash([Melihat dashboard])
+        ucKonten([Mengelola berita pengumuman galeri hero])
+        ucSpasial([Mengelola peta fasilitas titik air])
+        ucPotensi([Mengelola UMKM wisata potensi])
+        ucOrg([Mengelola profil desa aparatur kontak])
+        ucUser([Mengelola peran pengguna])
+        ucAkun([Mengubah akun sendiri])
+    end
+
+    pengunjung --> ucHome
+    pengunjung --> ucProfil
+    pengunjung --> ucPeta
+    pengunjung --> ucBerita
+    pengunjung --> ucEkonomi
+    pengunjung --> ucGaleri
+    pengunjung --> ucKontak
+    pengunjung --> ucTema
+
+    admin --> ucLogin
+    ucDash -.->|include| ucLogin
+    ucKonten -.->|include| ucLogin
+    ucSpasial -.->|include| ucLogin
+    ucPotensi -.->|include| ucLogin
+    ucOrg -.->|include| ucLogin
+    ucUser -.->|include| ucLogin
+    ucAkun -.->|include| ucLogin
+
+    admin --> ucDash
+    admin --> ucKonten
+    admin --> ucSpasial
+    admin --> ucPotensi
+    admin --> ucOrg
+    admin --> ucUser
+    admin --> ucAkun

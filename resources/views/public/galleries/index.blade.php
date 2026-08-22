@@ -7,15 +7,15 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
 
         {{-- Filter Kategori --}}
-        <div class="flex flex-wrap justify-center gap-2 mb-10">
+        <div class="flex flex-nowrap sm:flex-wrap overflow-x-auto sm:overflow-visible justify-start sm:justify-center gap-2 mb-10 -mx-4 px-4 sm:mx-0 sm:px-0 pb-1">
             <a href="{{ route('galeri.index') }}"
-                class="px-4 py-2 text-sm font-medium rounded-full transition
+                class="px-4 py-2.5 text-sm font-medium rounded-full transition whitespace-nowrap min-h-11 inline-flex items-center flex-shrink-0
                 {{ ! request('category') ? 'bg-[#192E03] text-white shadow-sm' : 'bg-white border border-slate-300 text-slate-600 hover:border-[#192E03]/50 hover:text-[#192E03]' }}">
                 Semua
             </a>
             @foreach (['kegiatan' => 'Kegiatan', 'fasilitas' => 'Fasilitas', 'umkm' => 'UMKM', 'lainnya' => 'Lainnya'] as $value => $label)
                 <a href="{{ route('galeri.index', ['category' => $value]) }}"
-                    class="px-4 py-2 text-sm font-medium rounded-full transition
+                    class="px-4 py-2.5 text-sm font-medium rounded-full transition whitespace-nowrap min-h-11 inline-flex items-center flex-shrink-0
                     {{ request('category') === $value ? 'bg-[#192E03] text-white shadow-sm' : 'bg-white border border-slate-300 text-slate-600 hover:border-[#192E03]/50 hover:text-[#192E03]' }}">
                     {{ $label }}
                 </a>
@@ -39,7 +39,7 @@
                             alt="{{ $gallery->image_alt ?? $gallery->title }}"
                             class="w-full object-cover group-hover:scale-105 transition duration-300"
                             loading="lazy">
-                        <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/10 to-transparent opacity-0 group-hover:opacity-100 transition duration-300 flex flex-col justify-end p-4">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/10 to-transparent opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition duration-300 flex flex-col justify-end p-3 sm:p-4">
                             @if ($gallery->title)
                                 <p class="text-white text-sm font-bold">{{ $gallery->title }}</p>
                             @endif

@@ -1,0 +1,31 @@
+flowchart TD
+    loginStart([Isi identifier dan password]) --> detect{Ada karakter at?}
+    detect -->|Ya| email[Cocokkan kolom email]
+    detect -->|Tidak| username[Cocokkan kolom username]
+    email --> valid{Kredensial benar?}
+    username --> valid
+
+    valid -->|Tidak| gagal[Kembali ke login]
+    valid -->|Ya| dash[Dashboard admin]
+
+    dash --> modul{Pilih modul}
+    modul --> izin{Punya permission?}
+    izin -->|Tidak| forbidden[HTTP 403]
+    izin -->|Ya| aksi{Aksi}
+
+    aksi -->|Lihat daftar| indexNode[Index CRUD]
+    aksi -->|Tambah atau ubah| form[Form validasi]
+    aksi -->|Hapus| hapus[Soft delete]
+    aksi -->|Toggle terbit| toggle[Berita atau pengumuman]
+    aksi -->|Ganti peran| users[Kelola pengguna]
+    aksi -->|Profil sendiri| akun[Ubah profil atau password]
+
+    form --> upload{Ada file?}
+    upload -->|Ya| storage[(Storage publik)]
+    upload -->|Tidak| simpan[Simpan model]
+    storage --> simpan
+    hapus --> simpan
+    toggle --> simpan
+    users --> simpan
+    simpan --> db[(MariaDB)]
+    db --> indexNode

@@ -1,0 +1,25 @@
+flowchart TD
+    start([Buka website desa]) --> home[Beranda]
+    home --> pilih{Pilih menu?}
+
+    pilih -->|Profil| profil[Profil desa]
+    pilih -->|Peta| peta[Peta desa MapLibre]
+    pilih -->|Berita| berita[Daftar berita]
+    pilih -->|Pengumuman| pengumuman[Daftar pengumuman]
+    pilih -->|Ekonomi| ekonomi[UMKM wisata potensi]
+    pilih -->|Wilayah| wilayah[Fasilitas galeri aparatur]
+    pilih -->|Kontak| kontak[Kontak dan media sosial]
+    pilih -->|Tema| tema[Mode gelap atau terang]
+    pilih -->|Login| loginPage[Halaman login]
+
+    berita --> beritaDetail[Detail berita by slug]
+    pengumuman --> pengumumanDetail[Detail pengumuman by slug]
+    ekonomi --> umkmDetail[Detail UMKM wisata potensi]
+    peta --> titikAir[Detail titik air by slug]
+    tema --> home
+
+    home --> visit[(Catat kunjungan)]
+    profil --> db[(MariaDB)]
+    beritaDetail --> db
+    umkmDetail --> db
+    peta --> db

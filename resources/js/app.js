@@ -63,7 +63,8 @@ Alpine.data('newsSlider', () => ({
         if (!track) return;
         const card = track.querySelector('.news-slide');
         if (!card) return;
-        const step = card.offsetWidth + 24;
+        const gap = parseFloat(getComputedStyle(track).columnGap || getComputedStyle(track).gap) || 24;
+        const step = card.offsetWidth + gap;
         const max = track.scrollWidth - track.clientWidth;
         let x = track.scrollLeft + direction * step;
         if (direction > 0 && x > max) x = 0;
@@ -120,6 +121,6 @@ Alpine.start();
     });
 })();
 
-// Reveal on scroll — re-animates on BOTH directions (scroll down & scroll up)
+// Reveal on scroll — both directions, with hysteresis to avoid edge flicker
 if (document.readyState !== 'loading') initAosReveal();
 else document.addEventListener('DOMContentLoaded', () => initAosReveal());

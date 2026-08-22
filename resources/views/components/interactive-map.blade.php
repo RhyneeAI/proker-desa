@@ -64,19 +64,19 @@
         data-map-config="{{ json_encode($config) }}"></div>
 
     @if ($showToggle)
-        <div class="absolute top-3 right-3 flex flex-col gap-1.5" style="z-index:1100">
+        <div class="flex flex-wrap gap-2 p-3 sm:p-0 sm:absolute sm:top-3 sm:right-3 sm:flex-col" style="z-index:1100">
             <button type="button" data-map-layer="umkm"
-                class="map-layer-btn inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/95 backdrop-blur-sm border border-slate-200 text-xs font-semibold text-slate-700 shadow-sm hover:shadow transition">
+                class="map-layer-btn inline-flex items-center justify-center gap-2 min-h-11 flex-1 sm:flex-none px-3 py-2 sm:py-1.5 rounded-full bg-white/95 backdrop-blur-sm border border-slate-200 text-xs font-semibold text-slate-700 shadow-sm hover:shadow transition">
                 <span class="w-2.5 h-2.5 rounded-full flex-shrink-0" style="background-color:#059669"></span>
                 UMKM
             </button>
             <button type="button" data-map-layer="fasilitas"
-                class="map-layer-btn inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/95 backdrop-blur-sm border border-slate-200 text-xs font-semibold text-slate-700 shadow-sm hover:shadow transition">
+                class="map-layer-btn inline-flex items-center justify-center gap-2 min-h-11 flex-1 sm:flex-none px-3 py-2 sm:py-1.5 rounded-full bg-white/95 backdrop-blur-sm border border-slate-200 text-xs font-semibold text-slate-700 shadow-sm hover:shadow transition">
                 <span class="w-2.5 h-2.5 rounded-full flex-shrink-0" style="background-color:#d97706"></span>
                 Fasilitas Umum
             </button>
             <button type="button" data-map-layer="titikAir"
-                class="map-layer-btn inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/95 backdrop-blur-sm border border-slate-200 text-xs font-semibold text-slate-700 shadow-sm hover:shadow transition">
+                class="map-layer-btn inline-flex items-center justify-center gap-2 min-h-11 flex-1 sm:flex-none px-3 py-2 sm:py-1.5 rounded-full bg-white/95 backdrop-blur-sm border border-slate-200 text-xs font-semibold text-slate-700 shadow-sm hover:shadow transition">
                 <span class="w-2.5 h-2.5 rounded-full flex-shrink-0" style="background-color:#2563eb"></span>
                 Titik Air
             </button>

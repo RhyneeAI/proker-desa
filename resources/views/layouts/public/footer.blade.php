@@ -95,7 +95,7 @@
     </div>
 
     {{-- Bar Bawah --}}
-    <div class="border-t border-white/10">
+    <div class="border-t border-white/10 pb-[env(safe-area-inset-bottom)]">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col sm:flex-row justify-between items-center gap-3 text-xs text-white/50">
             <p>&copy; {{ date('Y') }} Pemerintah Desa Cibulakan. Seluruh hak cipta dilindungi.</p>
             <span class="text-white/30 text-[11px] tracking-widest uppercase">Cibulakan Aruna, Uhuyyyy ~</span>

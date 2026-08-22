@@ -1,6 +1,6 @@
 @props(['official'])
 
-<div class="w-44 sm:w-48 mx-auto bg-white rounded-2xl border border-slate-200 shadow-sm p-5 text-center hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200">
+<div class="w-full bg-white rounded-2xl border border-slate-200 shadow-sm p-5 text-center hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200">
     @if ($official->photo)
         <img src="{{ Storage::url($official->photo) }}"
             alt="{{ $official->photo_alt ?? $official->name }}"

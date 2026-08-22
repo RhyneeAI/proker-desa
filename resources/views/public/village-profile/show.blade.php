@@ -9,7 +9,7 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 space-y-16">
 
         {{-- ================= VISI MISI ================= --}}
-        <section data-aos="fade-up">
+        <section data-aos="fade">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <div class="border border-slate-200 rounded-xl overflow-hidden shadow-sm">
                     <div class="bg-[#192E03] py-3 text-center">
@@ -40,7 +40,7 @@
         </section>
 
         {{-- ================= BAGAN DESA ================= --}}
-        <section data-aos="fade-down">
+        <section data-aos="fade">
             <h2 class="text-2xl font-bold text-[#192E03]">Bagan Desa</h2>
             <p class="mt-1 text-sm text-[#192E03] opacity-80">Struktur Organisasi dan Tata Kerja {{ $profile->village_name }}</p>
 
@@ -50,9 +50,9 @@
                     @if ($profile->org_chart_image)
                         <img src="{{ Storage::url($profile->org_chart_image) }}"
                             alt="Bagan struktur organisasi pemerintahan desa"
-                            class="w-full h-[400px] object-contain bg-slate-50 rounded-lg border border-slate-200">
+                            class="w-full max-h-72 sm:max-h-[400px] h-auto object-contain bg-slate-50 rounded-lg border border-slate-200">
                     @else
-                        <div class="w-full h-[400px] bg-slate-100 rounded-lg border border-slate-200 flex flex-col items-center justify-center text-center px-6">
+                        <div class="w-full h-48 sm:h-[400px] bg-slate-100 rounded-lg border border-slate-200 flex flex-col items-center justify-center text-center px-6">
                             <svg class="w-12 h-12 text-slate-300 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15l4-8 4 8m-7 3h14"/>
                             </svg>
@@ -67,9 +67,9 @@
                     @if ($profile->bpd_chart_image)
                         <img src="{{ Storage::url($profile->bpd_chart_image) }}"
                             alt="Bagan BPD"
-                            class="w-full h-[400px] object-contain bg-slate-50 rounded-lg border border-slate-200">
+                            class="w-full max-h-72 sm:max-h-[400px] h-auto object-contain bg-slate-50 rounded-lg border border-slate-200">
                     @else
-                        <div class="w-full h-[400px] bg-slate-100 rounded-lg border border-slate-200 flex flex-col items-center justify-center text-center px-6">
+                        <div class="w-full h-48 sm:h-[400px] bg-slate-100 rounded-lg border border-slate-200 flex flex-col items-center justify-center text-center px-6">
                             <svg class="w-12 h-12 text-slate-300 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15l4-8 4 8m-7 3h14"/>
                             </svg>
@@ -83,7 +83,7 @@
 
         {{-- ================= SOTK ================= --}}
         @if ($officials->isNotEmpty())
-            <section data-aos="fade-up">
+            <section data-aos="fade">
                 <h2 class="text-2xl font-bold text-[#192E03]">SOTK</h2>
                 <p class="mt-1 text-sm text-[#192E03] opacity-80">Struktur Organisasi dan Tata Kerja {{ $profile->village_name }}</p>
 
@@ -122,7 +122,7 @@
         @endif
 
         {{-- ================= SEJARAH DESA ================= --}}
-        <section data-aos="fade-down">
+        <section data-aos="fade">
             <h2 class="text-2xl font-bold text-[#192E03]">Sejarah {{ $profile->village_name }}</h2>
 
             <div class="mt-6 grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -130,7 +130,7 @@
                     @if ($profile->cover_image)
                         <img src="{{ Storage::url($profile->cover_image) }}"
                             alt="{{ $profile->cover_image_alt ?? 'Gambar ' . $profile->village_name }}"
-                            class="w-full h-64 object-cover rounded-2xl shadow-md">
+                            class="w-full h-48 sm:h-64 object-cover rounded-2xl shadow-md">
                     @else
                         <div class="w-full h-64 rounded-2xl bg-gradient-to-br from-[#192E03]/15 to-[#192E03]/5 flex items-center justify-center">
                             <svg class="w-14 h-14 text-[#192E03]/40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -150,7 +150,7 @@
         </section>
 
         {{-- ================= PETA LOKASI DESA ================= --}}
-        <section data-aos="fade-down">
+        <section data-aos="fade">
             <h2 class="text-2xl font-bold text-[#192E03]">Peta Lokasi Desa</h2>
 
             <div class="mt-6 grid grid-cols-1 lg:grid-cols-2 gap-6">

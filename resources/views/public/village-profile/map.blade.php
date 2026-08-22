@@ -66,18 +66,18 @@
         </div>
 
         {{-- ================= PETA BESAR ================= --}}
-        <div class="rounded-2xl border border-slate-200 shadow-sm overflow-hidden mb-12" data-aos="fade-up">
-            <div class="flex items-center justify-between px-5 py-4 border-b border-slate-200 bg-white">
-                <h2 class="text-lg font-bold text-[#192E03]">Peta Wilayah {{ $profile->village_name }}</h2>
+        <div class="rounded-2xl border border-slate-200 shadow-sm overflow-hidden mb-12" data-aos="fade">
+            <div class="flex items-center justify-between gap-3 px-4 sm:px-5 py-4 border-b border-slate-200 bg-white">
+                <h2 class="text-base sm:text-lg font-bold text-[#192E03] min-w-0 truncate">Peta Wilayah {{ $profile->village_name }}</h2>
                 <span class="hidden sm:block text-xs text-slate-500">Geser peta atau klik titik untuk melihat detail</span>
             </div>
 
             <x-map-legend class="py-3 px-5 border-b border-slate-200 bg-slate-50/70" />
 
             @if ($mapUmkms->isNotEmpty() || $mapFacilities->isNotEmpty() || $mapWaterPoints->isNotEmpty())
-                <x-interactive-map :umkms="$umkms" :facilities="$facilities" :water-points="$waterPoints" center-label="{{ $profile->village_name }}" height="h-[480px] lg:h-[600px]" />
+                <x-interactive-map :umkms="$umkms" :facilities="$facilities" :water-points="$waterPoints" center-label="{{ $profile->village_name }}" height="h-72 sm:h-[480px] lg:h-[600px]" />
             @else
-                <div class="h-[480px] lg:h-[600px] bg-slate-50 flex flex-col items-center justify-center text-center px-6">
+                <div class="h-72 sm:h-[480px] lg:h-[600px] bg-slate-50 flex flex-col items-center justify-center text-center px-6">
                     <svg class="w-16 h-16 text-slate-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/>
                     </svg>

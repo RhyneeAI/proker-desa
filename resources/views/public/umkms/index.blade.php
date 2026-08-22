@@ -8,15 +8,15 @@
 
         {{-- Filter Kategori --}}
         @if ($categories->isNotEmpty())
-            <div class="flex flex-wrap justify-center gap-2 mb-10" data-aos="fade-up">
+            <div class="flex flex-nowrap sm:flex-wrap overflow-x-auto sm:overflow-visible justify-start sm:justify-center gap-2 mb-10 -mx-4 px-4 sm:mx-0 sm:px-0 pb-1" data-aos="fade">
                 <a href="{{ route('umkm.index') }}"
-                    class="px-4 py-2 text-sm font-medium rounded-full transition
+                    class="px-4 py-2.5 text-sm font-medium rounded-full transition whitespace-nowrap min-h-11 inline-flex items-center flex-shrink-0
                     {{ ! request('category') ? 'bg-[#192E03] text-white shadow-sm' : 'bg-white border border-slate-300 text-slate-600 hover:border-[#192E03]/50 hover:text-[#192E03]' }}">
                     Semua
                 </a>
                 @foreach ($categories as $category)
                     <a href="{{ route('umkm.index', ['category' => $category]) }}"
-                        class="px-4 py-2 text-sm font-medium rounded-full transition
+                        class="px-4 py-2.5 text-sm font-medium rounded-full transition whitespace-nowrap min-h-11 inline-flex items-center flex-shrink-0
                         {{ request('category') === $category ? 'bg-[#192E03] text-white shadow-sm' : 'bg-white border border-slate-300 text-slate-600 hover:border-[#192E03]/50 hover:text-[#192E03]' }}">
                         {{ $category }}
                     </a>
